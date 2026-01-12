@@ -1,0 +1,157 @@
+.cardContainer {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+section {
+  position: absolute;
+
+  img {
+    position: absolute;
+  }
+}
+
+.cardArt {
+  width: 613px;
+  top: 219px;
+  left: 100px
+}
+
+.atk,
+.def {
+  position: absolute;
+  text-align: right;
+  width: 80px;
+  top: 1081px;
+  font-size: 36px;
+  font-family: ATKDEF;
+  letter-spacing: 0.4px;
+}
+
+.atk {
+  right: 232px;
+}
+
+.def {
+  right: 66px;
+}
+
+.name {
+  position: absolute;
+    top: 68px;
+    height: 58px;
+    width: 614px;
+  left: 62px;
+  font-size: 88px;
+  font-family: title;
+  color: white;
+  letter-spacing: 1px;
+  transform: scaleY(1.02);
+    transform-origin: left center;
+
+}
+
+input,
+textarea {
+  all: unset;
+}
+
+.Common {
+  color: black;
+}
+
+.Rare {
+  color: white;
+}
+
+.SecretRare {
+  background-image: linear-gradient(#fff211 35%, #fffff8 40%, #fff211 55%, #bd920f 53%, #f7ce1e 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: grayscale(100%) drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+}
+
+.UltraRare {
+  background-image: linear-gradient(to bottom, #fff211 35%, #fffff8 40%, #fff211 55%, #bd920f 53%, #f7ce1e 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+}
+
+.Barian {
+  background-image: linear-gradient(#ff3b6a 35%, #ffb6d5 40%, #ff3b6a 48%, #b8004c 53%, #ff5eae 70%);
+  -webkit-background-clip: text;
+  background-position: 0 4px;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+}
+
+
+.type {
+  position: absolute;
+  bottom: 258px;
+  left: 60px;
+}
+
+/* Primary Type Styling*/
+.type .monsterType {
+  font-family: monstertype;
+  font-size: 25pt;
+  line-height: 1;
+}
+
+.type .slash,
+.type .bracket {
+  font-family: monstertype;
+  position: relative;
+  font-size: 24pt;
+}
+
+.type .slash {
+  font-size: 23pt;
+  bottom: 1px;
+  padding: 2px
+}
+
+.type .bracket {
+  font-size: 22pt;
+  bottom: 3px;
+  padding: 3px
+}
+
+.effectText {
+  position: absolute;
+  top: 922px;
+  left: 64px;
+  width: 686px;
+  height: 150px;
+  font-family: lore;
+  font-size: 27px;
+  text-align: justify;
+  line-height: 1;
+}
+
+.createButton {
+  position: absolute;
+  top: 1278px;
+  left: 350px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#card {
+  position: relative;
+  width: 813px;
+  height: 1185px;
+}

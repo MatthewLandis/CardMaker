@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --Blue: #3A7DFF;
+    --Blue2: #1B2BFF;
+    --text: #6EC9FF;
+    --blueBG: #0A1A2F;
+}
+
+body {
+    background-color: var(--blueBG);
+}
+
+@font-face {
+  font-family: 'ATKDEF';
+  src: url('/assets/fonts/MatrixBoldSmallCaps.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'title';
+  src: url('/assets/fonts/MatrixRegularSmallCaps.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'monstertype';
+  src: url('/assets/fonts/monsterType.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'lore';
+  src: url('/assets/fonts/lore.ttf') format('truetype');
+}

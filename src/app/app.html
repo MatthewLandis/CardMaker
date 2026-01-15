@@ -1,29 +1,58 @@
 <app-header></app-header>
 <div class="cardContainer">
-<section id="card">
-  <img src="assets/CardTemplates/NormalTemplate.png" alt="Normal Template">
-  <img src="assets/attributes/Dark.png" alt="Dark Attribute">
-  <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
-  <img src="assets/levels/level7.png" alt="Level">
+  <section id="card">
+    <img src="assets/CardTemplates/NormalTemplate.png" alt="Normal Template">
+    <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
+    <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
+    <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level" [style.opacity]="hoverLevel ? 0.5 : 1">
+
+    <!-- Level -->
+    <div class="levelBtns">
+      @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+        <button
+          class="levelBtn levelBtn{{i}}"
+          (mouseenter)="hoverLevel = i"
+          (mouseleave)="hoverLevel = 0"
+          (click)="level = i; hoverLevel = 0"
+        >{{i}}</button>
+      }
+    </div>
+
+    <!-- Attribute -->
+    <button class="attributeBtn" (click)="a()"></button>
+    @if (attributeDropdownVisible) {
+      <div class="attributeDropdown">
+          <button class="attributeBtnDark" (click)="selectAttribute('Dark')"></button>
+          <button class="attributeBtnLight" (click)="selectAttribute('Light')"></button>
+    
+          <button class="attributeBtnEarth" (click)="selectAttribute('Earth')"></button>
+          <button class="attributeBtnDivine" (click)="selectAttribute('Divine')"></button>
+
+          <button class="attributeBtnWater" (click)="selectAttribute('Water')"></button>
+          <button class="attributeBtnFire" (click)="selectAttribute('Fire')"></button>
+
+          <button class="attributeBtnWind" (click)="selectAttribute('Wind')"></button>
+        </div>
+    }
 
 
-  <input class="name UltraRare" [value]="title" spellcheck="false">
-  <input class="atk" [value]="atk">
-  <input class="def" [value]="def">
+    <input class="name UltraRare" [value]="title" spellcheck="false">
+    <input class="atk" [value]="atk">
+    <input class="def" [value]="def">
 
 
-  <div class="type">
-    <span class="bracket">[</span>
-    <span class="monsterType">{{primaryType}}</span>
-    <span class="slash">/</span>
-    <span class="monsterType">{{lastType}}</span>
-    <span class="bracket">]</span>
-  </div>
+    <div class="type">
+      <span class="bracket">[</span>
+      <span class="monsterType">{{primaryType}}</span>
+      <span class="slash">/</span>
+      <span class="monsterType">{{lastType}}</span>
+      <span class="bracket">]</span>
+    </div>
 
 
-  <textarea class="effectText" [value]="effectText" spellcheck="false"></textarea>
-</section>
+    <textarea class="effectText" [value]="effectText" spellcheck="false"></textarea>
+  </section>
 </div>
- <button class="createButton" (click)="createCard()">Create Card</button>
+<button class="createButton" (click)="createCard()">Create Card</button>
 
 <router-outlet></router-outlet>

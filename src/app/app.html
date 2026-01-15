@@ -6,11 +6,15 @@
     <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
     <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level" [style.opacity]="hoverLevel ? 0.5 : 1">
 
+    <!-- Template -->
+    <button class="templateBtnLeft"></button>
+    <button class="templateBtnRight"></button>
+
     <!-- Level -->
     <div class="levelBtns">
       @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
         <button
-          class="levelBtn levelBtn{{i}}"
+          class= "levelBtn{{i}}"
           (mouseenter)="hoverLevel = i"
           (mouseleave)="hoverLevel = 0"
           (click)="level = i; hoverLevel = 0"
@@ -19,20 +23,18 @@
     </div>
 
     <!-- Attribute -->
-    <button class="attributeBtn" (click)="a()"></button>
+    <button class="attributeDropdownBtn" (click)="toggleAttributeDropdown()"></button>
     @if (attributeDropdownVisible) {
-      <div class="attributeDropdown">
-          <button class="attributeBtnDark" (click)="selectAttribute('Dark')"></button>
-          <button class="attributeBtnLight" (click)="selectAttribute('Light')"></button>
-    
-          <button class="attributeBtnEarth" (click)="selectAttribute('Earth')"></button>
-          <button class="attributeBtnDivine" (click)="selectAttribute('Divine')"></button>
-
-          <button class="attributeBtnWater" (click)="selectAttribute('Water')"></button>
-          <button class="attributeBtnFire" (click)="selectAttribute('Fire')"></button>
-
-          <button class="attributeBtnWind" (click)="selectAttribute('Wind')"></button>
-        </div>
+      <div class="attributeDropdownGrid">
+        @for (i of attributes; track $index) {
+          @if (attribute !== i) {
+            <button
+              class="attributeBtn{{i}}"
+              (click)="selectAttribute(i)"
+            ></button>
+          }
+        }
+      </div>
     }
 
 

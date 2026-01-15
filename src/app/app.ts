@@ -25,6 +25,8 @@ export class App {
 
   hoverLevel = 0;
 
+  attributes = ['Dark', 'Light', 'Earth', 'Water', 'Fire', 'Wind', 'Divine'];
+
   createCard() {
     domtoimage.toJpeg(document.getElementById('card')!)
       .then( (dataUrl) => {
@@ -35,7 +37,7 @@ export class App {
       });
   }  
 
-  a(){
+  toggleAttributeDropdown(){
     this.attributeDropdownVisible = !this.attributeDropdownVisible;
   }
 

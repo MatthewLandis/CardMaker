@@ -324,7 +324,6 @@ position: absolute;
     left: 28px;
     height: 673px;
     width: 59px;
-    background-color: #4CAF50;
     cursor: pointer;
 }
 .templateBtnRight {
@@ -333,6 +332,175 @@ position: absolute;
     left: 726px;
     height: 673px;
     width: 59px;
-    background-color: #4CAF50;
     cursor: pointer;
+}
+
+
+.templateDropdownGrid {
+    position: absolute;
+    top: 205px;
+    right: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 0.8rem;
+}
+
+.templateDropdownGrid button {
+  position: relative;
+  height: 57px;
+  width: 250px;
+  background-color: #6a4caf;
+  text-align: center;
+  font-size: 18pt;
+  font-family: monsterType;
+}
+
+.templateBtnNormal {
+  background-image: url(/assets/CardTemplates/NormalTemplate.png);
+  background-position: left -52px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnEffect {
+  background-image: url(/assets/CardTemplates/EffectTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnFusion {
+  background-image: url(/assets/CardTemplates/FusionTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnRitual {
+  background-image: url(/assets/CardTemplates/RitualTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnSynchro {
+  background-image: url(/assets/CardTemplates/SynchroTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnXyz {
+  background-image: url(/assets/CardTemplates/XyzTemplate.png);
+  background-position: right -59px top -57px;
+ color: white;
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnPendulum {
+  background-image: url(/assets/CardTemplates/PendulumTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnLink {
+  background-image: url(/assets/CardTemplates/LinkTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnToken {
+  background-image: url(/assets/CardTemplates/TokenTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnSlifer {
+  background-image: url(/assets/CardTemplates/SliferTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+
+.templateBtnObelisk {
+  background-image: url(/assets/CardTemplates/ObeliskTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnRa {
+  background-image: url(/assets/CardTemplates/RaTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnLegendaryDragon {
+  background-image: url(/assets/CardTemplates/LegendaryDragonTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnDarkSynchro {
+  background-image: url(/assets/CardTemplates/DarkSynchroTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnSkill {
+  background-image: url(/assets/CardTemplates/SkillTemplate.png);
+  background-position: right -59px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnSpell {
+  background-image: url(/assets/CardTemplates/SpellTemplate.png);
+  background-position: right -200px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
+}
+.templateBtnTrap {
+  background-image: url(/assets/CardTemplates/TrapTemplate.png);
+  background-position: right -200px top -57px;
+
+  &:hover {
+    filter: brightness(0.7);
+  }
 }

@@ -1,14 +1,27 @@
 <app-header></app-header>
 <div class="cardContainer">
   <section id="card">
-    <img src="assets/CardTemplates/NormalTemplate.png" alt="Normal Template">
+    <img src="assets/CardTemplates/{{template}}Template.png" alt="Normal Template">
     <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
     <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
     <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level" [style.opacity]="hoverLevel ? 0.5 : 1">
 
     <!-- Template -->
-    <button class="templateBtnLeft"></button>
-    <button class="templateBtnRight"></button>
+    <button class="templateBtnLeft" (click)="toggleTemplateDropdown()"></button>
+    <button class="templateBtnRight"(click)="toggleTemplateDropdown()"></button>
+    @if (templateDropdownVisible) {
+      <div class="templateDropdownGrid">
+        @for (i of templates; track $index) {
+          @if (attribute !== i) {
+            <button
+              class="templateBtn{{i}}"
+              (click)="selectTemplate(i)"
+            >{{i}}</button>
+          }
+        }
+      </div>
+    }
+
 
     <!-- Level -->
     <div class="levelBtns">

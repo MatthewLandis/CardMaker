@@ -4,63 +4,90 @@
     <img src="assets/CardTemplates/{{template}}Template.png" alt="Normal Template">
     <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
     <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
-    <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level" [style.opacity]="hoverLevel ? 0.5 : 1">
+    <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level"
+      [style.opacity]="hoverLevel ? 0.5 : 1">
 
     <!-- Template -->
-    <button class="templateBtnLeft" (click)="toggleTemplateDropdown()"></button>
-    <button class="templateBtnRight"(click)="toggleTemplateDropdown()"></button>
+    <button class="templateBtnLeft" (click)="toggleTemplateDropdown()" title="Change Template"></button>
+    <button class="templateBtnRight" (click)="toggleTemplateDropdown()" title="Change Template"></button>
     @if (templateDropdownVisible) {
-      <div class="templateDropdownGrid">
-        @for (i of templates; track $index) {
-          @if (attribute !== i) {
-            <button
-              class="templateBtn{{i}}"
-              (click)="selectTemplate(i)"
-            >{{i}}</button>
-          }
-        }
-      </div>
+    <div class="templateDropdownGrid">
+      @for (i of templates; track $index) {
+      @if (template !== i) {
+      <button class="templateBtn{{i}}" (click)="selectTemplate(i)">{{i}}</button>
+      }
+      }
+    </div>
     }
-
 
     <!-- Level -->
     <div class="levelBtns">
       @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
-        <button
-          class= "levelBtn{{i}}"
-          (mouseenter)="hoverLevel = i"
-          (mouseleave)="hoverLevel = 0"
-          (click)="level = i; hoverLevel = 0"
-        >{{i}}</button>
+      <button class="levelBtn{{i}}" (mouseenter)="hoverLevel = i" (mouseleave)="hoverLevel = 0"
+        (click)="level = i; hoverLevel = 0" title="Change Level">{{i}}</button>
       }
     </div>
 
     <!-- Attribute -->
-    <button class="attributeDropdownBtn" (click)="toggleAttributeDropdown()"></button>
+    <button class="attributeDropdownBtn" (click)="toggleAttributeDropdown()" title="Change Attribute"></button>
     @if (attributeDropdownVisible) {
-      <div class="attributeDropdownGrid">
-        @for (i of attributes; track $index) {
-          @if (attribute !== i) {
-            <button
-              class="attributeBtn{{i}}"
-              (click)="selectAttribute(i)"
-            ></button>
-          }
-        }
-      </div>
+    <div class="attributeDropdownGrid">
+      @for (i of attributes; track $index) {
+      @if (attribute !== i) {
+      <button class="attributeBtn{{i}}" (click)="selectAttribute(i)"></button>
+      }
+      }
+    </div>
     }
 
+<input
+  #nameInput
+  class="name {{titleStyle}}"
+  [(ngModel)]="title"
+  (input)="adjustNameScale()"
+  spellcheck="false"
+  title="Name"
+> 
 
-    <input class="name UltraRare" [value]="title" spellcheck="false">
-    <input class="atk" [value]="atk">
+  <button class="nameDropdownBtn" (click)="toggleNameDropdown()" title="Name Style"></button>
+      @if (nameDropdownVisible) {
+      <div class="nameDropdownGrid">
+        @for (i of nameStyles; track $index) {
+        @if (titleStyle !== i) {
+        <button class="{{i}}" (click)="selectNameStyle(i)">{{i}}</button>
+        }
+        }
+      </div>
+      }
+
+   <input class="atk" [value]="atk">
     <input class="def" [value]="def">
 
-
+<button class="primaryTypeDropdownBtn" (click)="togglePrimaryTypeDropdown()" title="Type"></button>
+@if (primaryTypeDropdownVisible) {
+<div class="primaryTypeDropdownGrid">
+  @for (i of primaryTypes; track $index) {
+  @if (primaryType !== i) {
+  <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{i}}</button>
+  }
+  }
+</div>
+}
     <div class="type">
       <span class="bracket">[</span>
       <span class="monsterType">{{primaryType}}</span>
+      @if(coreTypes.includes(coreType)) {
+      <span class="slash">/</span>
+      <span class="monsterType">{{coreType}}</span>
+      }
+      @if(abilityTypes.includes(abilityType)) {
+      <span class="slash">/</span>
+      <span class="monsterType">{{abilityType}}</span>
+      }
+      @if (lastTypes.includes(lastType)) {
       <span class="slash">/</span>
       <span class="monsterType">{{lastType}}</span>
+      }
       <span class="bracket">]</span>
     </div>
 

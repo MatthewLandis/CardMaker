@@ -130,4 +130,5 @@ selectPrimaryType(type: string) {
   this.primaryTypeDropdownVisible = false;
 }
 
+
 }

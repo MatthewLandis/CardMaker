@@ -134,6 +134,7 @@ textarea, button {
   line-height: 1;
 }
 
+
 .createButton {
   position: absolute;
     top: 12px;
@@ -316,18 +317,8 @@ textarea, button {
   }
 }
 
-.templateBtnLeft {
-position: absolute;
-    top: 205px;
-    left: 28px;
-    height: 673px;
-    width: 59px;
-    cursor: pointer;
-      &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-}
-.templateBtnRight {
+
+.templateBtn {
 position: absolute;
     top: 205px;
     left: 726px;
@@ -516,6 +507,7 @@ position: absolute;
     height: 30px;
     width: 75px;
     z-index: 999;
+    cursor:  pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
@@ -526,11 +518,17 @@ position: absolute;
     bottom: 303px;
     left: 62px;
     display: grid;
-    grid-template-columns: repeat(3, 95px);
+    grid-template-columns: repeat(3, 120px);
     gap: 0.5rem;
     padding: 0.5rem;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 0.8rem;
+}
+
+.primaryTypeBtn {
+      color: white;
+      font-size: 15pt;
+    cursor: pointer;
 }
 
 .nameDropdownBtn {

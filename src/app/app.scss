@@ -555,3 +555,15 @@ cursor: pointer;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 0.8rem;
 }
+
+.artBtn {
+  position: absolute;
+  top: 219px;
+  left: 100px;
+  height: 613px;
+  width: 613px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}

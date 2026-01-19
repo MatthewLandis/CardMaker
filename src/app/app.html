@@ -2,6 +2,7 @@
 <div class="cardContainer">
   <section id="card">
     <img src="assets/CardTemplates/{{template}}Template.png" alt="Normal Template">
+    <button class="artBtn" (click)="changeArt()" title="Art"></button>
     <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
     <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
     <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level"

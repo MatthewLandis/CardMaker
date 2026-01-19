@@ -130,5 +130,8 @@ selectPrimaryType(type: string) {
   this.primaryTypeDropdownVisible = false;
 }
 
+changeArt() {
+  alert("Art changing not yet implemented.");
+}
 
 }

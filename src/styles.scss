@@ -5,14 +5,14 @@
 }
 
 :root {
-    --Blue: #3A7DFF;
-    --Blue2: #1B2BFF;
-    --text: #6EC9FF;
-    --blueBG: #0A1A2F;
+    --accent: #00BFFF;
+    --background: #0A0F2C;
+    --hover: #00CED1;
+    --text: #F0F8FF;
 }
 
 body {
-    background-color: var(--blueBG);
+    background-color: var(--background);
 }
 
 @font-face {

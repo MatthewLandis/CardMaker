@@ -28,6 +28,8 @@ export class App {
   template = 'Normal';
   hoverLevel = 0;
 
+  pendulumTemplate = false;
+  pendulumScale = 1
   primaryTypes = ['Aqua', 'Beast', 'Beast-Warrior', 'Creator God', 'Cyberse', 'Dinosaur', 'Divine-Beast', 'Dragon',
     'Fairy', 'Fiend', 'Fish', 'Insect', 'Illusion', 'Machine', 'Plant', 'Psychic', 'Pyro', 'Reptile',
     'Rock', 'Sea Serpent', 'Spellcaster', 'Thunder', 'Light', 'Warrior', 'Winged Beast', 'Wyrm', 'Zombie'];
@@ -40,8 +42,8 @@ export class App {
   templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Pendulum', 'Link', 
     'Token', 'Slifer', 'Obelisk', 'Ra', 'LegendaryDragon', 'DarkSynchro', 'Skill', 'Spell', 'Trap'];
 
-    titleStyle = 'UltraRare';
-nameStyles = ['Common', 'Rare', 'SecretRare', 'UltraRare', 'Barian', 'Skill'];
+    titleStyle = 'Ultra-Rare';
+nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
     
   createCard() {
     domtoimage.toJpeg(document.getElementById('card')!)
@@ -184,4 +186,6 @@ adjustValueDefScale() {
   el.style.transform = `scaleX(${scale})`;
   el.style.width = `${70 / scale}px`;
 }
+
+
 }

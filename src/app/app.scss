@@ -22,11 +22,12 @@ section {
 .def {
   position: absolute;
   text-align: right;
-  width: 80px;
+  width: 75px;
   top: 1081px;
   font-size: 36px;
   font-family: ATKDEF;
   letter-spacing: 0.4px;
+  transform-origin: right ;
 }
 
 .atk {
@@ -567,3 +568,16 @@ cursor: pointer;
     background-color: rgba(0, 0, 0, 0.3);
   }
 }
+
+// .overlay {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 1000;
+// }

@@ -1,4 +1,5 @@
 <app-header></app-header>
+<button class="overlay"></button>
 <div class="cardContainer">
   <section id="card">
     <img src="assets/CardTemplates/{{template}}Template.png" alt="Normal Template">
@@ -79,8 +80,8 @@
     </div>
     <!-- Text -->
     <textarea class="effectText" [value]="effectText" spellcheck="false"></textarea>
-    <input class="atk" [value]="atk">
-    <input class="def" [value]="def">
+    <input #valueAtkInput class="atk" [value]="atk" (input)="adjustValueAtkScale()" title="Attack">
+    <input #valueDefInput class="def" [value]="def" (input)="adjustValueDefScale()" title="Defense">
   </section>
 </div>
 <button class="createButton" (click)="createCard()">Create Card</button>

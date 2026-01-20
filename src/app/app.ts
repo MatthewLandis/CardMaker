@@ -133,5 +133,55 @@ selectPrimaryType(type: string) {
 changeArt() {
   alert("Art changing not yet implemented.");
 }
+@ViewChild('valueAtkInput', { static: true }) valueAtkInput!: ElementRef<HTMLInputElement>;
+@ViewChild('valueDefInput', { static: true }) valueDefInput!: ElementRef<HTMLInputElement>;
 
+ngOnChangesValue() {
+  this.adjustValueAtkScale();
+}
+adjustValueAtkScale() {
+  const el = this.valueAtkInput.nativeElement;
+  const style = window.getComputedStyle(el);
+
+  const fontSize = parseFloat(style.fontSize);
+  const fontFamily = style.fontFamily;
+  const letterSpacing = parseFloat(style.letterSpacing || '0');
+
+  this.ctx.font = `${fontSize}px ${fontFamily}`;
+
+  const textWidth = this.ctx.measureText(el.value).width;
+  const extraSpacing = letterSpacing * el.value.length;
+
+  const totalTextWidth = textWidth + extraSpacing;
+
+  const boxWidth = 70;
+
+  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+
+  el.style.transform = `scaleX(${scale})`;
+  el.style.width = `${70 / scale}px`;
+}
+
+adjustValueDefScale() {
+  const el = this.valueDefInput.nativeElement;
+  const style = window.getComputedStyle(el);
+
+  const fontSize = parseFloat(style.fontSize);
+  const fontFamily = style.fontFamily;
+  const letterSpacing = parseFloat(style.letterSpacing || '0');
+
+  this.ctx.font = `${fontSize}px ${fontFamily}`;
+
+  const textWidth = this.ctx.measureText(el.value).width;
+  const extraSpacing = letterSpacing * el.value.length;
+
+  const totalTextWidth = textWidth + extraSpacing;
+
+  const boxWidth = 70;
+
+  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+
+  el.style.transform = `scaleX(${scale})`;
+  el.style.width = `${70 / scale}px`;
+}
 }

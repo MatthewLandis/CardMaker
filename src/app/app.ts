@@ -3,12 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from "./header/header";
 import domtoimage from 'dom-to-image';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';  // Add this import
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, FormsModule],
+  imports: [RouterOutlet, Header, FormsModule, NgClass],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -22,14 +23,15 @@ export class App {
   abilityType = '';
   lastType = 'Normal';
   effectText = "The ultimate wizard in terms of attack and defense.";
+  pendulumEffectText = "Once per turn, you can reduce the battle damage you take from an attack involving a Pendulum Monster you control to 0.";
   attributeDropdownVisible = false;
   templateDropdownVisible = false;
   attribute = 'Dark';
   template = 'Normal';
   hoverLevel = 0;
-
+scaleMonsterType = 1;
   pendulumTemplate = false;
-  pendulumScale = 1
+  pendulumScale = 4;
   primaryTypes = ['Aqua', 'Beast', 'Beast-Warrior', 'Creator God', 'Cyberse', 'Dinosaur', 'Divine-Beast', 'Dragon',
     'Fairy', 'Fiend', 'Fish', 'Insect', 'Illusion', 'Machine', 'Plant', 'Psychic', 'Pyro', 'Reptile',
     'Rock', 'Sea Serpent', 'Spellcaster', 'Thunder', 'Light', 'Warrior', 'Winged Beast', 'Wyrm', 'Zombie'];
@@ -37,14 +39,13 @@ export class App {
   abilityTypes = ['Gemini', 'Spirit', 'Toon', 'Union', 'Flip', 'Tuner'];
   lastTypes = ['Normal', 'Effect', 'Token'];
 
-
   attributes = ['Dark', 'Light', 'Earth', 'Water', 'Fire', 'Wind', 'Divine'];
-  templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Pendulum', 'Link', 
+  templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Link', 
     'Token', 'Slifer', 'Obelisk', 'Ra', 'LegendaryDragon', 'DarkSynchro', 'Skill', 'Spell', 'Trap'];
 
     titleStyle = 'Ultra-Rare';
 nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
-    
+
   createCard() {
     domtoimage.toJpeg(document.getElementById('card')!)
       .then((dataUrl) => {
@@ -55,15 +56,6 @@ nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
       });
   }
 
-  toggleAttributeDropdown() {
-    this.attributeDropdownVisible = !this.attributeDropdownVisible;
-  }
-
-  toggleTemplateDropdown() {
-    this.templateDropdownVisible = !this.templateDropdownVisible;
-  }
-
-
   selectAttribute(attr: string) {
     this.attribute = attr;
     this.attributeDropdownVisible = false;
@@ -72,8 +64,6 @@ nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
   selectTemplate(template: string) {
     this.template = template;
     this.coreType = template;
-    this.abilityType = template;
-    this.lastType = template;
     this.templateDropdownVisible = false;
   }
   primaryTypeDropdownVisible = false;
@@ -186,6 +176,18 @@ adjustValueDefScale() {
   el.style.transform = `scaleX(${scale})`;
   el.style.width = `${70 / scale}px`;
 }
+
+abilityDropdownVisible = false;
+abilityDropdown() {
+  this.abilityDropdownVisible = !this.abilityDropdownVisible;
+} 
+
+selectAbilityType(type: string) {
+  this.abilityType = type;
+  this.abilityDropdownVisible = false;
+}
+
+
 
 
 }

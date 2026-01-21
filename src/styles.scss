@@ -5,7 +5,7 @@
 }
 
 :root {
-    --accent: #00BFFF;
+    --accent: rgba(0, 140, 255, 0.7);
     --background: #0A0F2C;
     --hover: #00CED1;
     --text: #F0F8FF;
@@ -33,4 +33,14 @@ body {
 @font-face {
   font-family: 'lore';
   src: url('/assets/fonts/lore.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'pendulum';
+  src: url('/assets/fonts/MatrixBoldFractions.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'effect';
+  src: url('/assets/fonts/MatrixBook.ttf') format('truetype');
 }

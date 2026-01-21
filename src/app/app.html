@@ -1,22 +1,27 @@
 <app-header></app-header>
 <div class="cardContainer">
   <section id="card">
-    <img src="assets/CardTemplates/{{template}}Template.png" alt="Normal Template">
-    <button class="artBtn" (click)="changeArt()" title="Art"></button>
-    <img src="assets/placeholderArt.jpg" alt="Placeholder Art" class="cardArt">
-    <button class="pendulumTemplateBtn" (click)="pendulumTemplate = !pendulumTemplate" title="Toggle Pendulum Template"></button>
+    <img src="assets/CardTemplates/{{template}}Template.png">
+    <img src="assets/placeholderArt.jpg" [ngClass]="{
+      cardArt: true, 
+      cardArtPendulum: pendulumTemplate
+      }">
+    <button class="pendulumTemplateBtn" (click)="pendulumTemplate = !pendulumTemplate"
+      title="Toggle Pendulum Template"></button>
     @if (pendulumTemplate) {
     <img src="assets/CardTemplates/PendulumTemplates/PendulumShade/Pendulum{{template}}.png" />
     <img src="assets/CardTemplates/PendulumTemplates/PendulumTemplate.png" />
-    <p class="PendulumScale" style="left: -29px;">{{pendulumScale}}</p>
-    <p class="PendulumScale" style="left: 288px;">{{pendulumScale}}</p>
+    <input class="pendulumScale" style="left: 55px;" [(ngModel)]="pendulumScale" type="number">
+    <input class="pendulumScale" style="left: 700px;" [(ngModel)]="pendulumScale" type="number">
+    <textarea class="pendulumEffectText" [value]="pendulumEffectText" spellcheck="false"></textarea>
     }
     <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
-    <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`" alt="Level"
+    <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`"
       [style.opacity]="hoverLevel ? 0.5 : 1">
+
     <!-- Template -->
-    <button class="templateBtn" style="left: 28px;" (click)="toggleTemplateDropdown()" title="Change Template"></button>
-    <button class="templateBtn" (click)="toggleTemplateDropdown()" title="Change Template"></button>
+    <button class="templateBtn" (click)="templateDropdownVisible = !templateDropdownVisible"
+      title="Change Template"></button>
     @if (templateDropdownVisible) {
     <div class="templateDropdownGrid">
       @for (i of templates; track $index) {
@@ -33,9 +38,10 @@
         (click)="level = i; hoverLevel = 0" title="Change Level">{{i}}</button>
       }
     </div>
-    
+
     <!-- Attribute -->
-    <button class="attributeDropdownBtn" (click)="toggleAttributeDropdown()" title="Change Attribute"></button>
+    <button class="attributeDropdownBtn" (click)="attributeDropdownVisible = !attributeDropdownVisible"
+      title="Change Attribute"></button>
     @if (attributeDropdownVisible) {
     <div class="attributeDropdownGrid">
       @for (i of attributes; track $index) {
@@ -45,7 +51,7 @@
       }
     </div>
     }
-    
+
     <!-- Name -->
     <input #nameInput class="name {{titleStyle}}" [(ngModel)]="title" (input)="adjustNameScale()" spellcheck="false"
       title="Name">
@@ -59,33 +65,44 @@
     </div>
     }
     <!-- Monster Type -->
-    <button class="primaryTypeDropdownBtn" (click)="togglePrimaryTypeDropdown()" title="Type"></button>
-    @if (primaryTypeDropdownVisible) {
-    <div class="primaryTypeDropdownGrid">
-      @for (i of primaryTypes; track $index) {
-      @if (primaryType !== i) {
-      <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{i}}</button>
-      }
-      }
-    </div>
-    }
     <div class="type">
       <span class="bracket">[</span>
-      <span class="monsterType">{{primaryType}}</span>
+      <span (click)="togglePrimaryTypeDropdown()" style="cursor: pointer;">{{primaryType}}</span>
       @if(coreTypes.includes(coreType)) {
       <span class="slash">/</span>
-      <span class="monsterType">{{coreType}}</span>
+      <span>{{coreType}}</span>
       }
-      @if(abilityTypes.includes(abilityType)) {
+      @if(pendulumTemplate){
       <span class="slash">/</span>
-      <span class="monsterType">{{abilityType}}</span>
+      <span>Pendulum</span>
       }
-      @if (lastTypes.includes(lastType)) {
+      @if(abilityType) {
       <span class="slash">/</span>
-      <span class="monsterType">{{lastType}}</span>
+      <span>{{abilityType}}</span>
+      }
+      @if (lastType) {
+      <span class="slash" (click)="abilityDropdown()" style="cursor: pointer;">/</span>
+      <span>{{lastType}}</span>
       }
       <span class="bracket">]</span>
     </div>
+    <!-- Monster Type Dropdowns -->
+    @if (primaryTypeDropdownVisible) {
+    <div class="primaryTypeDropdownGrid">
+      @for (i of primaryTypes; track $index) {
+      <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{i}}</button>
+      }
+    </div>
+    }
+      @if (abilityDropdownVisible) {
+    <div class="primaryTypeDropdownGrid">
+      @for (i of abilityTypes; track $index) {
+      <button class="primaryTypeBtn" (click)="selectAbilityType(i)">{{i}}</button>
+      }
+    </div>
+    }
+
+
     <!-- Text -->
     <textarea class="effectText" [value]="effectText" spellcheck="false"></textarea>
     <input #valueAtkInput class="atk" [value]="atk" (input)="adjustValueAtkScale()" title="Attack">

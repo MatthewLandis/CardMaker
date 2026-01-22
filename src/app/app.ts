@@ -64,6 +64,7 @@ nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
   selectTemplate(template: string) {
     this.template = template;
     this.coreType = template;
+    this.qualityOfLife();
     this.templateDropdownVisible = false;
   }
   primaryTypeDropdownVisible = false;
@@ -80,6 +81,14 @@ selectNameStyle(style: string) {
   this.titleStyle = style;
   this.nameDropdownVisible = false;
 }
+
+qualityOfLife() {
+  this.lastTypes.includes(this.template) ? this.lastType = this.template : '';
+if(this.coreTypes.includes(this.template)){
+  if(this.lastType === 'Normal'){
+    this.lastType = '';
+  }
+}}
 
 ngOnChanges() {
   this.adjustNameScale();

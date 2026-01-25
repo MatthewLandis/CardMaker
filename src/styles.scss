@@ -1,18 +1,18 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    --accent: rgba(0, 140, 255, 0.7);
-    --background: #0A0F2C;
-    --hover: #00CED1;
-    --text: #F0F8FF;
+  --accent: rgba(0, 140, 255, 0.7);
+  --background: #0A0F2C;
+  --hover: #00CED1;
+  --text: #F0F8FF;
 }
 
 body {
-    background-color: var(--background);
+  background-color: var(--background);
 }
 
 @font-face {

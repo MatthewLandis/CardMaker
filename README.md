@@ -1,59 +1,15 @@
 # CardMaker
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+The greatest website to ever and will ever and should ever and could ever exist...
 
-## Development server
+### Djas Directives:
+- Make sure prettier is installed as a VSCode extension.
+- Go into VSCode settings and search for 'format on save'. Set it to true. Everytime you save a file, the file should be formatted according to the prettier config in your package.json file.
+- Remove the node_modules folder, then run **npm install**. I just got rid of the unecessary testing packages.
+- Do a CTRL-SHIFT-F and search for djas. I've made a few changes and in all of these places, I've left a comment that starts with djas that describes what I did. You can remove these comments if you'd like after you've read them.
+- Sorry I didn't get to look to in depth at the card maker stuff. I just did some general changes. Let me know if there's anything I should do differently and next time I will focus on the card maker stuff. You can also look at the git commit history and view the most recent commit to see all of my changes. Thanks boht! :D
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Djas Suggestions:
+- public folder: I suggest that you stick to a consitent naming convention like camelCase for all assets and subfolders.
+- I suggest including **component** in your component file names and class names. Like app.component.html, app.component.ts, app.component.scss. And have the component be called AppComponent instead of App. I think it just helps to group together files of the same component in this way.
+- I think you should use kebab case (🍢) for all of your css class names. Instead of **cardContainer**, use **card-container**. I think doing so makes it easier to distinguish class names from your variables which are using camelCase.

@@ -14,6 +14,8 @@ export class CardMaker {
   atk = 2500;
   def = 2000;
   level = 7;
+  rank = 4;
+  nLevel = 7;
   title = "Dark Magician";
   primaryType = 'Spellcaster';
   coreType = '';
@@ -26,6 +28,8 @@ export class CardMaker {
   attribute = 'Dark';
   template = 'Normal';
   hoverLevel = 0;
+  hoverRank = 0;
+  hoverNLevel = 0;
   scaleMonsterType = 1;
   pendulumTemplate = false;
   pendulumScale = 4;
@@ -42,6 +46,9 @@ export class CardMaker {
 
   titleStyle = 'Ultra-Rare';
   nameStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
+
+  levelType = 'Level';
+  levelTypes = ['Level', 'Negative Level', 'Rank'];
 
   createCard() {
     domtoimage.toJpeg(document.getElementById('card')!)
@@ -62,6 +69,7 @@ export class CardMaker {
     this.template = template;
     this.coreType = template;
     this.qualityOfLife();
+    this.updateLevelType();
     this.templateDropdownVisible = false;
   }
   primaryTypeDropdownVisible = false;
@@ -77,6 +85,16 @@ export class CardMaker {
   selectNameStyle(style: string) {
     this.titleStyle = style;
     this.nameDropdownVisible = false;
+  }
+
+updateLevelType() {
+    if (this.template === 'Xyz') {
+      this.levelType = 'Rank';
+    } else if (this.template === 'DarkSynchro') {
+      this.levelType = 'Negative Level';
+    } else {
+      this.levelType = 'Level';
+    }
   }
 
   qualityOfLife() {

@@ -1,6 +1,6 @@
 <div class="cardContainer">
     <section id="card">
-        <img src="assets/CardTemplates/{{template}}Template.png">
+        <img src="assets/cardTemplates/{{template}}Template.png">
         <img src="assets/placeholderArt.jpg" [ngClass]="{
       cardArt: true, 
       cardArtPendulum: pendulumTemplate
@@ -8,16 +8,25 @@
         <button class="pendulumTemplateBtn" (click)="pendulumTemplate = !pendulumTemplate"
             title="Toggle Pendulum Template"></button>
         @if (pendulumTemplate) {
-        <img src="assets/CardTemplates/PendulumTemplates/PendulumShade/Pendulum{{template}}.png" />
-        <img src="assets/CardTemplates/PendulumTemplates/PendulumTemplate.png" />
+        <img src="assets/cardTemplates/pendulumTemplates/pendulumShade/Pendulum{{template}}.png" />
+        <img src="assets/cardTemplates/pendulumTemplates/PendulumTemplate.png" />
         <input class="pendulumScale" style="left: 55px;" [(ngModel)]="pendulumScale" type="number">
         <input class="pendulumScale" style="left: 700px;" [(ngModel)]="pendulumScale" type="number">
         <textarea class="pendulumEffectText" [value]="pendulumEffectText" spellcheck="false"></textarea>
         }
-        <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
+        <img src="assets/attributes/{{attribute}}.png" alt="Attribute">        
+        @if (levelType === 'Level') {
         <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`"
             [style.opacity]="hoverLevel ? 0.5 : 1">
-
+        }
+        @if (levelType === 'Negative Level') {
+        <img [src]="`assets/negativeLevels/nLevel${hoverNLevel !== 0 ? hoverNLevel : nLevel}.png`"
+            [style.opacity]="hoverNLevel ? 0.5 : 1">
+        }
+           @if (levelType === 'Rank') {
+        <img [src]="`assets/ranks/rank${hoverRank !== 0 ? hoverRank : rank}.png`"
+            [style.opacity]="hoverRank ? 0.5 : 1">
+        }
         <!-- Template -->
         <button class="templateBtn" (click)="templateDropdownVisible = !templateDropdownVisible"
             title="Change Template"></button>
@@ -27,17 +36,34 @@
             @if (template !== i) {
             <button class="templateBtn{{i}}" (click)="selectTemplate(i)">{{i}}</button>
             }
-            }
+         }
         </div>
         }
         <!-- Level -->
+         @if(levelType === 'Level') {
         <div class="levelBtns">
             @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
             <button class="levelBtn{{i}}" (mouseenter)="hoverLevel = i" (mouseleave)="hoverLevel = 0"
                 (click)="level = i; hoverLevel = 0" title="Change Level">{{i}}</button>
             }
         </div>
-
+    }
+    @if(levelType === 'Negative Level') {
+        <div class="nlevelBtns">
+            @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+            <button class="nlevelBtn{{i}}" (mouseenter)="hoverNLevel = i" (mouseleave)="hoverNLevel = 0"
+                (click)="nLevel = i; hoverNLevel = 0" title="Change Negative Level">{{i}}</button>
+            }
+        </div>
+    }
+    @if(levelType === 'Rank') {
+        <div class="rankBtns">
+            @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+            <button class="rankBtn{{i}}" (mouseenter)="hoverRank = i" (mouseleave)="hoverRank = 0"
+                (click)="rank = i; hoverRank = 0" title="Change Rank">{{i}}</button>
+            }
+        </div>
+    }
         <!-- Attribute -->
         <button class="attributeDropdownBtn" (click)="attributeDropdownVisible = !attributeDropdownVisible"
             title="Change Attribute"></button>

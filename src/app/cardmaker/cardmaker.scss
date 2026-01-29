@@ -13,10 +13,14 @@ section {
 }
 
 .cardArt {
-    width: 613px;
-    top: 219px;
-    left: 100px
+  width: 613px;
+  height: 613px;
+  object-fit: cover;
+  position: absolute;
+  top: 219px;
+  left: 100px;
 }
+
 
 .atk,
 .def {
@@ -28,6 +32,11 @@ section {
     font-family: ATKDEF;
     letter-spacing: 0.4px;
     transform-origin: right;
+
+    &:hover {
+                background-color: var(--accent);
+
+    }
 }
 
 .atk {
@@ -326,10 +335,10 @@ button {
     text-align: center;
     color: transparent;
     cursor: pointer;
-
+font-weight: 900;
     &:hover {
         color: white;
-        font-size: 15pt;
+        font-size: 25pt;
     }
 }
 
@@ -341,10 +350,11 @@ button {
     text-align: center;
     color: transparent;
     cursor: pointer;
+font-weight: 900;
 
     &:hover {
         color: rgb(255, 255, 255);
-        font-size: 15pt;
+        font-size: 25pt;
     }
 }
 
@@ -357,10 +367,10 @@ button {
     text-align: center;
     color: transparent;
     cursor: pointer;
-
+font-weight: 900;
     &:hover {
         color: black;
-        font-size: 15pt;
+        font-size: 25pt;
     }
 }
 
@@ -373,7 +383,7 @@ button {
     border-radius: 3rem;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: var(--accent);
     }
 }
 
@@ -385,8 +395,8 @@ button {
     grid-template-columns: repeat(2, 74px);
     gap: 0.5rem;
     padding: 0.5rem;
-    background-color: var(--accent);
-    border-radius: 0.8rem;
+    background-color: var(--background);
+    border: var(--accent) 2px solid;
 }
 
 .attributeDropdownGrid button {
@@ -462,27 +472,28 @@ button {
 .templateBtn {
     position: absolute;
     top: 205px;
-    left: 726px;
+    left: 769px;
     height: 584px;
-    width: 59px;
+    width: 44px;
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: var(--accent);
     }
 }
 
 
 .templateDropdownGrid {
     position: absolute;
-    top: 205px;
-    right: 90px;
+    top: 280px;
+    right: 88px;
     display: grid;
     grid-template-columns: repeat(3, 200px);
     gap: 0.5rem;
     padding: 0.5rem;
-    background-color: var(--accent);
-    border-radius: 0.8rem;
+    background-color: var(--background);
+    border: var(--accent) 2px solid;
+    z-index: 1;
 }
 
 .templateDropdownGrid button {
@@ -496,7 +507,7 @@ button {
 }
 
 .templateBtnNormal {
-    background-image: url(/assets/CardTemplates/NormalTemplate.png);
+    background-image: url(/assets/cardTemplates/NormalTemplate.png);
     background-position: left -52px top -57px;
 
     &:hover {
@@ -505,7 +516,7 @@ button {
 }
 
 .templateBtnEffect {
-    background-image: url(/assets/CardTemplates/EffectTemplate.png);
+    background-image: url(/assets/cardTemplates/EffectTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -514,7 +525,7 @@ button {
 }
 
 .templateBtnFusion {
-    background-image: url(/assets/CardTemplates/FusionTemplate.png);
+    background-image: url(/assets/cardTemplates/FusionTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -523,7 +534,7 @@ button {
 }
 
 .templateBtnRitual {
-    background-image: url(/assets/CardTemplates/RitualTemplate.png);
+    background-image: url(/assets/cardTemplates/RitualTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -532,7 +543,7 @@ button {
 }
 
 .templateBtnSynchro {
-    background-image: url(/assets/CardTemplates/SynchroTemplate.png);
+    background-image: url(/assets/cardTemplates/SynchroTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -541,7 +552,7 @@ button {
 }
 
 .templateBtnXyz {
-    background-image: url(/assets/CardTemplates/XyzTemplate.png);
+    background-image: url(/assets/cardTemplates/XyzTemplate.png);
     background-position: right -59px top -57px;
     color: white;
 
@@ -551,7 +562,7 @@ button {
 }
 
 .templateBtnPendulum {
-    background-image: url(/assets/CardTemplates/PendulumTemplate.png);
+    background-image: url(/assets/cardTemplates/PendulumTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -560,7 +571,7 @@ button {
 }
 
 .templateBtnLink {
-    background-image: url(/assets/CardTemplates/LinkTemplate.png);
+    background-image: url(/assets/cardTemplates/LinkTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -569,7 +580,7 @@ button {
 }
 
 .templateBtnToken {
-    background-image: url(/assets/CardTemplates/TokenTemplate.png);
+    background-image: url(/assets/cardTemplates/TokenTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -578,7 +589,7 @@ button {
 }
 
 .templateBtnSlifer {
-    background-image: url(/assets/CardTemplates/SliferTemplate.png);
+    background-image: url(/assets/cardTemplates/SliferTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -587,7 +598,7 @@ button {
 }
 
 .templateBtnObelisk {
-    background-image: url(/assets/CardTemplates/ObeliskTemplate.png);
+    background-image: url(/assets/cardTemplates/ObeliskTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -596,7 +607,7 @@ button {
 }
 
 .templateBtnRa {
-    background-image: url(/assets/CardTemplates/RaTemplate.png);
+    background-image: url(/assets/cardTemplates/RaTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -605,7 +616,7 @@ button {
 }
 
 .templateBtnLegendaryDragon {
-    background-image: url(/assets/CardTemplates/LegendaryDragonTemplate.png);
+    background-image: url(/assets/cardTemplates/LegendaryDragonTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -614,7 +625,7 @@ button {
 }
 
 .templateBtnDarkSynchro {
-    background-image: url(/assets/CardTemplates/DarkSynchroTemplate.png);
+    background-image: url(/assets/cardTemplates/DarkSynchroTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -623,7 +634,7 @@ button {
 }
 
 .templateBtnSkill {
-    background-image: url(/assets/CardTemplates/SkillTemplate.png);
+    background-image: url(/assets/cardTemplates/SkillTemplate.png);
     background-position: right -59px top -57px;
 
     &:hover {
@@ -632,7 +643,7 @@ button {
 }
 
 .templateBtnSpell {
-    background-image: url(/assets/CardTemplates/SpellTemplate.png);
+    background-image: url(/assets/cardTemplates/SpellTemplate.png);
     background-position: right -200px top -57px;
 
     &:hover {
@@ -641,7 +652,7 @@ button {
 }
 
 .templateBtnTrap {
-    background-image: url(/assets/CardTemplates/TrapTemplate.png);
+    background-image: url(/assets/cardTemplates/TrapTemplate.png);
     background-position: right -200px top -57px;
 
     &:hover {
@@ -649,19 +660,7 @@ button {
     }
 }
 
-.primaryTypeDropdownBtn {
-    position: absolute;
-    bottom: 263px;
-    left: 76px;
-    height: 30px;
-    width: 75px;
-    z-index: 999;
-    cursor: pointer;
 
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-}
 
 .primaryTypeDropdownGrid {
     position: absolute;
@@ -671,8 +670,8 @@ button {
     grid-template-columns: repeat(3, 160px);
     gap: 0.6rem;
     padding: 0.5rem;
-    background-color: var(--accent);
-    border-radius: 0.8rem;
+    background-color: var(--background);
+    border: var(--accent) 2px solid;
     z-index: 2;
 }
 
@@ -682,6 +681,9 @@ button {
     cursor: pointer;
     font-size: 20pt;
 
+    &:hover {
+        background-color: var(--accent);
+    }
 }
 
 .nameDropdownBtn {
@@ -692,9 +694,9 @@ button {
     width: 620px;
     background-color: transparent;
     cursor: pointer;
-
+    
     &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: var(--accent);
     }
 }
 
@@ -706,23 +708,20 @@ button {
     gap: 0.5rem;
     padding: 0.5rem;
     font-size: 30pt;
-    background-color: var(--accent);
-    border: var(--hover) 2px solid;
-
+    background-color: var(--background);
+    border: var(--accent) 2px solid;
+    z-index: 1;
 }
 
-.artBtn {
-    position: absolute;
-    top: 219px;
-    left: 100px;
-    height: 613px;
-    width: 613px;
+.nameDropdownGrid button{
     cursor: pointer;
-
+    
     &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        all: unset;
+        background-color: var(--accent);
     }
 }
+
 
 .pendulumTemplateBtn {
     position: absolute;
@@ -734,7 +733,7 @@ button {
     z-index: 1;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: var(--accent);
     }
 }
 
@@ -748,6 +747,7 @@ button {
     text-align: center;
     width: 53pt;
     letter-spacing: -6px;
+    
 }
 
 .pendulumEffectText {
@@ -766,6 +766,132 @@ button {
 
 .cardArtPendulum {
     width: 702px;
+    height: 702px;
+    object-fit: cover;
+    position: absolute;
     top: 212px;
     left: 55px;
+}
+
+.linkRating {
+    position: absolute;
+    width: 35px;
+    top: 1076px;
+    right: 50px;
+    font-size: 20px;
+    font-family: linkRating;
+    transform: scaleY(1.3) scaleX(1.5);
+}
+
+.link-arrow-btn1 {
+    position: absolute;
+    top: 196px;
+    right: 689px;
+    height: 47px;
+    width: 47px;
+    cursor: pointer;
+}
+
+.link-arrow-btn2 {
+    position: absolute;
+    top: 183px;
+    right: 359px;
+    height: 28px;
+    width: 95px;
+    cursor: pointer;
+}
+
+.link-arrow-btn3 {
+    position: absolute;
+    top: 196px;
+    right: 76px;
+    height: 47px;
+    width: 47px;
+    cursor: pointer;
+}
+
+.link-arrow-btn4 {
+    position: absolute;
+    top: 480px;
+    right: 721px;
+    height: 92px;
+    width: 28px;
+    cursor: pointer;
+}
+
+.link-arrow-btn5 {
+    position: absolute;
+    top: 480px;
+    right: 63px;
+    height: 92px;
+    width: 28px;
+    cursor: pointer;
+}
+
+.link-arrow-btn6 {
+    position: absolute;
+    top: 808px;
+    right: 689px;
+    height: 47px;
+    width: 47px;
+    cursor: pointer;
+}
+
+.link-arrow-btn7 {
+    position: absolute;
+    top: 840px;
+    right: 359px;
+    height: 28px;
+    width: 95px;
+    cursor: pointer;
+}
+
+.link-arrow-btn8 {
+    position: absolute;
+    top: 808px;
+    right: 77px;
+    height: 47px;
+    width: 47px;
+    cursor: pointer;
+}
+
+.imageButton {
+    position: absolute;
+    top: 218px;
+    left: 99px;
+    width: 614px;
+    height: 614px;
+    color: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+
+    &:hover {
+        background-color: var(--accent);
+        opacity: 1;
+    }
+}
+
+.imageButtonPendulum {
+    position: absolute;
+    top: 212px;
+    left: 55px;
+    width: 702px;
+    height: 525px;
+    color: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+
+    &:hover {
+        background-color: var(--accent);
+        opacity: 1;
+    }
+}
+
+.primaryTypeSpan, .abilityTypeSpan {
+    cursor: pointer;
+    &:hover {
+        background-color: var(--accent);
+    }
 }

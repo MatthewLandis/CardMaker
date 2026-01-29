@@ -16,6 +16,7 @@ export class CardMaker {
   level = 7;
   rank = 4;
   nLevel = 7;
+  linkRating = 3;
   title = "Dark Magician";
   primaryType = 'Spellcaster';
   coreType = '';
@@ -49,6 +50,19 @@ export class CardMaker {
 
   levelType = 'Level';
   levelTypes = ['Level', 'Negative Level', 'Rank'];
+
+linkArrows = {
+    topLeft: false,
+    top: false,
+    topRight: false,
+    left: false,
+    right: false,
+    bottomLeft: false,
+    bottom: false,
+    bottomRight: false,
+  };
+
+
 
   createCard() {
     domtoimage.toJpeg(document.getElementById('card')!)
@@ -103,6 +117,11 @@ updateLevelType() {
       if (this.lastType === 'Normal') {
         this.lastType = '';
       }
+    }
+    // Remove Pendulum Overlay
+    const nonPendulum = ["Link"];
+    if (nonPendulum.includes(this.template)) {
+      this.pendulumTemplate = false;
     }
   }
 
@@ -210,5 +229,22 @@ updateLevelType() {
   selectAbilityType(type: string) {
     this.abilityType = type;
     this.abilityDropdownVisible = false;
+  }
+
+
+toggleLinkArrow(arrow: string) {
+    this.linkArrows[arrow as keyof typeof this.linkArrows] =
+   !this.linkArrows[arrow as keyof typeof this.linkArrows];
+  }
+
+    imageUrl: string | null = null;
+
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => this.imageUrl = reader.result as string;
+      reader.readAsDataURL(file);
+    }
   }
 }

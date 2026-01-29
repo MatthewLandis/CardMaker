@@ -21,7 +21,6 @@ section {
   left: 100px;
 }
 
-
 .atk,
 .def {
     position: absolute;
@@ -34,8 +33,7 @@ section {
     transform-origin: right;
 
     &:hover {
-                background-color: var(--accent);
-
+        background-color: var(--accent);
     }
 }
 
@@ -79,7 +77,15 @@ button {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: grayscale(100%) drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+    filter: 
+        grayscale(100%) 
+        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 .Ultra-Rare {
@@ -88,7 +94,13 @@ button {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     filter:
-        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 .Barian {
@@ -97,7 +109,14 @@ button {
     background-position: 0 4px;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+    filter: 
+        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
+        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 
@@ -132,19 +151,29 @@ button {
     padding: 3px
 }
 
+.loreText {
+    position: absolute;
+    top: 922px;
+    left: 64px;
+    width: 686px;
+    height: 154px;
+    font-family: lore;
+    font-size: 25px;
+    text-align: justify;
+    line-height: 1;
+}
+
 .effectText {
     position: absolute;
     top: 922px;
     left: 64px;
     width: 686px;
-    height: 150px;
-    font-family: lore;
-    font-size: 27px;
+    height: 157px;
+    font-family: effect;
+    font-size: 29px;
     text-align: justify;
-    line-height: 1;
+    line-height: 0.9;
 }
-
-
 
 
 .createButton {
@@ -167,165 +196,36 @@ button {
     height: 1185px;
 }
 
-.levelBtn13 {
-    left: 24px;
+.levelBtns button {
+    position: absolute;
+    top: 145px;
+    height: 50px;
+    width: 55px;
+    text-align: center;
+    color: transparent;
+    cursor: pointer;
+    font-weight: 900;
+
+    &:hover {
+        color: black;
+        font-size: 25pt;
+    }
 }
 
-.levelBtn12 {
-    left: 81px;
-}
+.levelBtn1 {left: 676px;}
+.levelBtn2 {left: 621px;}
+.levelBtn3 {left: 567px;}
+.levelBtn4 {left: 513px;}
+.levelBtn5 {left: 459px;}
+.levelBtn6 {left: 405px;}
+.levelBtn7 {left: 351px;}
+.levelBtn8 {left: 297px;}
+.levelBtn9 {left: 243px;}
+.levelBtn10 {left: 189px;}
+.levelBtn11 {left: 135px;}
+.levelBtn12 {left: 81px;}
+.levelBtn13 {left: 24px;}
 
-.levelBtn11 {
-    left: 135px;
-}
-
-.levelBtn10 {
-    left: 189px;
-}
-
-.levelBtn9 {
-    left: 243px;
-}
-
-.levelBtn8 {
-    left: 297px;
-}
-
-.levelBtn7 {
-    left: 351px;
-}
-
-.levelBtn6 {
-    left: 405px;
-}
-
-.levelBtn5 {
-    left: 459px;
-}
-
-.levelBtn4 {
-    left: 513px;
-}
-
-.levelBtn3 {
-    left: 567px;
-}
-
-.levelBtn2 {
-    left: 621px;
-}
-
-.levelBtn1 {
-    left: 676px;
-}
-
-
-
-.nlevelBtn1 {
-    left: 81px;
-}
-
-.nlevelBtn2 {
-    left: 135px;
-}
-
-.nlevelBtn3 {
-    left: 189px;
-}
-
-.nlevelBtn4 {
-    left: 243px;
-}
-
-.nlevelBtn5 {
-    left: 297px;
-}
-
-.nlevelBtn6 {
-    left: 351px;
-}
-
-.nlevelBtn7 {
-    left: 405px;
-}
-
-.nlevelBtn8 {
-    left: 459px;
-}
-
-.nlevelBtn9 {
-    left: 513px;
-}
-
-.nlevelBtn10 {
-    left: 567px;
-}
-
-.nlevelBtn11 {
-    left: 621px;
-}
-
-.nlevelBtn12 {
-    left: 676px;
-}
-
-.nlevelBtn13 {
-    left: 730px;
-}
-
-
-
-.rankBtn1 {
-    left: 81px;
-}
-
-.rankBtn2 {
-    left: 135px;
-}
-
-.rankBtn3 {
-    left: 189px;
-}
-
-.rankBtn4 {
-    left: 243px;
-}
-
-.rankBtn5 {
-    left: 297px;
-}
-
-.rankBtn6 {
-    left: 351px;
-}
-
-.rankBtn7 {
-    left: 405px;
-}
-
-.rankBtn8 {
-    left: 459px;
-}
-
-.rankBtn9 {
-    left: 513px;
-}
-
-.rankBtn10 {
-    left: 567px;
-}
-
-.rankBtn11 {
-    left: 621px;
-}
-
-.rankBtn12 {
-    left: 676px;
-}
-
-.rankBtn13 {
-    left: 730px;
-}
 
 .rankBtns button {
     position: absolute;
@@ -335,12 +235,27 @@ button {
     text-align: center;
     color: transparent;
     cursor: pointer;
-font-weight: 900;
+    font-weight: 900;
+
     &:hover {
         color: white;
         font-size: 25pt;
     }
 }
+
+.rankBtn1 {left: 81px;}
+.rankBtn2 {left: 135px;}
+.rankBtn3 {left: 189px;}
+.rankBtn4 {left: 243px;}
+.rankBtn5 {left: 297px;}
+.rankBtn6 {left: 351px;}
+.rankBtn7 {left: 405px;}
+.rankBtn8 {left: 459px;}
+.rankBtn9 {left: 513px;}
+.rankBtn10 {left: 567px;}
+.rankBtn11 {left: 621px;}
+.rankBtn12 {left: 676px;}
+.rankBtn13 {left: 730px;}
 
 .nlevelBtns button {
     position: absolute;
@@ -350,7 +265,7 @@ font-weight: 900;
     text-align: center;
     color: transparent;
     cursor: pointer;
-font-weight: 900;
+    font-weight: 900;
 
     &:hover {
         color: rgb(255, 255, 255);
@@ -358,21 +273,19 @@ font-weight: 900;
     }
 }
 
-
-.levelBtns button {
-    position: absolute;
-    top: 145px;
-    height: 50px;
-    width: 55px;
-    text-align: center;
-    color: transparent;
-    cursor: pointer;
-font-weight: 900;
-    &:hover {
-        color: black;
-        font-size: 25pt;
-    }
-}
+.nlevelBtn1 {left: 81px;}
+.nlevelBtn2 {left: 135px;}
+.nlevelBtn3 {left: 189px;}
+.nlevelBtn4 {left: 243px;}
+.nlevelBtn5 {left: 297px;}
+.nlevelBtn6 {left: 351px;}
+.nlevelBtn7 {left: 405px;}
+.nlevelBtn8 {left: 459px;}
+.nlevelBtn9 {left: 513px;}
+.nlevelBtn10 {left: 567px;}
+.nlevelBtn11 {left: 621px;}
+.nlevelBtn12 {left: 676px;}
+.nlevelBtn13 {left: 730px;}
 
 .attributeDropdownBtn {
     position: absolute;
@@ -500,166 +413,32 @@ font-weight: 900;
     position: relative;
     height: 57px;
     width: 200px;
-    background-color: var(--accent);
     text-align: center;
-    font-size: 15pt;
+    font-size: 14pt;
     font-family: monsterType;
-}
-
-.templateBtnNormal {
-    background-image: url(/assets/cardTemplates/NormalTemplate.png);
-    background-position: left -52px top -57px;
+    border: var(--accent) 2px solid;
 
     &:hover {
         filter: brightness(0.7);
     }
 }
 
-.templateBtnEffect {
-    background-image: url(/assets/cardTemplates/EffectTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnFusion {
-    background-image: url(/assets/cardTemplates/FusionTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnRitual {
-    background-image: url(/assets/cardTemplates/RitualTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnSynchro {
-    background-image: url(/assets/cardTemplates/SynchroTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnXyz {
-    background-image: url(/assets/cardTemplates/XyzTemplate.png);
-    background-position: right -59px top -57px;
-    color: white;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnPendulum {
-    background-image: url(/assets/cardTemplates/PendulumTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnLink {
-    background-image: url(/assets/cardTemplates/LinkTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnToken {
-    background-image: url(/assets/cardTemplates/TokenTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnSlifer {
-    background-image: url(/assets/cardTemplates/SliferTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnObelisk {
-    background-image: url(/assets/cardTemplates/ObeliskTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnRa {
-    background-image: url(/assets/cardTemplates/RaTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnLegendaryDragon {
-    background-image: url(/assets/cardTemplates/LegendaryDragonTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnDarkSynchro {
-    background-image: url(/assets/cardTemplates/DarkSynchroTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnSkill {
-    background-image: url(/assets/cardTemplates/SkillTemplate.png);
-    background-position: right -59px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnSpell {
-    background-image: url(/assets/cardTemplates/SpellTemplate.png);
-    background-position: right -200px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
-.templateBtnTrap {
-    background-image: url(/assets/cardTemplates/TrapTemplate.png);
-    background-position: right -200px top -57px;
-
-    &:hover {
-        filter: brightness(0.7);
-    }
-}
-
+.Normal {background-color: #be9c67;}
+.Effect {background-color: #ae6d50;}
+.Fusion {background-color: #804d9f;}
+.Ritual {background-color: #6686c4;}
+.Synchro {background-color: #efefef;}
+.Xyz {background-color: #1a1a1a; color: white;}
+.Link {background-color: #214b81;}
+.Token {background-color: #6e6c6b;}
+.Slifer {background-color: #bb4638;}
+.Obelisk {background-color: #4343b3;}
+.Ra {background-color: #ebc41b;}
+.LegendaryDragon {background-color: #2d95b7;}
+.DarkSynchro {background-color: #584d4d;}
+.Skill {background-color: #008dce;}
+.Spell {background-color: #458e83;}
+.Trap {background-color: #b33689;}
 
 
 .primaryTypeDropdownGrid {

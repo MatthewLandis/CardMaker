@@ -3,7 +3,7 @@
         <!-- Card Art -->
         @if (imageUrl) {<img [src]="imageUrl" class ="cardArt"/>}
         @if (!imageUrl){<img src="assets/placeholderArt.jpg" class ="cardArt">}
-        <img src="assets/cardTemplates/{{template}}Template.png">
+        <img src="assets/cardTemplates/{{template}}.png">
         <!-- Pendulum Template -->
         <button class="pendulumTemplateBtn" (click)="pendulumTemplate = !pendulumTemplate"
             title="Toggle Pendulum Template"></button>
@@ -45,13 +45,15 @@
             @if (linkArrows.bottomRight) {<img src="assets/linkArrows/bottomRight.png">}
         }
         <!-- Template -->
-        <button class="templateBtn" (click)="templateDropdownVisible = !templateDropdownVisible"
-            title="Change Template"></button>
+        <button class="templateBtn" 
+        (click)="templateDropdownVisible = !templateDropdownVisible"
+        title="Change Template"></button>
         @if (templateDropdownVisible) {
         <div class="templateDropdownGrid">
             @for (i of templates; track $index) {
             @if (template !== i) {
-            <button class="templateBtn{{i}}" (click)="selectTemplate(i)">{{i}}</button>
+            <button  class="{{i.replace(' ', '')}}" 
+             (click)="selectTemplate(i)">{{i}}</button>
             }
          }
         </div>
@@ -100,19 +102,21 @@
         <!-- Name -->
         <input #nameInput class="name {{titleStyle}}" [(ngModel)]="title" (input)="adjustNameScale()" spellcheck="false"
             title="Name">
-        <button class="nameDropdownBtn" (click)="toggleNameDropdown()" title="Name Style"></button>
+        <button class="nameDropdownBtn" 
+        (click)="this.nameDropdownVisible = !this.nameDropdownVisible;" 
+        title="Name Style"></button>
         @if (nameDropdownVisible) {
         <div class="nameDropdownGrid">
-            @for (i of nameStyles; track $index) {
+            @for (i of titleStyles; track $index) {
             <button class="{{i}}" (click)="selectNameStyle(i)">{{i}}</button>
-
             }
         </div>
         }
         <!-- Monster Type -->
         <div class="type">
             <span class="bracket">[</span>
-            <span class="primaryTypeSpan" (click)="togglePrimaryTypeDropdown()" 
+            <span class="primaryTypeSpan" 
+            (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible;" 
             title="Change Primary Monster Type">{{primaryType}}</span>
             @if(coreTypes.includes(coreType)) {
             <span class="slash">/</span>
@@ -127,7 +131,8 @@
             <span>{{abilityType}}</span>
             }
             @if (lastType) {
-            <span class="slash abilityTypeSpan" (click)="abilityDropdown()" 
+            <span class="slash abilityTypeSpan" 
+            (click)="this.abilityDropdownVisible = !this.abilityDropdownVisible;" 
             title="Change Ability Monster Type">/</span>
             <span>{{lastType}}</span>
             }
@@ -150,8 +155,8 @@
         }
 
 
-        <!-- Text -->
-        <textarea class="effectText" [value]="effectText" spellcheck="false"></textarea>
+    <!-- Text -->
+    <textarea [ngClass]="template === 'Normal' ? 'loreText' : 'effectText'" [value]="effectText" spellcheck="false"></textarea>
 
         
         <input #valueAtkInput class="atk" [value]="atk" (input)="adjustValueAtkScale()" title="Attack">

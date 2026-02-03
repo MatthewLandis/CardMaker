@@ -113,7 +113,7 @@
         </div>
         }
         <!-- Monster Type -->
-        <div class="type">
+        <div class="type" #typeBox (click)="adjustTypeValue(typeBox)">
             <span class="bracket">[</span>
             <span class="primaryTypeSpan" 
             (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible;" 
@@ -156,13 +156,24 @@
 
 
     <!-- Text -->
-    <textarea [ngClass]="template === 'Normal' ? 'loreText' : 'effectText'" [value]="effectText" spellcheck="false"></textarea>
+    <textarea 
+    class="effectText"
+    #effectRender
+    [ngClass]="{
+        text6Lines: effectMode === 6,
+        text7Lines: effectMode === 7,
+        text8Lines: effectMode === 8
+    }"
+    [value]="effectText" 
+    (input)="adjustEffectText()"
+    spellcheck="false">
+    </textarea>
 
         
-        <input #valueAtkInput class="atk" [value]="atk" (input)="adjustValueAtkScale()" title="Attack">
-        @if(template !== 'Link') {
-            <input #valueDefInput class="def" [value]="def" (input)="adjustValueDefScale()" title="Defense">
-        }
+ <input #atkInput class="atk" [value]="atk" (input)="adjustAtkDefValue(atkInput)">
+@if(template != 'Link') {
+    <input #defInput class="def" [value]="def" (input)="adjustAtkDefValue(defInput)">
+}
         @if(template === 'Link') {
             <input class="linkRating" type="number" [value]="linkRating" title="Link Rating">
         }
@@ -183,7 +194,6 @@
             imageButton: !pendulumTemplate,
             imageButtonPendulum: pendulumTemplate}" 
             (change)="onImageSelected($event)" type="file" title="Change Card Art">
-
     </section>
 </div>
 <button class="createButton" (click)="createCard()">Create Card</button>

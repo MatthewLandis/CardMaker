@@ -63,6 +63,24 @@ export class CardMaker {
   primaryTypeDropdownVisible = false;
   abilityDropdownVisible = false;
 
+
+///////////////////////////////////////////////////////////////////////////
+effectTextLines = [6, 7, 8];
+effectMode: 6 | 7 | 8 = 6;
+fontSize = 29;
+
+getFontSizeForMode(mode: 6 | 7 | 8) {
+  switch (mode) {
+    case 6: return 29;
+    case 7: return 24;
+    case 8: return 21;
+  }
+}
+
+adjustEffectText(): void {
+  this.fontSize = this.getFontSizeForMode(this.effectMode);
+}
+/////////////////////////////////////////////////////////////////////////////
   toggleLinkArrow(arrow: string) {
     this.linkArrows[arrow as keyof typeof this.linkArrows] =
    !this.linkArrows[arrow as keyof typeof this.linkArrows];
@@ -103,10 +121,14 @@ export class CardMaker {
     this.primaryTypeDropdownVisible = false;
   }
 
-  selectAbilityType(type: string) {
+selectAbilityType(type: string) {
+  if (this.abilityType === type) {
+    this.abilityType = '';
+  } else {
     this.abilityType = type;
-    this.abilityDropdownVisible = false;
   }
+  this.abilityDropdownVisible = false;
+}
 
   selectTemplate(template: string) {
     this.template = template;
@@ -135,18 +157,23 @@ export class CardMaker {
     }
   }
 
-  @ViewChild('valueAtkInput', { static: true }) valueAtkInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('valueDefInput', { static: true }) valueDefInput!: ElementRef<HTMLInputElement>;
   @ViewChild('nameInput', { static: true }) nameInput!: ElementRef<HTMLInputElement>;
   private ctx!: CanvasRenderingContext2D;
 
-  ngAfterViewInit() {
-    const canvas = document.createElement('canvas');
-    this.ctx = canvas.getContext('2d')!;
-    this.adjustNameScale();
-    this.adjustValueAtkScale();
-    this.adjustValueDefScale();
-  }
+ngAfterViewInit() {
+  const canvas = document.createElement('canvas');
+  this.ctx = canvas.getContext('2d')!;
+
+  // Scale ATK on load
+  const atkEl = document.querySelector('.atk') as HTMLInputElement;
+  if (atkEl) this.adjustAtkDefValue(atkEl);
+
+  // Scale DEF on load (if it exists)
+  const defEl = document.querySelector('.def') as HTMLInputElement;
+  if (defEl) this.adjustAtkDefValue(defEl);
+  
+const typeEl = document.querySelector('.type') as HTMLElement;
+if (typeEl) this.adjustTypeValue(typeEl);}
 
   adjustNameScale() {
     const el = this.nameInput.nativeElement;
@@ -164,35 +191,37 @@ export class CardMaker {
     el.style.width = `${616 / scale}px`;
   }
   
-  adjustValueAtkScale() {
-    const el = this.valueAtkInput.nativeElement;
-    const style = window.getComputedStyle(el);
-    const fontSize = parseFloat(style.fontSize);
-    const fontFamily = style.fontFamily;
-    const letterSpacing = parseFloat(style.letterSpacing || '0');
-    this.ctx.font = `${fontSize}px ${fontFamily}`;
-    const textWidth = this.ctx.measureText(el.value).width;
-    const extraSpacing = letterSpacing * el.value.length;
-    const totalTextWidth = textWidth + extraSpacing;
-    const boxWidth = 70;
-    const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
-    el.style.transform = `scaleX(${scale})`;
-    el.style.width = `${70 / scale}px`;
-  }
+adjustAtkDefValue(el: HTMLInputElement) {
+  const style = window.getComputedStyle(el);
+  const fontSize = parseFloat(style.fontSize);
+  const fontFamily = style.fontFamily;
+  const letterSpacing = parseFloat(style.letterSpacing || '0');
+  this.ctx.font = `${fontSize}px ${fontFamily}`;
+  const textWidth = this.ctx.measureText(el.value).width;
+  const extraSpacing = letterSpacing * el.value.length;
+  const totalTextWidth = textWidth + extraSpacing;
+  const boxWidth = 70;
+  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+  el.style.transform = `scaleX(${scale})`;
+  el.style.width = `${70 / scale}px`;
+}
 
-  adjustValueDefScale() {
-    const el = this.valueDefInput.nativeElement;
-    const style = window.getComputedStyle(el);
-    const fontSize = parseFloat(style.fontSize);
-    const fontFamily = style.fontFamily;
-    const letterSpacing = parseFloat(style.letterSpacing || '0');
-    this.ctx.font = `${fontSize}px ${fontFamily}`;
-    const textWidth = this.ctx.measureText(el.value).width;
-    const extraSpacing = letterSpacing * el.value.length;
-    const totalTextWidth = textWidth + extraSpacing;
-    const boxWidth = 70;
-    const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
-    el.style.transform = `scaleX(${scale})`;
-    el.style.width = `${70 / scale}px`;
-  }
+adjustTypeValue(el: HTMLElement) {
+  const style = window.getComputedStyle(el);
+  const fontSize = parseFloat(style.fontSize);
+  const fontFamily = style.fontFamily;
+  const letterSpacing = parseFloat(style.letterSpacing || '0');
+
+  this.ctx.font = `${fontSize}px ${fontFamily}`;
+
+  const text = el.innerText; // <-- IMPORTANT: spans don't have .value
+  const textWidth = this.ctx.measureText(text).width;
+  const extraSpacing = letterSpacing * text.length;
+  const totalTextWidth = textWidth + extraSpacing;
+
+  const boxWidth = 100;
+  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+
+  el.style.transform = `scaleX(${scale})`;
+}
 }

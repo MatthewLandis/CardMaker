@@ -126,7 +126,10 @@ button {
     left: 60px;
     font-family: monstertype;
     font-size: 25pt;
+  display: inline-block;
+  width: auto; /* must NOT be fixed */
 }
+
 
 /* Primary Type Styling*/
 .type span {
@@ -170,10 +173,14 @@ button {
     width: 686px;
     height: 157px;
     font-family: effect;
-    font-size: 29px;
     text-align: justify;
     line-height: 0.9;
 }
+
+.text6Lines {font-size: 29px;}
+.text7Lines {font-size: 24px;}
+.text8Lines {font-size: 21px;}
+
 
 
 .createButton {
@@ -546,7 +553,6 @@ button {
 .cardArtPendulum {
     width: 702px;
     height: 702px;
-    object-fit: cover;
     position: absolute;
     top: 212px;
     left: 55px;

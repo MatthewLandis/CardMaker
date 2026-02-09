@@ -67,18 +67,18 @@ export class CardMaker {
 ///////////////////////////////////////////////////////////////////////////
 effectTextLines = [6, 7, 8];
 effectMode: 6 | 7 | 8 = 6;
-fontSize = 29;
 
-getFontSizeForMode(mode: 6 | 7 | 8) {
-  switch (mode) {
-    case 6: return 29;
-    case 7: return 24;
-    case 8: return 21;
-  }
-}
 
-adjustEffectText(): void {
-  this.fontSize = this.getFontSizeForMode(this.effectMode);
+adjustEffectText(el: HTMLTextAreaElement) {
+  const style = window.getComputedStyle(el);
+  const fontSize = parseFloat(style.fontSize);
+  const fontFamily = style.fontFamily;
+  this.ctx.font = `${fontSize}px ${fontFamily}`;
+  const textWidth = this.ctx.measureText(el.value).width;
+  console.log(textWidth)
+  if (textWidth <= 3905 && this.effectMode == 6) this.effectMode = 6
+  else if (textWidth <= 3905 && this.effectMode == 7) this.effectMode = 7
+  else if (textWidth > 3905) this.effectMode = 8
 }
 /////////////////////////////////////////////////////////////////////////////
   toggleLinkArrow(arrow: string) {
@@ -160,7 +160,14 @@ selectAbilityType(type: string) {
   @ViewChild('nameInput', { static: true }) nameInput!: ElementRef<HTMLInputElement>;
   private ctx!: CanvasRenderingContext2D;
 
+  @ViewChild('typeBox', { static: true }) typeBox!: ElementRef<HTMLDivElement>;
+
+  ngAfterViewChecked() {
+  this.adjustTypeValue(this.typeBox.nativeElement);
+}
+
 ngAfterViewInit() {
+  console.log('asdasd')
   const canvas = document.createElement('canvas');
   this.ctx = canvas.getContext('2d')!;
 
@@ -205,23 +212,16 @@ adjustAtkDefValue(el: HTMLInputElement) {
   el.style.transform = `scaleX(${scale})`;
   el.style.width = `${70 / scale}px`;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////
 adjustTypeValue(el: HTMLElement) {
   const style = window.getComputedStyle(el);
   const fontSize = parseFloat(style.fontSize);
   const fontFamily = style.fontFamily;
-  const letterSpacing = parseFloat(style.letterSpacing || '0');
-
   this.ctx.font = `${fontSize}px ${fontFamily}`;
-
-  const text = el.innerText; // <-- IMPORTANT: spans don't have .value
-  const textWidth = this.ctx.measureText(text).width;
-  const extraSpacing = letterSpacing * text.length;
-  const totalTextWidth = textWidth + extraSpacing;
-
-  const boxWidth = 100;
-  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
-
+  const textWidth = this.ctx.measureText(el.innerText).width;
+  const boxWidth = 680;
+  const scale = textWidth > boxWidth ? boxWidth / textWidth : 1;
   el.style.transform = `scaleX(${scale})`;
+  el.style.width = `${680 / scale}px`;
 }
 }

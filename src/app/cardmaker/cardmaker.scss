@@ -126,8 +126,8 @@ button {
     left: 60px;
     font-family: monstertype;
     font-size: 25pt;
-  display: inline-block;
-  width: auto; /* must NOT be fixed */
+    transform-origin: left;
+    white-space: nowrap;
 }
 
 
@@ -175,6 +175,7 @@ button {
     font-family: effect;
     text-align: justify;
     line-height: 0.9;
+    transform-origin: left;
 }
 
 .text6Lines {font-size: 29px;}

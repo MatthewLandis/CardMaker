@@ -13,12 +13,12 @@ section {
 }
 
 .cardArt {
-  width: 613px;
-  height: 613px;
-  object-fit: cover;
-  position: absolute;
-  top: 219px;
-  left: 100px;
+    width: 613px;
+    height: 613px;
+    object-fit: cover;
+    position: absolute;
+    top: 219px;
+    left: 100px;
 }
 
 .atk,
@@ -77,15 +77,8 @@ button {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: 
-        grayscale(100%) 
-        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+    filter:
+        grayscale(100%) drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 .Ultra-Rare {
@@ -94,13 +87,7 @@ button {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     filter:
-        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 .Barian {
@@ -109,14 +96,8 @@ button {
     background-position: 0 4px;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: 
-        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) 
-        drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
+    filter:
+        drop-shadow(-0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0.7px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -0.7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0.7px rgba(0, 0, 0, 0.5)) drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 0.7px rgba(0, 0, 0, 0.5));
 }
 
 
@@ -178,9 +159,17 @@ button {
     transform-origin: left;
 }
 
-.text6Lines {font-size: 29px;}
-.text7Lines {font-size: 24px;}
-.text8Lines {font-size: 21px;}
+.text6Lines {
+    font-size: 29px;
+}
+
+.text7Lines {
+    font-size: 24px;
+}
+
+.text8Lines {
+    font-size: 21px;
+}
 
 
 
@@ -220,19 +209,57 @@ button {
     }
 }
 
-.levelBtn1 {left: 676px;}
-.levelBtn2 {left: 621px;}
-.levelBtn3 {left: 567px;}
-.levelBtn4 {left: 513px;}
-.levelBtn5 {left: 459px;}
-.levelBtn6 {left: 405px;}
-.levelBtn7 {left: 351px;}
-.levelBtn8 {left: 297px;}
-.levelBtn9 {left: 243px;}
-.levelBtn10 {left: 189px;}
-.levelBtn11 {left: 135px;}
-.levelBtn12 {left: 81px;}
-.levelBtn13 {left: 24px;}
+.levelBtn1 {
+    left: 676px;
+}
+
+.levelBtn2 {
+    left: 621px;
+}
+
+.levelBtn3 {
+    left: 567px;
+}
+
+.levelBtn4 {
+    left: 513px;
+}
+
+.levelBtn5 {
+    left: 459px;
+}
+
+.levelBtn6 {
+    left: 405px;
+}
+
+.levelBtn7 {
+    left: 351px;
+}
+
+.levelBtn8 {
+    left: 297px;
+}
+
+.levelBtn9 {
+    left: 243px;
+}
+
+.levelBtn10 {
+    left: 189px;
+}
+
+.levelBtn11 {
+    left: 135px;
+}
+
+.levelBtn12 {
+    left: 81px;
+}
+
+.levelBtn13 {
+    left: 24px;
+}
 
 
 .rankBtns button {
@@ -251,19 +278,57 @@ button {
     }
 }
 
-.rankBtn1 {left: 81px;}
-.rankBtn2 {left: 135px;}
-.rankBtn3 {left: 189px;}
-.rankBtn4 {left: 243px;}
-.rankBtn5 {left: 297px;}
-.rankBtn6 {left: 351px;}
-.rankBtn7 {left: 405px;}
-.rankBtn8 {left: 459px;}
-.rankBtn9 {left: 513px;}
-.rankBtn10 {left: 567px;}
-.rankBtn11 {left: 621px;}
-.rankBtn12 {left: 676px;}
-.rankBtn13 {left: 730px;}
+.rankBtn1 {
+    left: 81px;
+}
+
+.rankBtn2 {
+    left: 135px;
+}
+
+.rankBtn3 {
+    left: 189px;
+}
+
+.rankBtn4 {
+    left: 243px;
+}
+
+.rankBtn5 {
+    left: 297px;
+}
+
+.rankBtn6 {
+    left: 351px;
+}
+
+.rankBtn7 {
+    left: 405px;
+}
+
+.rankBtn8 {
+    left: 459px;
+}
+
+.rankBtn9 {
+    left: 513px;
+}
+
+.rankBtn10 {
+    left: 567px;
+}
+
+.rankBtn11 {
+    left: 621px;
+}
+
+.rankBtn12 {
+    left: 676px;
+}
+
+.rankBtn13 {
+    left: 730px;
+}
 
 .nlevelBtns button {
     position: absolute;
@@ -281,19 +346,57 @@ button {
     }
 }
 
-.nlevelBtn1 {left: 81px;}
-.nlevelBtn2 {left: 135px;}
-.nlevelBtn3 {left: 189px;}
-.nlevelBtn4 {left: 243px;}
-.nlevelBtn5 {left: 297px;}
-.nlevelBtn6 {left: 351px;}
-.nlevelBtn7 {left: 405px;}
-.nlevelBtn8 {left: 459px;}
-.nlevelBtn9 {left: 513px;}
-.nlevelBtn10 {left: 567px;}
-.nlevelBtn11 {left: 621px;}
-.nlevelBtn12 {left: 676px;}
-.nlevelBtn13 {left: 730px;}
+.nlevelBtn1 {
+    left: 81px;
+}
+
+.nlevelBtn2 {
+    left: 135px;
+}
+
+.nlevelBtn3 {
+    left: 189px;
+}
+
+.nlevelBtn4 {
+    left: 243px;
+}
+
+.nlevelBtn5 {
+    left: 297px;
+}
+
+.nlevelBtn6 {
+    left: 351px;
+}
+
+.nlevelBtn7 {
+    left: 405px;
+}
+
+.nlevelBtn8 {
+    left: 459px;
+}
+
+.nlevelBtn9 {
+    left: 513px;
+}
+
+.nlevelBtn10 {
+    left: 567px;
+}
+
+.nlevelBtn11 {
+    left: 621px;
+}
+
+.nlevelBtn12 {
+    left: 676px;
+}
+
+.nlevelBtn13 {
+    left: 730px;
+}
 
 .attributeDropdownBtn {
     position: absolute;
@@ -431,22 +534,70 @@ button {
     }
 }
 
-.Normal {background-color: #be9c67;}
-.Effect {background-color: #ae6d50;}
-.Fusion {background-color: #804d9f;}
-.Ritual {background-color: #6686c4;}
-.Synchro {background-color: #efefef;}
-.Xyz {background-color: #1a1a1a; color: white;}
-.Link {background-color: #214b81;}
-.Token {background-color: #6e6c6b;}
-.Slifer {background-color: #bb4638;}
-.Obelisk {background-color: #4343b3;}
-.Ra {background-color: #ebc41b;}
-.LegendaryDragon {background-color: #2d95b7;}
-.DarkSynchro {background-color: #584d4d;}
-.Skill {background-color: #008dce;}
-.Spell {background-color: #458e83;}
-.Trap {background-color: #b33689;}
+.Normal {
+    background-color: #be9c67;
+}
+
+.Effect {
+    background-color: #ae6d50;
+}
+
+.Fusion {
+    background-color: #804d9f;
+}
+
+.Ritual {
+    background-color: #6686c4;
+}
+
+.Synchro {
+    background-color: #efefef;
+}
+
+.Xyz {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.Link {
+    background-color: #214b81;
+}
+
+.Token {
+    background-color: #6e6c6b;
+}
+
+.Slifer {
+    background-color: #bb4638;
+}
+
+.Obelisk {
+    background-color: #4343b3;
+}
+
+.Ra {
+    background-color: #ebc41b;
+}
+
+.LegendaryDragon {
+    background-color: #2d95b7;
+}
+
+.DarkSynchro {
+    background-color: #584d4d;
+}
+
+.Skill {
+    background-color: #008dce;
+}
+
+.Spell {
+    background-color: #458e83;
+}
+
+.Trap {
+    background-color: #b33689;
+}
 
 
 .primaryTypeDropdownGrid {
@@ -481,7 +632,7 @@ button {
     width: 620px;
     background-color: transparent;
     cursor: pointer;
-    
+
     &:hover {
         background-color: var(--accent);
     }
@@ -500,9 +651,9 @@ button {
     z-index: 1;
 }
 
-.nameDropdownGrid button{
+.nameDropdownGrid button {
     cursor: pointer;
-    
+
     &:hover {
         all: unset;
         background-color: var(--accent);
@@ -534,7 +685,7 @@ button {
     text-align: center;
     width: 53pt;
     letter-spacing: -6px;
-    
+
 }
 
 .pendulumEffectText {
@@ -675,9 +826,25 @@ button {
     }
 }
 
-.primaryTypeSpan, .abilityTypeSpan {
+.primaryTypeSpan,
+.abilityTypeSpan {
     cursor: pointer;
+
     &:hover {
         background-color: var(--accent);
     }
+}
+
+.getCardsButton {
+    position: absolute;
+    top: 12px;
+    left: 1220px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }

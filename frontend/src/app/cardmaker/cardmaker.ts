@@ -1,7 +1,8 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import domtoimage from 'dom-to-image';
+import { CardService } from './cardmaker.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,8 @@ import domtoimage from 'dom-to-image';
   styleUrl: './cardmaker.scss'
 })
 export class CardMaker {
+  private service = inject(CardService);
+
   template = 'Normal';
   templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Link',
     'Token', 'Slifer', 'Obelisk', 'Ra', 'Legendary Dragon', 'Dark Synchro', 'Skill', 'Spell', 'Trap'];
@@ -33,7 +36,7 @@ export class CardMaker {
   effectText = "The ultimate wizard in terms of attack and defense.";
   pendulumEffectText = "Once per turn, you can reduce the battle damage you take from an attack involving a Pendulum Monster you control to 0.";
   pendulumTemplate = false;
- 
+
   level = 7;
   rank = 4;
   nLevel = 7;
@@ -41,7 +44,7 @@ export class CardMaker {
   linkRating = 3;
   atk = 2500;
   def = 2000;
-  
+
   linkArrows = {
     topLeft: false,
     top: false,
@@ -64,26 +67,26 @@ export class CardMaker {
   abilityDropdownVisible = false;
 
 
-///////////////////////////////////////////////////////////////////////////
-effectTextLines = [6, 7, 8];
-effectMode: 6 | 7 | 8 = 6;
+  ///////////////////////////////////////////////////////////////////////////
+  effectTextLines = [6, 7, 8];
+  effectMode: 6 | 7 | 8 = 6;
 
 
-adjustEffectText(el: HTMLTextAreaElement) {
-  const style = window.getComputedStyle(el);
-  const fontSize = parseFloat(style.fontSize);
-  const fontFamily = style.fontFamily;
-  this.ctx.font = `${fontSize}px ${fontFamily}`;
-  const textWidth = this.ctx.measureText(el.value).width;
-  console.log(textWidth)
-  if (textWidth <= 3905 && this.effectMode == 6) this.effectMode = 6
-  else if (textWidth <= 3905 && this.effectMode == 7) this.effectMode = 7
-  else if (textWidth > 3905) this.effectMode = 8
-}
-/////////////////////////////////////////////////////////////////////////////
+  adjustEffectText(el: HTMLTextAreaElement) {
+    const style = window.getComputedStyle(el);
+    const fontSize = parseFloat(style.fontSize);
+    const fontFamily = style.fontFamily;
+    this.ctx.font = `${fontSize}px ${fontFamily}`;
+    const textWidth = this.ctx.measureText(el.value).width;
+    console.log(textWidth)
+    if (textWidth <= 3905 && this.effectMode == 6) this.effectMode = 6
+    else if (textWidth <= 3905 && this.effectMode == 7) this.effectMode = 7
+    else if (textWidth > 3905) this.effectMode = 8
+  }
+  /////////////////////////////////////////////////////////////////////////////
   toggleLinkArrow(arrow: string) {
     this.linkArrows[arrow as keyof typeof this.linkArrows] =
-   !this.linkArrows[arrow as keyof typeof this.linkArrows];
+      !this.linkArrows[arrow as keyof typeof this.linkArrows];
   }
 
   createCard() {
@@ -115,20 +118,20 @@ adjustEffectText(el: HTMLTextAreaElement) {
     this.titleStyle = style;
     this.nameDropdownVisible = false;
   }
-  
+
   selectPrimaryType(type: string) {
     this.primaryType = type;
     this.primaryTypeDropdownVisible = false;
   }
 
-selectAbilityType(type: string) {
-  if (this.abilityType === type) {
-    this.abilityType = '';
-  } else {
-    this.abilityType = type;
+  selectAbilityType(type: string) {
+    if (this.abilityType === type) {
+      this.abilityType = '';
+    } else {
+      this.abilityType = type;
+    }
+    this.abilityDropdownVisible = false;
   }
-  this.abilityDropdownVisible = false;
-}
 
   selectTemplate(template: string) {
     this.template = template;
@@ -139,8 +142,8 @@ selectAbilityType(type: string) {
   }
 
   updateLevelType() {
-    this.levelType = this.template === 'Xyz' ? 'Rank': 
-    this.template === 'Dark Synchro' ? 'Negative Level' : 'Level';
+    this.levelType = this.template === 'Xyz' ? 'Rank' :
+      this.template === 'Dark Synchro' ? 'Negative Level' : 'Level';
   }
 
   qualityOfLife() {
@@ -163,24 +166,25 @@ selectAbilityType(type: string) {
   @ViewChild('typeBox', { static: true }) typeBox!: ElementRef<HTMLDivElement>;
 
   ngAfterViewChecked() {
-  this.adjustTypeValue(this.typeBox.nativeElement);
-}
+    this.adjustTypeValue(this.typeBox.nativeElement);
+  }
 
-ngAfterViewInit() {
-  console.log('asdasd')
-  const canvas = document.createElement('canvas');
-  this.ctx = canvas.getContext('2d')!;
+  ngAfterViewInit() {
+    console.log('asdasd')
+    const canvas = document.createElement('canvas');
+    this.ctx = canvas.getContext('2d')!;
 
-  // Scale ATK on load
-  const atkEl = document.querySelector('.atk') as HTMLInputElement;
-  if (atkEl) this.adjustAtkDefValue(atkEl);
+    // Scale ATK on load
+    const atkEl = document.querySelector('.atk') as HTMLInputElement;
+    if (atkEl) this.adjustAtkDefValue(atkEl);
 
-  // Scale DEF on load (if it exists)
-  const defEl = document.querySelector('.def') as HTMLInputElement;
-  if (defEl) this.adjustAtkDefValue(defEl);
-  
-const typeEl = document.querySelector('.type') as HTMLElement;
-if (typeEl) this.adjustTypeValue(typeEl);}
+    // Scale DEF on load (if it exists)
+    const defEl = document.querySelector('.def') as HTMLInputElement;
+    if (defEl) this.adjustAtkDefValue(defEl);
+
+    const typeEl = document.querySelector('.type') as HTMLElement;
+    if (typeEl) this.adjustTypeValue(typeEl);
+  }
 
   adjustNameScale() {
     const el = this.nameInput.nativeElement;
@@ -197,31 +201,44 @@ if (typeEl) this.adjustTypeValue(typeEl);}
     el.style.transform = `scaleX(${scale})`;
     el.style.width = `${616 / scale}px`;
   }
-  
-adjustAtkDefValue(el: HTMLInputElement) {
-  const style = window.getComputedStyle(el);
-  const fontSize = parseFloat(style.fontSize);
-  const fontFamily = style.fontFamily;
-  const letterSpacing = parseFloat(style.letterSpacing || '0');
-  this.ctx.font = `${fontSize}px ${fontFamily}`;
-  const textWidth = this.ctx.measureText(el.value).width;
-  const extraSpacing = letterSpacing * el.value.length;
-  const totalTextWidth = textWidth + extraSpacing;
-  const boxWidth = 70;
-  const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
-  el.style.transform = `scaleX(${scale})`;
-  el.style.width = `${70 / scale}px`;
-}
-///////////////////////////////////////////////////////////////////////////////////////
-adjustTypeValue(el: HTMLElement) {
-  const style = window.getComputedStyle(el);
-  const fontSize = parseFloat(style.fontSize);
-  const fontFamily = style.fontFamily;
-  this.ctx.font = `${fontSize}px ${fontFamily}`;
-  const textWidth = this.ctx.measureText(el.innerText).width;
-  const boxWidth = 680;
-  const scale = textWidth > boxWidth ? boxWidth / textWidth : 1;
-  el.style.transform = `scaleX(${scale})`;
-  el.style.width = `${680 / scale}px`;
-}
+
+  adjustAtkDefValue(el: HTMLInputElement) {
+    const style = window.getComputedStyle(el);
+    const fontSize = parseFloat(style.fontSize);
+    const fontFamily = style.fontFamily;
+    const letterSpacing = parseFloat(style.letterSpacing || '0');
+    this.ctx.font = `${fontSize}px ${fontFamily}`;
+    const textWidth = this.ctx.measureText(el.value).width;
+    const extraSpacing = letterSpacing * el.value.length;
+    const totalTextWidth = textWidth + extraSpacing;
+    const boxWidth = 70;
+    const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+    el.style.transform = `scaleX(${scale})`;
+    el.style.width = `${70 / scale}px`;
+  }
+  ///////////////////////////////////////////////////////////////////////////////////////
+  adjustTypeValue(el: HTMLElement) {
+    const style = window.getComputedStyle(el);
+    const fontSize = parseFloat(style.fontSize);
+    const fontFamily = style.fontFamily;
+    this.ctx.font = `${fontSize}px ${fontFamily}`;
+    const textWidth = this.ctx.measureText(el.innerText).width;
+    const boxWidth = 680;
+    const scale = textWidth > boxWidth ? boxWidth / textWidth : 1;
+    el.style.transform = `scaleX(${scale})`;
+    el.style.width = `${680 / scale}px`;
+  }
+
+  getCards() {
+    this.service.getCards().subscribe({
+      next: (result: any) => {
+        result.forEach((item: any) => {
+          window.alert(`Title: ${item.title}, Level: ${item.level}`);
+        });
+      },
+      error: err => {
+        console.error(err);
+      },
+    });
+  }
 }

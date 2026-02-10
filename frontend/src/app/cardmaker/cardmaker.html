@@ -1,0 +1,188 @@
+<div class="cardContainer">
+    <section id="card">
+        <!-- Card Art -->
+        @if (imageUrl) {<img [src]="imageUrl" class="cardArt" />}
+        @if (!imageUrl){<img src="assets/placeholderArt.jpg" class="cardArt">}
+        <img src="assets/CardTemplates/{{template}}.png">
+        <!-- Pendulum Template -->
+        <button class="pendulumTemplateBtn" (click)="pendulumTemplate = !pendulumTemplate"
+            title="Toggle Pendulum Template"></button>
+        @if (pendulumTemplate) {
+        @if (imageUrl) {<img [src]="imageUrl" class="cardArtPendulum" />}
+        @if (!imageUrl){<img src="assets/placeholderArt.jpg" class="cardArtPendulum">}
+        <img src="assets/CardTemplates/pendulumTemplates/pendulumShade/Pendulum{{template}}.png" />
+        <img src="assets/CardTemplates/pendulumTemplates/PendulumTemplate.png" />
+        <input class="pendulumScale" style="left: 55px;" [(ngModel)]="pendulumScale" type="number">
+        <input class="pendulumScale" style="left: 700px;" [(ngModel)]="pendulumScale" type="number">
+        <textarea class="pendulumEffectText" [value]="pendulumEffectText" spellcheck="false"></textarea>
+        }
+        <!-- Attribute Display -->
+        <img src="assets/attributes/{{attribute}}.png" alt="Attribute">
+        <!-- Level/Rank Display -->
+        @if(template !== 'Link') {
+        @if (levelType === 'Level') {
+        <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : level}.png`"
+            [style.opacity]="hoverLevel ? 0.5 : 1">
+        }
+        @if (levelType === 'Negative Level') {
+        <img [src]="`assets/negativeLevels/nLevel${hoverNLevel !== 0 ? hoverNLevel : nLevel}.png`"
+            [style.opacity]="hoverNLevel ? 0.5 : 1">
+        }
+        @if (levelType === 'Rank') {
+        <img [src]="`assets/ranks/rank${hoverRank !== 0 ? hoverRank : rank}.png`" [style.opacity]="hoverRank ? 0.5 : 1">
+        }
+        }
+        <!-- Link Arrows Display-->
+        @if (template === 'Link') {
+        @if (linkArrows.topLeft) {<img src="assets/linkArrows/topLeft.png">}
+        @if (linkArrows.top) {<img src="assets/linkArrows/top.png">}
+        @if (linkArrows.topRight) {<img src="assets/linkArrows/topRight.png">}
+        @if (linkArrows.left) {<img src="assets/linkArrows/left.png">}
+        @if (linkArrows.right) {<img src="assets/linkArrows/right.png">}
+        @if (linkArrows.bottomLeft) {<img src="assets/linkArrows/bottomLeft.png">}
+        @if (linkArrows.bottom) {<img src="assets/linkArrows/bottom.png">}
+        @if (linkArrows.bottomRight) {<img src="assets/linkArrows/bottomRight.png">}
+        }
+        <!-- Template -->
+        <button class="templateBtn" (click)="templateDropdownVisible = !templateDropdownVisible"
+            title="Change Template"></button>
+        @if (templateDropdownVisible) {
+        <div class="templateDropdownGrid">
+            @for (i of templates; track $index) {
+            @if (template !== i) {
+            <button class="{{i.replace(' ', '')}}" (click)="selectTemplate(i)">{{i}}</button>
+            }
+            }
+        </div>
+        }
+
+        @if(template !== 'Link') {
+        <!-- Level -->
+        @if(levelType === 'Level') {
+        <div class="levelBtns">
+            @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+            <button class="levelBtn{{i}}" (mouseenter)="hoverLevel = i" (mouseleave)="hoverLevel = 0"
+                (click)="level = i; hoverLevel = 0" title="Change Level">{{i}}</button>
+            }
+        </div>
+        }
+        @if(levelType === 'Negative Level') {
+        <div class="nlevelBtns">
+            @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+            <button class="nlevelBtn{{i}}" (mouseenter)="hoverNLevel = i" (mouseleave)="hoverNLevel = 0"
+                (click)="nLevel = i; hoverNLevel = 0" title="Change Negative Level">{{i}}</button>
+            }
+        </div>
+        }
+        @if(levelType === 'Rank') {
+        <div class="rankBtns">
+            @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13]; track $index) {
+            <button class="rankBtn{{i}}" (mouseenter)="hoverRank = i" (mouseleave)="hoverRank = 0"
+                (click)="rank = i; hoverRank = 0" title="Change Rank">{{i}}</button>
+            }
+        </div>
+        }
+        }
+        <!-- Attribute -->
+        <button class="attributeDropdownBtn" (click)="attributeDropdownVisible = !attributeDropdownVisible"
+            title="Change Attribute"></button>
+        @if (attributeDropdownVisible) {
+        <div class="attributeDropdownGrid">
+            @for (i of attributes; track $index) {
+            @if (attribute !== i) {
+            <button class="attributeBtn{{i}}" (click)="selectAttribute(i)"></button>
+            }
+            }
+        </div>
+        }
+
+        <!-- Name -->
+        <input #nameInput class="name {{titleStyle}}" [(ngModel)]="title" (input)="adjustNameScale()" spellcheck="false"
+            title="Name">
+        <button class="nameDropdownBtn" (click)="this.nameDropdownVisible = !this.nameDropdownVisible;"
+            title="Name Style"></button>
+        @if (nameDropdownVisible) {
+        <div class="nameDropdownGrid">
+            @for (i of titleStyles; track $index) {
+            <button class="{{i}}" (click)="selectNameStyle(i)">{{i}}</button>
+            }
+        </div>
+        }
+        <!-- Monster Type -->
+        <div class="type" #typeBox (click)="adjustTypeValue(typeBox)">
+            <span class="bracket">[</span>
+            <span class="primaryTypeSpan" (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible;"
+                title="Change Primary Monster Type">{{primaryType}}</span>
+            @if(coreTypes.includes(coreType)) {
+            <span class="slash">/</span>
+            <span>{{coreType}}</span>
+            }
+            @if(pendulumTemplate){
+            <span class="slash">/</span>
+            <span>Pendulum</span>
+            }
+            @if(abilityType) {
+            <span class="slash">/</span>
+            <span>{{abilityType}}</span>
+            }
+            @if (lastType) {
+            <span class="slash abilityTypeSpan" (click)="this.abilityDropdownVisible = !this.abilityDropdownVisible;"
+                title="Change Ability Monster Type">/</span>
+            <span>{{lastType}}</span>
+            }
+            <span class="bracket">]</span>
+        </div>
+        <!-- Monster Type Dropdowns -->
+        @if (primaryTypeDropdownVisible) {
+        <div class="primaryTypeDropdownGrid">
+            @for (i of primaryTypes; track $index) {
+            <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{i}}</button>
+            }
+        </div>
+        }
+        @if (abilityDropdownVisible) {
+        <div class="primaryTypeDropdownGrid">
+            @for (i of abilityTypes; track $index) {
+            <button class="primaryTypeBtn" (click)="selectAbilityType(i)">{{i}}</button>
+            }
+        </div>
+        }
+
+
+        <!-- Text -->
+        <textarea class="effectText" #effectRender [ngClass]="{
+        text6Lines: effectMode === 6,
+        text7Lines: effectMode === 7,
+        text8Lines: effectMode === 8
+    }" [value]="effectText" (input)="adjustEffectText(effectRender)" spellcheck="false">
+    </textarea>
+
+
+        <input #atkInput class="atk" [value]="atk" (input)="adjustAtkDefValue(atkInput)">
+        @if(template != 'Link') {
+        <input #defInput class="def" [value]="def" (input)="adjustAtkDefValue(defInput)">
+        }
+        @if(template === 'Link') {
+        <input class="linkRating" type="number" [value]="linkRating" title="Link Rating">
+        }
+
+        <!-- Link Arrow Buttons -->
+        @if (template === 'Link') {
+        <button class="link-arrow-btn1" (click)="toggleLinkArrow('topLeft')"></button>
+        <button class="link-arrow-btn2" (click)="toggleLinkArrow('top')"></button>
+        <button class="link-arrow-btn3" (click)="toggleLinkArrow('topRight')"></button>
+        <button class="link-arrow-btn4" (click)="toggleLinkArrow('left')"></button>
+        <button class="link-arrow-btn5" (click)="toggleLinkArrow('right')"></button>
+        <button class="link-arrow-btn6" (click)="toggleLinkArrow('bottomLeft')"></button>
+        <button class="link-arrow-btn7" (click)="toggleLinkArrow('bottom')"></button>
+        <button class="link-arrow-btn8" (click)="toggleLinkArrow('bottomRight')"></button>
+        }
+
+        <input [ngClass]="{
+            imageButton: !pendulumTemplate,
+            imageButtonPendulum: pendulumTemplate}" (change)="onImageSelected($event)" type="file"
+            title="Change Card Art">
+    </section>
+</div>
+<button class="createButton" (click)="createCard()">Create Card</button>
+<button class="getCardsButton" (click)="getCards()">Get Cards</button>

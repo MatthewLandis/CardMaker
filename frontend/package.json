@@ -1,5 +1,5 @@
 {
-  "name": "card-maker",
+  "name": "card-maker-frontend",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

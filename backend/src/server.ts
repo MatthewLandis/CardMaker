@@ -5,6 +5,9 @@ import { routes } from './route.js';
 
 const app = express();
 
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ limit: '20mb', extended: true })); //fixes "PayloadTooLargeError: request entity too large" error when sending large images
+
 app.use(cors({ origin: ['http://localhost:4200'], credentials: true }));
 
 app.use(express.json());

@@ -1,5 +1,5 @@
-export interface ICard {
-    id: number;
+export interface Icard {
+    id?: number;
     image_url?: string;
     title: string;
     title_style: string;

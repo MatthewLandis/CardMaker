@@ -2,9 +2,9 @@ import {
   __commonJS
 } from "./chunk-3OV72XIM.js";
 
-// node_modules/dom-to-image/src/dom-to-image.js
+// ../node_modules/dom-to-image/src/dom-to-image.js
 var require_dom_to_image = __commonJS({
-  "node_modules/dom-to-image/src/dom-to-image.js"(exports, module) {
+  "../node_modules/dom-to-image/src/dom-to-image.js"(exports, module) {
     (function(global) {
       "use strict";
       var util = newUtil();

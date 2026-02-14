@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import domtoimage from 'dom-to-image';
 import { CardService } from './cardmaker.service';
+import { Icard } from './cardmaker.model';
 
 @Component({
   selector: 'app-root',
@@ -12,38 +13,48 @@ import { CardService } from './cardmaker.service';
 })
 export class CardMaker {
   private service = inject(CardService);
+  cardData: Icard = {
+    image_url: '',
+    title: 'Dark Magician',
+    title_style: 'Ultra-Rare',
+    template: 'Normal',
+    pendulum_template: false,
+    level: 7,
+    rank: 0,
+    n_level: 0,
+    attribute: 'Dark',
+    primary_type: 'Spellcaster',
+    core_type: '',
+    ability_type: '',
+    last_type: 'Normal',
+    effect_text: "The ultimate wizard in terms of attack and defense.",
+    pendulum_effect_text: "Once per turn, you can reduce the battle damage you take from an attack involving a Pendulum Monster you control to 0.",
+    pendulum_scale: 4,
+    link_rating: 3,
+    atk: 2500,
+    def: 2000,
+    link_arrows: {
+      topLeft: false,
+      top: false,
+      topRight: false,
+      left: false,
+      right: false,
+      bottomLeft: false,
+      bottom: false,
+      bottomRight: false,
+    }
+  }
 
-  template = 'Normal';
   templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Link',
     'Token', 'Slifer', 'Obelisk', 'Ra', 'Legendary Dragon', 'Dark Synchro', 'Skill', 'Spell', 'Trap'];
-  title = "Dark Magician";
-  titleStyle = 'Ultra-Rare';
   titleStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
-  attribute = 'Dark';
   attributes = ['Dark', 'Light', 'Earth', 'Water', 'Fire', 'Wind', 'Divine'];
-  levelType = 'Level';
-  levelTypes = ['Level', 'Negative Level', 'Rank'];
-  primaryType = 'Spellcaster';
   primaryTypes = ['Aqua', 'Beast', 'Beast-Warrior', 'Creator God', 'Cyberse', 'Dinosaur', 'Divine-Beast', 'Dragon',
     'Fairy', 'Fiend', 'Fish', 'Insect', 'Illusion', 'Machine', 'Plant', 'Psychic', 'Pyro', 'Reptile',
     'Rock', 'Sea Serpent', 'Spellcaster', 'Thunder', 'Light', 'Warrior', 'Winged Beast', 'Wyrm', 'Zombie'];
-  coreType = '';
   coreTypes = ['Fusion', 'Ritual', 'Synchro', 'Dark Synchro', 'Xyz', 'Pendulum', 'Link'];
-  abilityType = '';
   abilityTypes = ['Gemini', 'Spirit', 'Toon', 'Union', 'Flip', 'Tuner'];
-  lastType = 'Normal';
   lastTypes = ['Normal', 'Effect', 'Token'];
-  effectText = "The ultimate wizard in terms of attack and defense.";
-  pendulumEffectText = "Once per turn, you can reduce the battle damage you take from an attack involving a Pendulum Monster you control to 0.";
-  pendulumTemplate = false;
-
-  level = 7;
-  rank = 4;
-  nLevel = 7;
-  pendulumScale = 4;
-  linkRating = 3;
-  atk = 2500;
-  def = 2000;
 
   linkArrows = {
     topLeft: false,
@@ -88,17 +99,6 @@ export class CardMaker {
     this.linkArrows[arrow as keyof typeof this.linkArrows] =
       !this.linkArrows[arrow as keyof typeof this.linkArrows];
   }
-
-  createCard() {
-    domtoimage.toJpeg(document.getElementById('card')!)
-      .then((dataUrl) => {
-        var link = document.createElement('a');
-        link.download = this.title;
-        link.href = dataUrl;
-        link.click();
-      });
-  }
-
   imageUrl: string | null = null;
   onImageSelected(event: Event): void {
     const file = (event.target as HTMLInputElement)?.files?.[0];
@@ -110,53 +110,47 @@ export class CardMaker {
   }
 
   selectAttribute(attr: string) {
-    this.attribute = attr;
+    this.cardData.attribute = attr;
     this.attributeDropdownVisible = false;
   }
 
   selectNameStyle(style: string) {
-    this.titleStyle = style;
+    this.cardData.title_style = style;
     this.nameDropdownVisible = false;
   }
 
   selectPrimaryType(type: string) {
-    this.primaryType = type;
+    this.cardData.primary_type = type;
     this.primaryTypeDropdownVisible = false;
   }
 
   selectAbilityType(type: string) {
-    if (this.abilityType === type) {
-      this.abilityType = '';
+    if (this.cardData.ability_type === type) {
+      this.cardData.ability_type = '';
     } else {
-      this.abilityType = type;
+      this.cardData.ability_type = type;
     }
     this.abilityDropdownVisible = false;
   }
 
   selectTemplate(template: string) {
-    this.template = template;
-    this.coreType = template;
+    this.cardData.template = template;
+    this.cardData.core_type = template;
     this.qualityOfLife();
-    this.updateLevelType();
     this.templateDropdownVisible = false;
   }
 
-  updateLevelType() {
-    this.levelType = this.template === 'Xyz' ? 'Rank' :
-      this.template === 'Dark Synchro' ? 'Negative Level' : 'Level';
-  }
-
   qualityOfLife() {
-    this.lastTypes.includes(this.template) ? this.lastType = this.template : '';
-    if (this.coreTypes.includes(this.template)) {
-      if (this.lastType === 'Normal') {
-        this.lastType = 'Effect';
+    this.lastTypes.includes(this.cardData.template) ? this.cardData.last_type = this.cardData.template : '';
+    if (this.coreTypes.includes(this.cardData.template)) {
+      if (this.cardData.last_type === 'Normal') {
+        this.cardData.last_type = 'Effect';
       }
     }
     // Remove Pendulum Overlay
     const nonPendulum = ["Link"];
-    if (nonPendulum.includes(this.template)) {
-      this.pendulumTemplate = false;
+    if (nonPendulum.includes(this.cardData.template)) {
+      this.cardData.pendulum_template = false;
     }
   }
 
@@ -170,7 +164,6 @@ export class CardMaker {
   }
 
   ngAfterViewInit() {
-    console.log('asdasd')
     const canvas = document.createElement('canvas');
     this.ctx = canvas.getContext('2d')!;
 
@@ -216,7 +209,7 @@ export class CardMaker {
     el.style.transform = `scaleX(${scale})`;
     el.style.width = `${70 / scale}px`;
   }
-  ///////////////////////////////////////////////////////////////////////////////////////
+
   adjustTypeValue(el: HTMLElement) {
     const style = window.getComputedStyle(el);
     const fontSize = parseFloat(style.fontSize);
@@ -229,16 +222,28 @@ export class CardMaker {
     el.style.width = `${680 / scale}px`;
   }
 
-  getCards() {
-    this.service.getCards().subscribe({
-      next: (result: any) => {
-        result.forEach((item: any) => {
-          window.alert(`Title: ${item.title}, Level: ${item.level}`);
+  generatePNG() {
+    domtoimage.toJpeg(document.getElementById('card')!)
+      .then((dataUrl) => {
+        var link = document.createElement('a');
+        link.download = this.cardData.title;
+        link.href = dataUrl;
+        link.click();
+      });
+  }
+
+  saveCard() {
+    domtoimage.toJpeg(document.getElementById('card')!)
+      .then((dataUrl) => {
+        this.cardData.image_url = dataUrl;
+        this.service.saveCard(this.cardData).subscribe({
+          next: () => {
+            window.alert(`${this.cardData.title} card saved successfully!`);
+          },
+          error: err => {
+            console.error(err);
+          },
         });
-      },
-      error: err => {
-        console.error(err);
-      },
-    });
+      });
   }
 }

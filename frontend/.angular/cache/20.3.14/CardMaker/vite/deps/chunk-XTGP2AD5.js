@@ -1,17 +1,17 @@
 import {
   withHttpTransferCache
-} from "./chunk-R7T73NV7.js";
+} from "./chunk-ZBIEPAXU.js";
 import {
   CommonModule,
   DomAdapter,
   PLATFORM_BROWSER_ID,
   getDOM,
   setRootDomAdapter
-} from "./chunk-SP65XZIN.js";
+} from "./chunk-OOHA7WY7.js";
 import {
   XhrFactory,
   parseCookieValue
-} from "./chunk-R6U7IGMG.js";
+} from "./chunk-2C5LTXPF.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -73,12 +73,12 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-RJKB2ABP.js";
+} from "./chunk-GAWQHRX5.js";
 import {
   __spreadValues
 } from "./chunk-3OV72XIM.js";
 
-// node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
+// ../node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
 var EventManagerPlugin = class {
   _doc;
   // TODO: remove (has some usage in G3)
@@ -817,7 +817,7 @@ var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRender
   }
 };
 
-// node_modules/@angular/platform-browser/fesm2022/browser.mjs
+// ../node_modules/@angular/platform-browser/fesm2022/browser.mjs
 var BrowserDomAdapter = class _BrowserDomAdapter extends DomAdapter {
   supportsDOMEvents = true;
   static makeCurrent() {
@@ -1232,7 +1232,7 @@ var BrowserModule = class _BrowserModule {
   }], () => [], null);
 })();
 
-// node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
+// ../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
 var Meta = class _Meta {
   _doc;
   _dom;
@@ -2033,4 +2033,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-RGOO2LH6.js.map
+//# sourceMappingURL=chunk-XTGP2AD5.js.map

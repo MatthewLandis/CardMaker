@@ -1,0 +1,31 @@
+<section class="header">
+  <h1>Card Catalog</h1>
+  <input
+    type="range"
+    min="0"
+    max="2"
+    step="0.01"
+    [(ngModel)]="cardSize"
+    (wheel)="onWheel($event)"
+    title="Adjust Card Size"
+  />
+</section>
+
+<div class="cardList">
+  @for (card of cards; track $index) {
+    <div
+      class="cardWrapper"
+      [class.active]="selectedCard === card"
+      (click)="selectCard(card, $event)"
+    >
+      <img [src]="card.image_url" [style.width.px]="300 * cardSize" />
+
+      <div class="cardActions">
+        @if (selectedCard === card) {
+          <button (click)="editCard(card, $event)">Edit</button>
+          <button (click)="removeCard(card.id)">Delete</button>
+        }
+      </div>
+    </div>
+  }
+</div>

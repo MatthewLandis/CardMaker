@@ -11,3 +11,24 @@ export const getCards = async (req: Request, res: Response<ICard[]>, next: NextF
         next(error);
     }
 };
+
+export const saveCard = async (req: Request<ICard>, res: Response, next: NextFunction) => {
+    try {
+        const cardData: ICard = req.body;
+        await service.saveCard(cardData);
+
+        res.status(200).end();
+    } catch (error) {
+        next(error);
+    }
+};
+export const deleteCard = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    try {
+        const cardId: string = req.params.id;
+        await service.deleteCard(cardId);
+
+        res.status(200).end();
+    } catch (error) {
+        next(error);
+    }
+};

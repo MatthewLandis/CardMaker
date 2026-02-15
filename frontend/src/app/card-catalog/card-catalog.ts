@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, inject } from '@angular/core';
 import { CardCatalogService } from './card-catalog.service';
 import { Icard } from '../cardmaker/cardmaker.model';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-catalog',
@@ -11,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class CardCatalog implements OnInit {
   private service = inject(CardCatalogService);
+  private router = inject(Router);
 
   public cards: Icard[] = [];
   selectedCard: Icard | null = null;
@@ -29,27 +31,29 @@ export class CardCatalog implements OnInit {
     this.selectedCard = card;
   }
 
-  editCard(card: Icard, event: MouseEvent) {
-    event.stopPropagation();
-    console.log('Editing card:', card);
+  editCard(cardId: number | undefined) {
+    this.router.navigate(['/'], {
+      queryParams: { id: cardId },
+      replaceUrl: true,
+    });
   }
 
   removeCard(cardId: number | undefined) {
     this.service.deleteCard(cardId).subscribe({
       next: () => {
-        // this.refreshCards();
+        this.refreshCards();
         this.selectedCard = null;
       },
       error: err => console.error(err),
     });
   }
 
-  // refreshCards() {
-  //   this.service.getCards().subscribe({
-  //     next: cards => this.cards = cards,
-  //     error: err => console.error(err),
-  //   });
-  // }
+  refreshCards() {
+    this.service.getCards().subscribe({
+      next: cards => this.cards = cards,
+      error: err => console.error(err),
+    });
+  }
 
   onWheel(event: WheelEvent) {
     event.preventDefault();
@@ -58,7 +62,7 @@ export class CardCatalog implements OnInit {
     this.cardSize = Math.min(2, Math.max(0.5, +(this.cardSize + delta).toFixed(2)));
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.service.getCards().subscribe({
       next: (result: Icard[]) => {
         this.cards = result;

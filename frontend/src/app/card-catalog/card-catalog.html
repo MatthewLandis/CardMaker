@@ -18,12 +18,16 @@
       [class.active]="selectedCard === card"
       (click)="selectCard(card, $event)"
     >
-      <img [src]="card.image_url" [style.width.px]="300 * cardSize" />
+      <img [src]="card.image_url" [style.width.px]="297 * cardSize" />
 
       <div class="cardActions">
         @if (selectedCard === card) {
-          <button (click)="editCard(card, $event)">Edit</button>
-          <button (click)="removeCard(card.id)">Delete</button>
+          <button class="editCardButton" (click)="editCard(card.id)" title="Edit Card">
+            <i class="bx bx-edit-alt"></i>
+          </button>
+          <button class="removeCardButton" (click)="removeCard(card.id)" title="Remove Card">
+            <i class="bx bx-trash"></i>
+          </button>
         }
       </div>
     </div>

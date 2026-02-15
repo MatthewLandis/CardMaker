@@ -35,7 +35,8 @@ INSERT INTO cards (
     atk,
     def,
     link_arrows,
-    image_url
+    image_url,
+    card_art_url
 )
 VALUES (
     $1,  -- title
@@ -56,8 +57,9 @@ VALUES (
     $16, -- link_rating
     $17, -- atk
     $18, -- def
-    $19,  -- link_arrows (JSONB)
-    $20  -- image_url
+    $19, -- link_arrows (JSONB)
+    $20, -- image_url
+    $21  -- card_art_url
 )
 
     `, [
@@ -80,7 +82,8 @@ VALUES (
         cardData.atk,
         cardData.def,
         JSON.stringify(cardData.link_arrows),
-        cardData.image_url
+        cardData.image_url,
+        cardData.card_art_url
     ]);
 
     return;
@@ -91,4 +94,19 @@ export const deleteCard = async (id: string) => {
         'DELETE FROM cards WHERE id = $1',
         [id]
     );
+};
+
+export const getCardById = async (id: string) => {
+    const card = await db.oneOrNone<ICard>(
+        `
+        SELECT *
+        FROM cards
+        WHERE ID = $1
+    `, [id]);
+
+    if (!card) {
+        throw new Error('Card not found');
+    }
+
+    return card;
 };

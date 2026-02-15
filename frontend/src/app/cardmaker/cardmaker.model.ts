@@ -1,5 +1,6 @@
 export interface Icard {
     id?: number;
+    card_art_url: string;
     image_url?: string;
     title: string;
     title_style: string;

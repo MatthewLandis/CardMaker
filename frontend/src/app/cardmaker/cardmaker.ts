@@ -1,9 +1,10 @@
-import { Component, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, ViewChild, ElementRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import domtoimage from 'dom-to-image';
 import { CardService } from './cardmaker.service';
 import { Icard } from './cardmaker.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +12,20 @@ import { Icard } from './cardmaker.model';
   templateUrl: './cardmaker.html',
   styleUrl: './cardmaker.scss'
 })
-export class CardMaker {
+export class CardMaker implements OnInit {
   private service = inject(CardService);
+  private route = inject(ActivatedRoute);
+
   cardData: Icard = {
     image_url: '',
+    card_art_url: '',
     title: 'Dark Magician',
     title_style: 'Ultra-Rare',
     template: 'Normal',
     pendulum_template: false,
     level: 7,
-    rank: 0,
-    n_level: 0,
+    rank: 4,
+    n_level: 7,
     attribute: 'Dark',
     primary_type: 'Spellcaster',
     core_type: '',
@@ -82,6 +86,20 @@ export class CardMaker {
   effectTextLines = [6, 7, 8];
   effectMode: 6 | 7 | 8 = 6;
 
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      if (!params.has('id')) return;
+      const cardId = params.get('id');
+      this.service.getCardById(cardId).subscribe({
+        next: (card: Icard) => {
+          this.cardData = card;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+    });
+  }
 
   adjustEffectText(el: HTMLTextAreaElement) {
     const style = window.getComputedStyle(el);
@@ -99,12 +117,11 @@ export class CardMaker {
     this.linkArrows[arrow as keyof typeof this.linkArrows] =
       !this.linkArrows[arrow as keyof typeof this.linkArrows];
   }
-  imageUrl: string | null = null;
-  onImageSelected(event: Event): void {
+  onImageSelected(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => this.imageUrl = reader.result as string;
+      reader.onload = () => this.cardData.card_art_url = reader.result as string;
       reader.readAsDataURL(file);
     }
   }

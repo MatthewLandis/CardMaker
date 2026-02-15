@@ -1,10 +1,10 @@
 <div class="cardContainer">
   <section id="card">
     <!-- Card Art -->
-    @if (imageUrl) {
-      <img [src]="imageUrl" class="cardArt" />
+    @if (cardData.card_art_url) {
+      <img [src]="cardData.card_art_url" class="cardArt" />
     }
-    @if (!imageUrl) {
+    @if (!cardData.card_art_url) {
       <img src="assets/placeholderArt.jpg" class="cardArt" />
     }
     <img src="assets/CardTemplates/{{ cardData.template }}.png" />
@@ -15,18 +15,18 @@
       title="Toggle Pendulum Template"
     ></button>
     @if (cardData.pendulum_template) {
-      @if (imageUrl) {
-        <img [src]="imageUrl" class="cardArtPendulum" />
+      @if (cardData.card_art_url) {
+        <img [src]="cardData.card_art_url" class="cardArtPendulum" />
       }
-      @if (!imageUrl) {
+      @if (!cardData.card_art_url) {
         <img src="assets/placeholderArt.jpg" class="cardArtPendulum" />
       }
       <img
-        src="assets/CardTemplates/pendulumTemplates/pendulumShade/Pendulum{{
+        src="assets/CardTemplates/PendulumTemplates/PendulumShade/Pendulum{{
           cardData.template
         }}.png"
       />
-      <img src="assets/CardTemplates/pendulumTemplates/PendulumTemplate.png" />
+      <img src="assets/CardTemplates/PendulumTemplates/PendulumTemplate.png" />
       <input
         class="pendulumScale"
         style="left: 55px"
@@ -247,6 +247,9 @@
         text6Lines: effectMode === 6,
         text7Lines: effectMode === 7,
         text8Lines: effectMode === 8,
+      }"
+      [ngStyle]="{
+        'font-style': cardData.template === 'Normal' ? 'italic' : 'normal',
       }"
       [value]="cardData.effect_text"
       (input)="adjustEffectText(effectRender)"

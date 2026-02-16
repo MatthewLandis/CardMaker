@@ -59,7 +59,6 @@ export class CardMaker implements OnInit {
   coreTypes = ['Fusion', 'Ritual', 'Synchro', 'Dark Synchro', 'Xyz', 'Pendulum', 'Link'];
   abilityTypes = ['Gemini', 'Spirit', 'Toon', 'Union', 'Flip', 'Tuner'];
   lastTypes = ['Normal', 'Effect', 'Token'];
-
   linkArrows = {
     topLeft: false,
     top: false,
@@ -71,6 +70,11 @@ export class CardMaker implements OnInit {
     bottomRight: false,
   };
 
+  spellType = 'Normal';
+  trapType = 'Normal';
+  spellTypes = ['Normal', 'Quick-Play', 'Continuous', 'Equip', 'Field', 'Ritual'];
+  trapTypes = ['Normal', 'Continuous', 'Counter'];
+
   hoverLevel = 0;
   hoverRank = 0;
   hoverNLevel = 0;
@@ -80,7 +84,8 @@ export class CardMaker implements OnInit {
   templateDropdownVisible = false;
   primaryTypeDropdownVisible = false;
   abilityDropdownVisible = false;
-
+  spellTypeDropdownVisible = false;
+  trapTypeDropdownVisible = false;
 
   ///////////////////////////////////////////////////////////////////////////
   effectTextLines = [6, 7, 8];
@@ -148,6 +153,16 @@ export class CardMaker implements OnInit {
       this.cardData.ability_type = type;
     }
     this.abilityDropdownVisible = false;
+  }
+
+  selectSpellType(type: string) {
+    this.spellType = type;
+    this.spellTypeDropdownVisible = false;
+  }
+
+  selectTrapType(type: string) {
+    this.trapType = type;
+    this.trapTypeDropdownVisible = false;
   }
 
   selectTemplate(template: string) {

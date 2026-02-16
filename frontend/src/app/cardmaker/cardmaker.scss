@@ -620,7 +620,6 @@ button {
 
 .primaryTypeBtn {
   color: white;
-  font-size: 15pt;
   cursor: pointer;
   font-size: 20pt;
 
@@ -874,6 +873,43 @@ button {
 
 .generatePNGButton {
   background-color: var(--accent);
+}
+
+.spellTrapTypeDropdownBtn {
+  position: absolute;
+  top: 151px;
+  left: 399px;
+  height: 38px;
+  width: 328px;
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: var(--accent);
+  }
+}
+
+.spellTrapTypeDropdownGrid {
+  position: absolute;
+  bottom: 778px;
+  left: 587px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.5rem;
+  background-color: var(--background);
+  border: var(--accent) 2px solid;
+  z-index: 2;
+  transform-origin: bottom;
+}
+
+.spellTrapTypeDropdownGrid button {
+  color: white;
+  cursor: pointer;
+  font-size: 20pt;
+
+  &:hover {
+    background-color: var(--accent);
+  }
 }
 
 @media (min-width: 1300px) {

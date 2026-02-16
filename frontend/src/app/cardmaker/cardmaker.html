@@ -8,12 +8,19 @@
       <img src="assets/placeholderArt.jpg" class="cardArt" />
     }
     <img src="assets/CardTemplates/{{ cardData.template }}.png" />
-    <!-- Pendulum Template -->
-    <button
-      class="pendulumTemplateBtn"
-      (click)="cardData.pendulum_template = !cardData.pendulum_template"
-      title="Toggle Pendulum Template"
-    ></button>
+    @if (
+      cardData.template !== 'Spell' &&
+      cardData.template !== 'Trap' &&
+      cardData.template !== 'Legendary Dragon' &&
+      cardData.template !== 'Skill'
+    ) {
+      <!-- Pendulum Template -->
+      <button
+        class="pendulumTemplateBtn"
+        (click)="cardData.pendulum_template = !cardData.pendulum_template"
+        title="Toggle Pendulum Template"
+      ></button>
+    }
     @if (cardData.pendulum_template) {
       @if (cardData.card_art_url) {
         <img [src]="cardData.card_art_url" class="cardArtPendulum" />
@@ -45,51 +52,95 @@
         spellcheck="false"
       ></textarea>
     }
-    <!-- Attribute Display -->
-    <img src="assets/attributes/{{ cardData.attribute }}.png" alt="Attribute" />
-    <!-- Level/Rank Display -->
-    @if (cardData.template !== 'Link') {
-      @if (cardData.template !== 'Xyz' && cardData.template !== 'Dark Synchro') {
-        <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : cardData.level}.png`" />
+    @if (
+      cardData.template !== 'Spell' &&
+      cardData.template !== 'Trap' &&
+      cardData.template !== 'Legendary Dragon' &&
+      cardData.template !== 'Skill'
+    ) {
+      <!-- Attribute Display -->
+      <img src="assets/attributes/{{ cardData.attribute }}.png" alt="Attribute" />
+      <!-- Level/Rank Display -->
+      @if (cardData.template !== 'Link') {
+        @if (cardData.template !== 'Xyz' && cardData.template !== 'Dark Synchro') {
+          <img [src]="`assets/levels/level${hoverLevel !== 0 ? hoverLevel : cardData.level}.png`" />
+        }
+        @if (cardData.template === 'Dark Synchro') {
+          <img
+            [src]="
+              `assets/negativeLevels/nLevel${hoverNLevel !== 0 ? hoverNLevel : cardData.n_level}.png`
+            "
+          />
+        }
+        @if (cardData.template === 'Xyz') {
+          <img [src]="`assets/ranks/rank${hoverRank !== 0 ? hoverRank : cardData.rank}.png`" />
+        }
       }
-      @if (cardData.template === 'Dark Synchro') {
-        <img
-          [src]="
-            `assets/negativeLevels/nLevel${hoverNLevel !== 0 ? hoverNLevel : cardData.n_level}.png`
-          "
-        />
-      }
-      @if (cardData.template === 'Xyz') {
-        <img [src]="`assets/ranks/rank${hoverRank !== 0 ? hoverRank : cardData.rank}.png`" />
+      <!-- Link Arrows Display-->
+      @if (cardData.template === 'Link') {
+        @if (linkArrows.topLeft) {
+          <img src="assets/linkArrows/topLeft.png" />
+        }
+        @if (linkArrows.top) {
+          <img src="assets/linkArrows/top.png" />
+        }
+        @if (linkArrows.topRight) {
+          <img src="assets/linkArrows/topRight.png" />
+        }
+        @if (linkArrows.left) {
+          <img src="assets/linkArrows/left.png" />
+        }
+        @if (linkArrows.right) {
+          <img src="assets/linkArrows/right.png" />
+        }
+        @if (linkArrows.bottomLeft) {
+          <img src="assets/linkArrows/bottomLeft.png" />
+        }
+        @if (linkArrows.bottom) {
+          <img src="assets/linkArrows/bottom.png" />
+        }
+        @if (linkArrows.bottomRight) {
+          <img src="assets/linkArrows/bottomRight.png" />
+        }
       }
     }
-    <!-- Link Arrows Display-->
-    @if (cardData.template === 'Link') {
-      @if (linkArrows.topLeft) {
-        <img src="assets/linkArrows/topLeft.png" />
-      }
-      @if (linkArrows.top) {
-        <img src="assets/linkArrows/top.png" />
-      }
-      @if (linkArrows.topRight) {
-        <img src="assets/linkArrows/topRight.png" />
-      }
-      @if (linkArrows.left) {
-        <img src="assets/linkArrows/left.png" />
-      }
-      @if (linkArrows.right) {
-        <img src="assets/linkArrows/right.png" />
-      }
-      @if (linkArrows.bottomLeft) {
-        <img src="assets/linkArrows/bottomLeft.png" />
-      }
-      @if (linkArrows.bottom) {
-        <img src="assets/linkArrows/bottom.png" />
-      }
-      @if (linkArrows.bottomRight) {
-        <img src="assets/linkArrows/bottomRight.png" />
+
+    @if (cardData.template === 'Trap') {
+      <img src="assets/trapTypes/{{ trapType }}.png" />
+      <button
+        class="spellTrapTypeDropdownBtn"
+        (click)="trapTypeDropdownVisible = !trapTypeDropdownVisible"
+        title="Change Trap Type"
+      ></button>
+      @if (trapTypeDropdownVisible) {
+        <div class="spellTrapTypeDropdownGrid">
+          @for (i of trapTypes; track $index) {
+            @if (trapType !== i) {
+              <button (click)="selectTrapType(i)">{{ i }}</button>
+            }
+          }
+        </div>
       }
     }
+
+    @if (cardData.template === 'Spell') {
+      <img src="assets/spellTypes/{{ spellType }}.png" />
+      <button
+        class="spellTrapTypeDropdownBtn"
+        (click)="spellTypeDropdownVisible = !spellTypeDropdownVisible"
+        title="Change Spell Type"
+      ></button>
+      @if (spellTypeDropdownVisible) {
+        <div class="spellTrapTypeDropdownGrid">
+          @for (i of spellTypes; track $index) {
+            @if (spellType !== i) {
+              <button (click)="selectSpellType(i)">{{ i }}</button>
+            }
+          }
+        </div>
+      }
+    }
+
     <!-- Template -->
     <button
       class="templateBtn"
@@ -105,71 +156,76 @@
         }
       </div>
     }
-
-    @if (cardData.template !== 'Link') {
-      <!-- Level -->
-      @if (cardData.template !== 'Xyz' && cardData.template !== 'Dark Synchro') {
-        <div class="levelBtns">
-          @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
-            <button
-              class="levelBtn{{ i }}"
-              (mouseenter)="hoverLevel = i"
-              (mouseleave)="hoverLevel = 0"
-              (click)="cardData.level = i; hoverLevel = 0"
-              title="Change Level"
-            >
-              {{ i }}
-            </button>
-          }
-        </div>
-      }
-      @if (cardData.template === 'Dark Synchro') {
-        <div class="nlevelBtns">
-          @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
-            <button
-              class="nlevelBtn{{ i }}"
-              (mouseenter)="hoverNLevel = i"
-              (mouseleave)="hoverNLevel = 0"
-              (click)="cardData.n_level = i; hoverNLevel = 0"
-              title="Change Negative Level"
-            >
-              {{ i }}
-            </button>
-          }
-        </div>
-      }
-      @if (cardData.template === 'Xyz') {
-        <div class="rankBtns">
-          @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
-            <button
-              class="rankBtn{{ i }}"
-              (mouseenter)="hoverRank = i"
-              (mouseleave)="hoverRank = 0"
-              (click)="cardData.rank = i; hoverRank = 0"
-              title="Change Rank"
-            >
-              {{ i }}
-            </button>
-          }
-        </div>
-      }
-    }
-    <!-- Attribute -->
-    <button
-      class="attributeDropdownBtn"
-      (click)="attributeDropdownVisible = !attributeDropdownVisible"
-      title="Change Attribute"
-    ></button>
-    @if (attributeDropdownVisible) {
-      <div class="attributeDropdownGrid">
-        @for (i of attributes; track $index) {
-          @if (cardData.attribute !== i) {
-            <button class="attributeBtn{{ i }}" (click)="selectAttribute(i)"></button>
-          }
+    @if (
+      cardData.template !== 'Spell' &&
+      cardData.template !== 'Trap' &&
+      cardData.template !== 'Legendary Dragon' &&
+      cardData.template !== 'Skill'
+    ) {
+      @if (cardData.template !== 'Link') {
+        <!-- Level -->
+        @if (cardData.template !== 'Xyz' && cardData.template !== 'Dark Synchro') {
+          <div class="levelBtns">
+            @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
+              <button
+                class="levelBtn{{ i }}"
+                (mouseenter)="hoverLevel = i"
+                (mouseleave)="hoverLevel = 0"
+                (click)="cardData.level = i; hoverLevel = 0"
+                title="Change Level"
+              >
+                {{ i }}
+              </button>
+            }
+          </div>
         }
-      </div>
+        @if (cardData.template === 'Dark Synchro') {
+          <div class="nlevelBtns">
+            @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
+              <button
+                class="nlevelBtn{{ i }}"
+                (mouseenter)="hoverNLevel = i"
+                (mouseleave)="hoverNLevel = 0"
+                (click)="cardData.n_level = i; hoverNLevel = 0"
+                title="Change Negative Level"
+              >
+                {{ i }}
+              </button>
+            }
+          </div>
+        }
+        @if (cardData.template === 'Xyz') {
+          <div class="rankBtns">
+            @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track $index) {
+              <button
+                class="rankBtn{{ i }}"
+                (mouseenter)="hoverRank = i"
+                (mouseleave)="hoverRank = 0"
+                (click)="cardData.rank = i; hoverRank = 0"
+                title="Change Rank"
+              >
+                {{ i }}
+              </button>
+            }
+          </div>
+        }
+      }
+      <!-- Attribute -->
+      <button
+        class="attributeDropdownBtn"
+        (click)="attributeDropdownVisible = !attributeDropdownVisible"
+        title="Change Attribute"
+      ></button>
+      @if (attributeDropdownVisible) {
+        <div class="attributeDropdownGrid">
+          @for (i of attributes; track $index) {
+            @if (cardData.attribute !== i) {
+              <button class="attributeBtn{{ i }}" (click)="selectAttribute(i)"></button>
+            }
+          }
+        </div>
+      }
     }
-
     <!-- Name -->
     <input
       #nameInput
@@ -179,6 +235,7 @@
       spellcheck="false"
       title="Name"
     />
+
     <button
       class="nameDropdownBtn"
       (click)="this.nameDropdownVisible = !this.nameDropdownVisible"
@@ -191,80 +248,91 @@
         }
       </div>
     }
-    <!-- Monster Type -->
-    <div class="type" #typeBox (click)="adjustTypeValue(typeBox)">
-      <span class="bracket">[</span>
-      <span
-        class="primaryTypeSpan"
-        (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible"
-        title="Change Primary Monster Type"
-        >{{ cardData.primary_type }}</span
-      >
-      @if (coreTypes.includes(cardData.core_type)) {
-        <span class="slash">/</span>
-        <span>{{ cardData.core_type }}</span>
-      }
-      @if (cardData.pendulum_template) {
-        <span class="slash">/</span>
-        <span>Pendulum</span>
-      }
-      @if (cardData.ability_type) {
-        <span class="slash">/</span>
-        <span>{{ cardData.ability_type }}</span>
-      }
-      @if (cardData.last_type) {
+    @if (
+      cardData.template !== 'Spell' &&
+      cardData.template !== 'Trap' &&
+      cardData.template !== 'Legendary Dragon' &&
+      cardData.template !== 'Skill'
+    ) {
+      <!-- Monster Type -->
+      <div class="type" #typeBox (click)="adjustTypeValue(typeBox)">
+        <span class="bracket">[</span>
         <span
-          class="slash abilityTypeSpan"
-          (click)="this.abilityDropdownVisible = !this.abilityDropdownVisible"
-          title="Change Ability Monster Type"
-          >/</span
+          class="primaryTypeSpan"
+          (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible"
+          title="Change Primary Monster Type"
+          >{{ cardData.primary_type }}</span
         >
-        <span>{{ cardData.last_type }}</span>
+        @if (coreTypes.includes(cardData.core_type)) {
+          <span class="slash">/</span>
+          <span>{{ cardData.core_type }}</span>
+        }
+        @if (cardData.pendulum_template) {
+          <span class="slash">/</span>
+          <span>Pendulum</span>
+        }
+        @if (cardData.ability_type) {
+          <span class="slash">/</span>
+          <span>{{ cardData.ability_type }}</span>
+        }
+        @if (cardData.last_type) {
+          <span
+            class="slash abilityTypeSpan"
+            (click)="this.abilityDropdownVisible = !this.abilityDropdownVisible"
+            title="Change Ability Monster Type"
+            >/</span
+          >
+          <span>{{ cardData.last_type }}</span>
+        }
+        <span class="bracket">]</span>
+      </div>
+      <!-- Monster Type Dropdowns -->
+      @if (primaryTypeDropdownVisible) {
+        <div class="primaryTypeDropdownGrid">
+          @for (i of primaryTypes; track $index) {
+            <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{ i }}</button>
+          }
+        </div>
       }
-      <span class="bracket">]</span>
-    </div>
-    <!-- Monster Type Dropdowns -->
-    @if (primaryTypeDropdownVisible) {
-      <div class="primaryTypeDropdownGrid">
-        @for (i of primaryTypes; track $index) {
-          <button class="primaryTypeBtn" (click)="selectPrimaryType(i)">{{ i }}</button>
-        }
-      </div>
-    }
-    @if (abilityDropdownVisible) {
-      <div class="primaryTypeDropdownGrid">
-        @for (i of abilityTypes; track $index) {
-          <button class="primaryTypeBtn" (click)="selectAbilityType(i)">{{ i }}</button>
-        }
-      </div>
-    }
+      @if (abilityDropdownVisible) {
+        <div class="primaryTypeDropdownGrid">
+          @for (i of abilityTypes; track $index) {
+            <button class="primaryTypeBtn" (click)="selectAbilityType(i)">{{ i }}</button>
+          }
+        </div>
+      }
 
-    <!-- Text -->
-    <textarea
-      class="effectText"
-      #effectRender
-      [ngClass]="{
-        text6Lines: effectMode === 6,
-        text7Lines: effectMode === 7,
-        text8Lines: effectMode === 8,
-      }"
-      [ngStyle]="{
-        'font-style': cardData.template === 'Normal' ? 'italic' : 'normal',
-      }"
-      [value]="cardData.effect_text"
-      (input)="adjustEffectText(effectRender)"
-      spellcheck="false"
-    >
-    </textarea>
+      <!-- Text -->
+      <textarea
+        class="effectText"
+        #effectRender
+        [ngClass]="{
+          text6Lines: effectMode === 6,
+          text7Lines: effectMode === 7,
+          text8Lines: effectMode === 8,
+        }"
+        [ngStyle]="{
+          'font-style': cardData.template === 'Normal' ? 'italic' : 'normal',
+        }"
+        [value]="cardData.effect_text"
+        (input)="adjustEffectText(effectRender)"
+        spellcheck="false"
+      >
+      </textarea>
 
-    <input #atkInput class="atk" [value]="cardData.atk" (input)="adjustAtkDefValue(atkInput)" />
-    @if (cardData.template != 'Link') {
-      <input #defInput class="def" [value]="cardData.def" (input)="adjustAtkDefValue(defInput)" />
+      <input #atkInput class="atk" [value]="cardData.atk" (input)="adjustAtkDefValue(atkInput)" />
+      @if (cardData.template != 'Link') {
+        <input #defInput class="def" [value]="cardData.def" (input)="adjustAtkDefValue(defInput)" />
+      }
+      @if (cardData.template === 'Link') {
+        <input
+          class="linkRating"
+          type="number"
+          [value]="cardData.link_rating"
+          title="Link Rating"
+        />
+      }
     }
-    @if (cardData.template === 'Link') {
-      <input class="linkRating" type="number" [value]="cardData.link_rating" title="Link Rating" />
-    }
-
     <!-- Link Arrow Buttons -->
     @if (cardData.template === 'Link') {
       <button class="link-arrow-btn1" (click)="toggleLinkArrow('topLeft')"></button>

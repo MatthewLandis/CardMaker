@@ -6,9 +6,7 @@ h1 {
 }
 
 span {
-  font-style: italic;
   color: var(--hover);
-  padding-right: 10px;
 }
 
 .navbar {
@@ -17,12 +15,13 @@ span {
   justify-content: center;
   gap: 2rem;
   padding: 1rem;
-  background: #222;
+  background: #fdf5e8;
+  font-weight: bold;
   border-bottom: 2px solid var(--hover);
 }
 
 .navbar a {
-  font-size: 20pt;
+  font-size: 24pt;
   color: var(--text);
   text-decoration: none;
   transition:
@@ -31,10 +30,10 @@ span {
   border-bottom: 2px solid transparent;
 
   &:hover {
-    color: #4da3ff;
+    color: #c4b5a1;
   }
 }
 
 .navbar a.active {
-  border-bottom: 2px solid #4da3ff;
+  border-bottom: 2px solid var(--hover);
 }

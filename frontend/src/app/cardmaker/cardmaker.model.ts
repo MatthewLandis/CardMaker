@@ -20,7 +20,7 @@ export interface Icard {
     link_rating?: number;
     atk: number;
     def?: number;
-    link_arrows?: IlinkArrows;
+    link_arrows: IlinkArrows;
 }
 
 export interface IlinkArrows {

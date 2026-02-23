@@ -51,7 +51,7 @@ export class CardMaker implements OnInit {
 
   templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Link',
     'Token', 'Slifer', 'Obelisk', 'Ra', 'Legendary Dragon', 'Dark Synchro', 'Skill', 'Spell', 'Trap'];
-  titleStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skill'];
+  titleStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skills'];
   attributes = ['Dark', 'Light', 'Earth', 'Water', 'Fire', 'Wind', 'Divine'];
   primaryTypes = ['Aqua', 'Beast', 'Beast-Warrior', 'Creator God', 'Cyberse', 'Dinosaur', 'Divine-Beast', 'Dragon',
     'Fairy', 'Fiend', 'Fish', 'Insect', 'Illusion', 'Machine', 'Plant', 'Psychic', 'Pyro', 'Reptile',
@@ -59,16 +59,6 @@ export class CardMaker implements OnInit {
   coreTypes = ['Fusion', 'Ritual', 'Synchro', 'Dark Synchro', 'Xyz', 'Pendulum', 'Link'];
   abilityTypes = ['Gemini', 'Spirit', 'Toon', 'Union', 'Flip', 'Tuner'];
   lastTypes = ['Normal', 'Effect', 'Token'];
-  linkArrows = {
-    topLeft: false,
-    top: false,
-    topRight: false,
-    left: false,
-    right: false,
-    bottomLeft: false,
-    bottom: false,
-    bottomRight: false,
-  };
 
   spellType = 'Normal';
   trapType = 'Normal';
@@ -87,10 +77,8 @@ export class CardMaker implements OnInit {
   spellTypeDropdownVisible = false;
   trapTypeDropdownVisible = false;
 
+  showHelp = false;
   ///////////////////////////////////////////////////////////////////////////
-  effectTextLines = [6, 7, 8];
-  effectMode: 6 | 7 | 8 = 6;
-
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       if (!params.has('id')) return;
@@ -98,6 +86,7 @@ export class CardMaker implements OnInit {
       this.service.getCardById(cardId).subscribe({
         next: (card: Icard) => {
           this.cardData = card;
+          this.adjustNameScale();
         },
         error: (err) => {
           console.error(err);
@@ -106,22 +95,19 @@ export class CardMaker implements OnInit {
     });
   }
 
+  effectTextLines = [6, 7, 8];
+  effectMode: 6 | 7 | 8 = 6;
+  scale = 1;
+  n = 0;
   adjustEffectText(el: HTMLTextAreaElement) {
     const style = window.getComputedStyle(el);
-    const fontSize = parseFloat(style.fontSize);
-    const fontFamily = style.fontFamily;
-    this.ctx.font = `${fontSize}px ${fontFamily}`;
-    const textWidth = this.ctx.measureText(el.value).width;
-    console.log(textWidth)
-    if (textWidth <= 3905 && this.effectMode == 6) this.effectMode = 6
-    else if (textWidth <= 3905 && this.effectMode == 7) this.effectMode = 7
-    else if (textWidth > 3905) this.effectMode = 8
+
   }
   /////////////////////////////////////////////////////////////////////////////
-  toggleLinkArrow(arrow: string) {
-    this.linkArrows[arrow as keyof typeof this.linkArrows] =
-      !this.linkArrows[arrow as keyof typeof this.linkArrows];
+  toggleLinkArrow(arrow: keyof typeof this.cardData.link_arrows) {
+    this.cardData.link_arrows[arrow] = !this.cardData.link_arrows[arrow];
   }
+
   onImageSelected(event: Event) {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
@@ -144,6 +130,9 @@ export class CardMaker implements OnInit {
   selectPrimaryType(type: string) {
     this.cardData.primary_type = type;
     this.primaryTypeDropdownVisible = false;
+    setTimeout(() => {
+      this.adjustTypeValue(this.typeBox.nativeElement);
+    });
   }
 
   selectAbilityType(type: string) {
@@ -152,7 +141,13 @@ export class CardMaker implements OnInit {
     } else {
       this.cardData.ability_type = type;
     }
+
     this.abilityDropdownVisible = false;
+
+    // Wait for DOM update, THEN measure
+    setTimeout(() => {
+      this.adjustTypeValue(this.typeBox.nativeElement);
+    });
   }
 
   selectSpellType(type: string) {
@@ -170,6 +165,20 @@ export class CardMaker implements OnInit {
     this.cardData.core_type = template;
     this.qualityOfLife();
     this.templateDropdownVisible = false;
+    setTimeout(() => {
+      this.adjustTypeValue(this.typeBox.nativeElement);
+    });
+  }
+  togglePendulum() {
+    this.cardData.pendulum_template = !this.cardData.pendulum_template;
+
+    // Wait for DOM to update, then measure
+    setTimeout(() => {
+      this.adjustTypeValue(this.typeBox.nativeElement);
+    });
+  }
+  toggleAbilityDropdown() {
+    this.abilityDropdownVisible = !this.abilityDropdownVisible;
   }
 
   qualityOfLife() {
@@ -189,42 +198,43 @@ export class CardMaker implements OnInit {
   @ViewChild('nameInput', { static: true }) nameInput!: ElementRef<HTMLInputElement>;
   private ctx!: CanvasRenderingContext2D;
 
-  @ViewChild('typeBox', { static: true }) typeBox!: ElementRef<HTMLDivElement>;
-
-  ngAfterViewChecked() {
-    this.adjustTypeValue(this.typeBox.nativeElement);
-  }
+  @ViewChild('typeBox') typeBox!: ElementRef<HTMLDivElement>;
 
   ngAfterViewInit() {
     const canvas = document.createElement('canvas');
     this.ctx = canvas.getContext('2d')!;
+    this.adjustTypeValue(this.typeBox.nativeElement);
 
-    // Scale ATK on load
-    const atkEl = document.querySelector('.atk') as HTMLInputElement;
-    if (atkEl) this.adjustAtkDefValue(atkEl);
+    document.fonts.ready.then(() => {
 
-    // Scale DEF on load (if it exists)
-    const defEl = document.querySelector('.def') as HTMLInputElement;
-    if (defEl) this.adjustAtkDefValue(defEl);
+      const atkEl = document.querySelector('.atk') as HTMLInputElement;
+      if (atkEl) this.adjustAtkDefValue(atkEl);
 
-    const typeEl = document.querySelector('.type') as HTMLElement;
-    if (typeEl) this.adjustTypeValue(typeEl);
+      const defEl = document.querySelector('.def') as HTMLInputElement;
+      if (defEl) this.adjustAtkDefValue(defEl);
+
+      const typeEl = document.querySelector('.type') as HTMLElement;
+      if (typeEl) this.adjustTypeValue(typeEl);
+    });
   }
 
   adjustNameScale() {
-    const el = this.nameInput.nativeElement;
-    const style = window.getComputedStyle(el);
-    const fontSize = parseFloat(style.fontSize);
-    const fontFamily = style.fontFamily;
-    const letterSpacing = parseFloat(style.letterSpacing || '0');
-    this.ctx.font = `${fontSize}px ${fontFamily}`;
-    const textWidth = this.ctx.measureText(el.value).width;
-    const extraSpacing = letterSpacing * el.value.length;
-    const totalTextWidth = textWidth + extraSpacing;
-    const boxWidth = 616;
-    const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
-    el.style.transform = `scaleX(${scale})`;
-    el.style.width = `${616 / scale}px`;
+    setTimeout(() => {
+      const el = this.nameInput.nativeElement;
+      const style = window.getComputedStyle(el);
+      const fontSize = parseFloat(style.fontSize);
+      const fontFamily = style.fontFamily;
+      const letterSpacing = parseFloat(style.letterSpacing || '0');
+      this.ctx.font = `${fontSize}px ${fontFamily}`;
+      const textWidth = this.ctx.measureText(el.value).width;
+      const extraSpacing = letterSpacing * el.value.length;
+      const totalTextWidth = textWidth + extraSpacing;
+      const boxWidth = 610;
+      const scale = totalTextWidth > boxWidth ? boxWidth / totalTextWidth : 1;
+      el.style.transform = `scaleX(${scale})`;
+      el.style.width = `${610 / scale}px`;
+
+    }, 1);
   }
 
   adjustAtkDefValue(el: HTMLInputElement) {
@@ -277,5 +287,9 @@ export class CardMaker implements OnInit {
           },
         });
       });
+  }
+
+  previewCard() {
+
   }
 }

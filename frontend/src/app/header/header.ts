@@ -9,4 +9,16 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Header {
 
+  userLogin = false;
+  showLogin = false;
+  showRegister = false;
+
+  register() {
+  }
+
+  login() {
+  }
+
+  logout() {
+  }
 }

@@ -1,7 +1,72 @@
 <nav class="navbar">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+    >Card Maker</a
+  >
   <h1><span>Yu-Gi-Oh! </span>Card Maker</h1>
-  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    Card Maker
-  </a>
-  <a routerLink="/cardCatalog" routerLinkActive="active"> Card Catalog </a>
+  <a routerLink="/cardCatalog" routerLinkActive="active">Card Catalog</a>
+  <div class="loginDisplay">
+    <div class="registerButton">
+      <button (click)="register()" (click)="showRegister = !showRegister">
+        Register<i class="bx bx-chevron-up"></i>
+      </button>
+    </div>
+    @if (!userLogin) {
+      <div class="loginButton">
+        <button (click)="login()" (click)="showLogin = !showLogin">
+          Login<i class="bx bx-chevron-up"></i>
+        </button>
+      </div>
+      @if (showLogin) {
+        <section class="loginTemplate">
+          <div class="icon">
+            <i class="bx bxs-user"></i>
+            <span class="circle"></span>
+          </div>
+          <h2>Sign in</h2>
+          <div class="loginInfo">
+            <div class="inputs">
+              <i class="bx bxs-user"></i>
+              <input placeholder="Username" spellcheck="false" />
+            </div>
+            <div class="inputs">
+              <i class="bx bxs-lock"></i>
+              <input placeholder="Password" spellcheck="false" />
+            </div>
+          </div>
+          <div class="under">
+            <div style="display: flex">
+              <input type="checkbox" />
+              <p>Remember me</p>
+            </div>
+            <p>Forgot password?</p>
+          </div>
+          <button>Login</button>
+          <span>Don't have an account? <i (click)="register()">Register now</i></span>
+        </section>
+      }
+    }
+    @if (userLogin) {
+      <button class="loginButton" (click)="logout()">Logout</button>
+    }
+  </div>
+  @if (showRegister) {
+    <section class="registerTemplate">
+      <div class="icon">
+        <i class="bx bxs-user"></i>
+        <span class="circle"></span>
+      </div>
+      <h2>Register</h2>
+      <div class="loginInfo">
+        <div class="inputs">
+          <i class="bx bxs-user"></i>
+          <input placeholder="Username" spellcheck="false" required />
+        </div>
+        <div class="inputs">
+          <i class="bx bxs-lock"></i>
+          <input placeholder="Password" spellcheck="false" required />
+        </div>
+      </div>
+      <button (click)="register()">Register now</button>
+    </section>
+  }
 </nav>

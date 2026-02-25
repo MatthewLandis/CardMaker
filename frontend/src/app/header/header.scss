@@ -1,12 +1,17 @@
 h1 {
-  font-size: 30pt;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  left: 10px;
+  font-size: 28pt;
   color: var(--text);
-  padding-right: 2rem;
-  border-right: 2px solid var(--hover);
 }
 
 span {
   color: var(--hover);
+  font-style: italic;
 }
 
 .navbar {
@@ -15,25 +20,179 @@ span {
   justify-content: center;
   gap: 2rem;
   padding: 1rem;
+  height: 5.5rem;
   background: #fdf5e8;
   font-weight: bold;
   border-bottom: 2px solid var(--hover);
 }
 
 .navbar a {
-  font-size: 24pt;
+  font-size: 28pt;
   color: var(--text);
   text-decoration: none;
   transition:
     color 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.5s ease;
   border-bottom: 2px solid transparent;
 
   &:hover {
     color: #c4b5a1;
   }
 }
-
 .navbar a.active {
   border-bottom: 2px solid var(--hover);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginTemplate {
+  color: var(--text);
+  position: absolute;
+  top: 67px;
+  right: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 24rem;
+  padding: 1rem;
+  width: 20rem;
+  border: var(--hover) solid 2px;
+  background-color: var(--background);
+  z-index: 100;
+  box-shadow: 1rem var(--text);
+}
+
+.registerTemplate {
+  color: var(--text);
+  position: absolute;
+  top: 86px;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 20rem;
+  padding: 1rem;
+  width: 20rem;
+  border: var(--hover) solid 2px;
+  background-color: var(--background);
+  z-index: 100;
+  box-shadow: 1rem var(--text);
+}
+
+.loginTemplate button,
+.registerTemplate button {
+  min-width: 5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.loginTemplate span i {
+  color: var(--hover);
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.loginTemplate p {
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.loginTemplate span {
+  color: var(--text);
+}
+
+.loginInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+input[type='checkbox'] {
+  accent-color: var(--hover);
+}
+.under {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.under input {
+  margin-right: 5px;
+}
+
+.icon .circle {
+  display: flex;
+  top: 0;
+  left: 0;
+  border: solid 2px var(--hover);
+  border-radius: 100%;
+  height: 5rem;
+  width: 5rem;
+}
+
+.icon i {
+  position: absolute;
+  top: 36px;
+  left: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
+  color: var(--hover);
+}
+
+.inputs {
+  border-bottom: 2px solid var(--hover);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+}
+.inputs i {
+  font-size: 20pt;
+  color: var(--hover);
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 15pt;
+}
+
+.loginDisplay {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loginButton button,
+.registerButton button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  min-width: 7rem;
+  font-size: 20pt;
+  padding: 0.5rem;
+  font-family: 'Times New Roman';
+  font-weight: bold;
+  transition: color 0.2s ease;
+  &:hover {
+    color: #c4b5a1;
+  }
+}
+.registerButton button {
+  background-color: var(--accent);
 }

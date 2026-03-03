@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { db } from './db.js';
 import { ICard } from './model.js';
+import jwt from 'jsonwebtoken';
 
 export const getCards = async () => {
     const cards = await db.any<ICard>(
@@ -109,4 +110,22 @@ export const getCardById = async (id: string) => {
     }
 
     return card;
+};
+
+export async function register(username: string, password: string) {
+    const result = await db.result(
+        `
+        INSERT INTO users (username, password)
+        VALUES ($1, $2);
+        `,
+        [username, password]
+    );
+
+    if (result.rowCount != 1) {
+        throw new Error("Stupid error hapend you are a cranky master! :D")
+    }
+
+    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
+
+    return token;
 };

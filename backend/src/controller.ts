@@ -44,3 +44,13 @@ export const getCardById = async (req: Request<{ id: string }>, res: Response<IC
         next(error);
     }
 };
+
+export async function register(req: Request<{ username: string; password: string }>, res: Response<string>, next: NextFunction) {
+    try {
+        const token: string = await service.register(req.body.username, req.body.password);
+
+        res.status(200).json(token);
+    } catch (error) {
+        next(error);
+    }
+};

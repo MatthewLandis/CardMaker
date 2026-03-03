@@ -20,4 +20,8 @@ export class CardService {
     public getCardById(cardId: string | null): Observable<Icard> {
         return this.http.get<Icard>(`http://localhost:4000/api/card/${cardId}`);
     }
+
+    public register(username: string, password: string): Observable<string> {
+        return this.http.post<string>(`http://localhost:4000/api/register`, { username: username, password: password });
+    }
 }

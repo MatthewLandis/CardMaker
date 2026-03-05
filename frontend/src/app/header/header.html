@@ -2,76 +2,56 @@
   <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
     >Card Maker</a
   >
-  <h1><span>Yu-Gi-Oh! </span>Card Maker</h1>
   <a routerLink="/cardCatalog" routerLinkActive="active">Card Catalog</a>
+  <h1><span>Yu-Gi-Oh! </span>Card Maker</h1>
+  <a style="color: brown" title="coming soon">Deck Editor</a>
+  <a style="color: brown" title="coming soon">Deck Catalog</a>
   <div class="loginDisplay">
     @if (!authenticatedUser) {
       <div class="registerButton">
-        <button (click)="showRegister = !showRegister">
+        <button (click)="showRegister = !showRegister" (click)="showLogin = !showLogin">
           Register<i class="bx bx-chevron-up"></i>
         </button>
       </div>
       @if (!userLogin) {
         <div class="loginButton">
-          <button (click)="login()" (click)="showLogin = !showLogin">
-            Login<i class="bx bx-chevron-up"></i>
-          </button>
+          <button (click)="showLogin = !showLogin">Login<i class="bx bx-chevron-up"></i></button>
         </div>
         @if (showLogin) {
           <section class="loginTemplate">
-            <div class="icon">
-              <i class="bx bxs-user"></i>
-              <span class="circle"></span>
-            </div>
-            <h2>Sign in</h2>
+            @if (!showRegister) {
+              <h2>Sign in</h2>
+            } @else {
+              <h2>Register</h2>
+            }
             <div class="loginInfo">
               <div class="inputs">
                 <i class="bx bxs-user"></i>
-                <input placeholder="Username" spellcheck="false" />
+                <input placeholder="Username" [(ngModel)]="username" spellcheck="false" />
               </div>
               <div class="inputs">
                 <i class="bx bxs-lock"></i>
-                <input placeholder="Password" spellcheck="false" />
+                <input placeholder="Password" [(ngModel)]="password" spellcheck="false" />
               </div>
             </div>
-            <div class="under">
-              <div style="display: flex">
-                <input type="checkbox" />
-                <p>Remember me</p>
-              </div>
-              <p>Forgot password?</p>
-            </div>
-            <button>Login</button>
-            <span>Don't have an account? <i (click)="register()">Register now</i></span>
+            @if (!showRegister) {
+              <button (click)="login()">Login</button>
+            } @else {
+              <button (click)="register()">Register</button>
+            }
           </section>
         }
       }
-      @if (userLogin) {
-        <button class="loginButton" (click)="logout()">Logout</button>
-      }
     } @else {
-      <div>Logged in as: {{ authenticatedUser }}</div>
-      <button (click)="logout()">Logout</button>
+      <div class="log">{{ authenticatedUser }}</div>
+      <button class="logoutButton" (click)="logout()">Logout</button>
     }
   </div>
-  @if (showRegister) {
-    <section class="registerTemplate">
-      <div class="icon">
-        <i class="bx bxs-user"></i>
-        <span class="circle"></span>
-      </div>
-      <h2>Register</h2>
-      <div class="loginInfo">
-        <div class="inputs">
-          <i class="bx bxs-user"></i>
-          <input placeholder="Username" spellcheck="false" [(ngModel)]="username" required />
-        </div>
-        <div class="inputs">
-          <i class="bx bxs-lock"></i>
-          <input placeholder="Password" spellcheck="false" [(ngModel)]="password" required />
-        </div>
-      </div>
-      <button (click)="register()">Register now</button>
-    </section>
-  }
+  <div class="home-links">
+    <a href="https://www.linkedin.com/in/matthew-landis-885a02168/" title="Linkedin"
+      ><i class="bx bxl-linkedin"></i
+    ></a>
+    <a href="https://github.com/MatthewLandis" title="GitHub"><i class="bx bxl-github"></i></a>
+    <a href="mailto:Matthewlandis51@outlook.com" title="Mail"><i class="bx bx-envelope"></i></a>
+  </div>
 </nav>

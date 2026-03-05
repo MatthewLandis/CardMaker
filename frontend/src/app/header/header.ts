@@ -46,8 +46,17 @@ export class Header implements OnInit {
 
 
   login() {
-
-  }
+    this.service.login(this.username, this.password).subscribe({
+      next: (token: string) => {
+        localStorage.setItem('token', token);
+        window.location.reload();
+        this.authenticatedUser = this.username;
+      },
+      error: err => {
+        console.error(err);
+      },
+    });
+  };
 
   logout() {
     localStorage.removeItem('token');

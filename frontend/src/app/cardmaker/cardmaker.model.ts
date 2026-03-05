@@ -1,4 +1,5 @@
 export interface Icard {
+    username?: string;
     id?: number;
     card_art_url: string;
     image_url?: string;

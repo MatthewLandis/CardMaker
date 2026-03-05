@@ -1,19 +1,9 @@
 import 'dotenv/config';
-import { db } from './db.js';
-import { ICard } from './model.js';
+import { db } from '../db.js';
+import { ICard } from '../models/CardModel.js';
 import jwt from 'jsonwebtoken';
 
-export const getCards = async () => {
-    const cards = await db.any<ICard>(
-        `
-        SELECT *
-        FROM cards
-    `);
-
-    return cards;
-};
-
-export const saveCard = async (cardData: ICard) => {
+export async function saveCard(cardData: ICard, username: string) {
     await db.none(
         `
 INSERT INTO cards (
@@ -37,7 +27,8 @@ INSERT INTO cards (
     def,
     link_arrows,
     image_url,
-    card_art_url
+    card_art_url,
+    username
 )
 VALUES (
     $1,  -- title
@@ -60,7 +51,8 @@ VALUES (
     $18, -- def
     $19, -- link_arrows (JSONB)
     $20, -- image_url
-    $21  -- card_art_url
+    $21,  -- card_art_url,
+    $22 -- username
 )
 
     `, [
@@ -84,48 +76,48 @@ VALUES (
         cardData.def,
         JSON.stringify(cardData.link_arrows),
         cardData.image_url,
-        cardData.card_art_url
+        cardData.card_art_url,
+        username
     ]);
 
     return;
 };
 
-export const deleteCard = async (id: string) => {
+export async function deleteCard(id: string) {
     await db.none(
-        'DELETE FROM cards WHERE id = $1',
-        [id]
-    );
+        'DELETE FROM cards WHERE id = $1', [id]);
 };
 
-export const getCardById = async (id: string) => {
+export async function getCards(username: string) {
+    const cards = await db.any<ICard>(
+        `SELECT * FROM cards WHERE username = $1`, [username]);
+    return cards;
+};
+
+export async function getCardById(id: string) {
     const card = await db.oneOrNone<ICard>(
-        `
-        SELECT *
-        FROM cards
-        WHERE ID = $1
-    `, [id]);
+        `SELECT * FROM cards WHERE ID = $1`, [id]);
 
-    if (!card) {
-        throw new Error('Card not found');
-    }
-
+    if (!card) { throw new Error('Card not found'); }
     return card;
 };
 
 export async function register(username: string, password: string) {
     const result = await db.result(
-        `
-        INSERT INTO users (username, password)
-        VALUES ($1, $2);
-        `,
-        [username, password]
-    );
+        `INSERT INTO users (username, password) VALUES ($1, $2);`, [username, password]);
 
-    if (result.rowCount != 1) {
-        throw new Error("Stupid error hapend you are a cranky master! :D")
-    }
+    if (result.rowCount != 1) { throw new Error("Stupid freak! :D") }
 
     const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
+    return token;
+};
 
+export async function login(username: string, password: string) {
+    const result = await db.result(
+        `SELECT * FROM users WHERE username = $1 AND password = $2;`, [username, password]);
+
+    if (result.rowCount != 1) { throw new Error("you got the wrong stuff :D") }
+
+    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
     return token;
 };

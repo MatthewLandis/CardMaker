@@ -10,7 +10,13 @@ export class CardCatalogService {
     private http = inject(HttpClient);
 
     public getCards(): Observable<Icard[]> {
-        return this.http.get<Icard[]>(`http://localhost:4000/api/cards`);
+        return this.http.get<Icard[]>(`http://localhost:4000/api/cards`,
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
     }
 
     public deleteCard(cardId: number | undefined): Observable<void> {

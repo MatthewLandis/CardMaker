@@ -17,6 +17,7 @@ export class CardMaker implements OnInit {
   private route = inject(ActivatedRoute);
 
   cardData: Icard = {
+    username: '',
     image_url: '',
     card_art_url: '',
     title: 'Dark Magician',
@@ -49,7 +50,7 @@ export class CardMaker implements OnInit {
     }
   }
 
-  templates = ['Normal', 'Effect', 'Fusion', 'Ritual', 'Synchro', 'Xyz', 'Link',
+  templates = ['Normal', 'Effect', 'Ritual', 'Fusion', 'Synchro', 'Xyz', 'Link',
     'Token', 'Slifer', 'Obelisk', 'Ra', 'Legendary Dragon', 'Dark Synchro', 'Skill', 'Spell', 'Trap'];
   titleStyles = ['Common', 'Rare', 'Secret-Rare', 'Ultra-Rare', 'Barian', 'Skills'];
   attributes = ['Dark', 'Light', 'Earth', 'Water', 'Fire', 'Wind', 'Divine'];
@@ -287,9 +288,5 @@ export class CardMaker implements OnInit {
           },
         });
       });
-  }
-
-  previewCard() {
-
   }
 }

@@ -9,12 +9,13 @@ import { Icard } from './cardmaker.model';
 export class CardService {
     private http = inject(HttpClient);
 
-    public getCards(): Observable<Icard[]> {
-        return this.http.get<Icard[]>(`http://localhost:4000/api/cards`);
-    }
-
     public saveCard(cardData: Icard): Observable<void> {
-        return this.http.post<void>(`http://localhost:4000/api/save`, cardData);
+        return this.http.post<void>(`http://localhost:4000/api/save`, cardData, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
     }
 
     public getCardById(cardId: string | null): Observable<Icard> {
@@ -23,5 +24,9 @@ export class CardService {
 
     public register(username: string, password: string): Observable<string> {
         return this.http.post<string>(`http://localhost:4000/api/register`, { username: username, password: password });
+    }
+
+    public login(username: string, password: string): Observable<string> {
+        return this.http.post<string>(`http://localhost:4000/api/login`, { username: username, password: password });
     }
 }

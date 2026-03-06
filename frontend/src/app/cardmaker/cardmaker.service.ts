@@ -19,7 +19,12 @@ export class CardService {
     }
 
     public getCardById(cardId: string | null): Observable<Icard> {
-        return this.http.get<Icard>(`http://localhost:4000/api/card/${cardId}`);
+        return this.http.get<Icard>(`http://localhost:4000/api/card/${cardId}`, {
+            withCredentials: true,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
     }
 
     public register(username: string, password: string): Observable<string> {

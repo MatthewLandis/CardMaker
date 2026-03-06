@@ -12,7 +12,6 @@ import { CardService } from '../cardmaker/cardmaker.service';
 export class Header implements OnInit {
   private service = inject(CardService);
 
-  userLogin = false;
   showLogin = false;
   showRegister = false;
 
@@ -22,19 +21,20 @@ export class Header implements OnInit {
   authenticatedUser = '';
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // Gets the token from the browsers local storage.
 
+    // Grabs the payload portion of the jwt and sets the username inside the payload equal to authenticatedUser
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]))
       this.authenticatedUser = payload.username;
     }
-
-    console.log(this.authenticatedUser)
   }
 
   register() {
+    // Calls the service function, passing in the username and password, and awaits a response.
     this.service.register(this.username, this.password).subscribe({
       next: (token: string) => {
+        // On a successful response, set the token in local storage
         localStorage.setItem('token', token);
         window.location.reload();
       },
@@ -50,7 +50,6 @@ export class Header implements OnInit {
       next: (token: string) => {
         localStorage.setItem('token', token);
         window.location.reload();
-        this.authenticatedUser = this.username;
       },
       error: err => {
         console.error(err);

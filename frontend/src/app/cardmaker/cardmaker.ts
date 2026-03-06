@@ -18,6 +18,7 @@ export class CardMaker implements OnInit {
 
   cardData: Icard = {
     username: '',
+    id: 0,
     image_url: '',
     card_art_url: '',
     title: 'Dark Magician',
@@ -82,11 +83,11 @@ export class CardMaker implements OnInit {
   ///////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      if (!params.has('id')) return;
+      if (!params.has('id')) return; // If id is not provided as a query parameter. Return and ignore below.
       const cardId = params.get('id');
-      this.service.getCardById(cardId).subscribe({
+      this.service.getCardById(cardId).subscribe({ // Makes an asynchronous call to the backend server to retrieve the card with the provided card ID.
         next: (card: Icard) => {
-          this.cardData = card;
+          this.cardData = card; // Replaces the default Dark Magician card data with that of the returned card.
           this.adjustNameScale();
         },
         error: (err) => {
@@ -100,10 +101,6 @@ export class CardMaker implements OnInit {
   effectMode: 6 | 7 | 8 = 6;
   scale = 1;
   n = 0;
-  adjustEffectText(el: HTMLTextAreaElement) {
-    const style = window.getComputedStyle(el);
-
-  }
   /////////////////////////////////////////////////////////////////////////////
   toggleLinkArrow(arrow: keyof typeof this.cardData.link_arrows) {
     this.cardData.link_arrows[arrow] = !this.cardData.link_arrows[arrow];

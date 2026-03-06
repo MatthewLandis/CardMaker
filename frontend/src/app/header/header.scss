@@ -123,6 +123,7 @@ span {
   font-weight: bold;
   border: 2px solid var(--accent);
   transition: color 0.2s ease;
+  cursor: pointer;
   &:hover {
     color: var(--accent);
   }

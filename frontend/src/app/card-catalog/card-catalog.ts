@@ -14,7 +14,7 @@ export class CardCatalog implements OnInit {
   private service = inject(CardCatalogService);
   private router = inject(Router);
 
-  public cards: Icard[] = [];
+  cards: Icard[] = [];
   selectedCard: Icard | null = null;
   cardSize = 1;
 

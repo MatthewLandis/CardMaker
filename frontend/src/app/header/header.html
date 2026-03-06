@@ -9,38 +9,38 @@
   <div class="loginDisplay">
     @if (!authenticatedUser) {
       <div class="registerButton">
-        <button (click)="showRegister = !showRegister" (click)="showLogin = !showLogin">
+        <button (click)="showRegister = !showRegister; showLogin = false">
           Register<i class="bx bx-chevron-up"></i>
         </button>
       </div>
-      @if (!userLogin) {
-        <div class="loginButton">
-          <button (click)="showLogin = !showLogin">Login<i class="bx bx-chevron-up"></i></button>
-        </div>
-        @if (showLogin) {
-          <section class="loginTemplate">
-            @if (!showRegister) {
-              <h2>Sign in</h2>
-            } @else {
-              <h2>Register</h2>
-            }
-            <div class="loginInfo">
-              <div class="inputs">
-                <i class="bx bxs-user"></i>
-                <input placeholder="Username" [(ngModel)]="username" spellcheck="false" />
-              </div>
-              <div class="inputs">
-                <i class="bx bxs-lock"></i>
-                <input placeholder="Password" [(ngModel)]="password" spellcheck="false" />
-              </div>
+      <div class="loginButton">
+        <button (click)="showRegister = false; showLogin = !showLogin">
+          Login<i class="bx bx-chevron-up"></i>
+        </button>
+      </div>
+      @if (showRegister || showLogin) {
+        <section class="loginTemplate">
+          @if (showLogin) {
+            <h2>Sign in</h2>
+          } @else {
+            <h2>Register</h2>
+          }
+          <div class="loginInfo">
+            <div class="inputs">
+              <i class="bx bxs-user"></i>
+              <input placeholder="Username" [(ngModel)]="username" spellcheck="false" />
             </div>
-            @if (!showRegister) {
-              <button (click)="login()">Login</button>
-            } @else {
-              <button (click)="register()">Register</button>
-            }
-          </section>
-        }
+            <div class="inputs">
+              <i class="bx bxs-lock"></i>
+              <input placeholder="Password" [(ngModel)]="password" spellcheck="false" />
+            </div>
+          </div>
+          @if (showLogin) {
+            <button (click)="login()">Login</button>
+          } @else {
+            <button (click)="register()">Register</button>
+          }
+        </section>
       }
     } @else {
       <div class="log">{{ authenticatedUser }}</div>

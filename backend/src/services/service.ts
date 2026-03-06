@@ -4,8 +4,10 @@ import { ICard } from '../models/CardModel.js';
 import jwt from 'jsonwebtoken';
 
 export async function saveCard(cardData: ICard, username: string) {
-    await db.none(
-        `
+    // Djas: db.none here previously indicated that nothing needs to be returned from the query.
+    // I'm changing it to db.result so that I can see the number of rows affected, and then throw an error if no rows were affected.
+    var queryResult = await db.result(
+    `
 INSERT INTO cards (
     title,
     title_style,
@@ -80,44 +82,52 @@ VALUES (
         username
     ]);
 
+    if (queryResult.rowCount !== 1) {
+        throw new Error('An error occured while inserting the card');
+    }
+
     return;
 };
 
 export async function deleteCard(id: string) {
-    await db.none(
-        'DELETE FROM cards WHERE id = $1', [id]);
+    await db.none('DELETE FROM cards WHERE id = $1', [id]); // Runs the query in the database and does not store its result in any way.
 };
 
 export async function getCards(username: string) {
-    const cards = await db.any<ICard>(
-        `SELECT * FROM cards WHERE username = $1`, [username]);
-    return cards;
+    // Runs the query in the database and stores the result into the variable cards
+    // db.any<ICard> below indicates that the query should return any amount of ICard fitting objects. Therefore the variable cards is of type ICard[]
+    const cards = await db.any<ICard>(`SELECT * FROM cards WHERE username = $1`, [username]);
+
+    return cards;  // Returns the cards back to the controller
 };
 
 export async function getCardById(id: string) {
-    const card = await db.oneOrNone<ICard>(
-        `SELECT * FROM cards WHERE ID = $1`, [id]);
+    // Runs the query in the database and stores the result into the variable card
+    // db.oneOrNone<ICard> below indicates that the query should return either one card or no card. Therefore, the variable card is of type ICard | null
+    const card = await db.oneOrNone<ICard>(`SELECT * FROM cards WHERE ID = $1`, [id]);
 
-    if (!card) { throw new Error('Card not found'); }
-    return card;
+    if (!card) { throw new Error('Card not found'); } // If no card is returned from the query, throw an error
+
+    return card; // Returns the card back to the controller
 };
 
 export async function register(username: string, password: string) {
-    const result = await db.result(
-        `INSERT INTO users (username, password) VALUES ($1, $2);`, [username, password]);
+    // Runs the query in the database and stores the result into the variable result
+    // db.result below indicates that the query should return some data pertaining to the result of the query execution. This is primarily to see how many rows were affected by the INSERT
+    const result = await db.result(`INSERT INTO users (username, password) VALUES ($1, $2);`, [username, password]);
 
-    if (result.rowCount != 1) { throw new Error("Stupid freak! :D") }
+    if (result.rowCount != 1) { throw new Error("Stupid freak! :D") } // If the did not insert 1 row, throw an error.
 
-    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
-    return token;
+    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' }); // Creates a jwt that includes the username in the payload
+    return token; // Returns the token to the controller
 };
 
 export async function login(username: string, password: string) {
-    const result = await db.result(
-        `SELECT * FROM users WHERE username = $1 AND password = $2;`, [username, password]);
+    const result = await db.result(`SELECT * FROM users WHERE username = $1 AND password = $2;`, [username, password]);
 
     if (result.rowCount != 1) { throw new Error("you got the wrong stuff :D") }
 
     const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
+    
     return token;
 };

@@ -20,6 +20,11 @@ export class CardCatalogService {
     }
 
     public deleteCard(cardId: number | undefined): Observable<void> {
-        return this.http.delete<void>(`http://localhost:4000/api/cards/${cardId}`);
+        return this.http.delete<void>(`http://localhost:4000/api/cards/${cardId}`, {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
     }
 }

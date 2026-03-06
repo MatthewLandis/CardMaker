@@ -1,6 +1,6 @@
 node_modules
 dist
-.angular/cache
+.angular
 .vscode/*
 !.vscode/tasks.json
 !.vscode/launch.json

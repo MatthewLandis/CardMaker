@@ -111,9 +111,9 @@ span {
   }
 }
 
-.loginButton button,
-.logoutButton,
-.registerButton button {
+.loginBtn,
+.logoutBtn,
+.registerBtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,7 +128,7 @@ span {
     color: var(--accent);
   }
 }
-.registerButton button {
+.registerBtn {
   background-color: var(--accent);
   border-radius: 0.5rem;
 }

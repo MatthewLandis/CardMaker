@@ -1,8 +1,8 @@
 export interface ICard {
-    username: string; // Djas: username should not be null. Every card should have a user tied to it.
+    username: string;
     id: number;
     card_art_url: string;
-    image_url: string; // Djas: image_url should not be null. Every card should have an image_url right? Maybe I'm wrong.
+    image_url: string;
     title: string;
     title_style: string;
     template: string;

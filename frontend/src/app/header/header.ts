@@ -12,8 +12,8 @@ import { CardService } from '../cardmaker/cardmaker.service';
 export class Header implements OnInit {
   private service = inject(CardService);
 
-  showLogin = false;
-  showRegister = false;
+  log = false;
+  reg = false;
 
   username = '';
   password = '';

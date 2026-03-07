@@ -8,19 +8,11 @@
   <a style="color: brown" title="coming soon">Deck Catalog</a>
   <div class="loginDisplay">
     @if (!authenticatedUser) {
-      <div class="registerButton">
-        <button (click)="showRegister = !showRegister; showLogin = false">
-          Register<i class="bx bx-chevron-up"></i>
-        </button>
-      </div>
-      <div class="loginButton">
-        <button (click)="showRegister = false; showLogin = !showLogin">
-          Login<i class="bx bx-chevron-up"></i>
-        </button>
-      </div>
-      @if (showRegister || showLogin) {
+      <button class="registerBtn" (click)="reg = !reg; log = false">Register</button>
+      <button class="loginBtn" (click)="reg = false; log = !log">Login</button>
+      @if (reg || log) {
         <section class="loginTemplate">
-          @if (showLogin) {
+          @if (log) {
             <h2>Sign in</h2>
           } @else {
             <h2>Register</h2>
@@ -35,7 +27,7 @@
               <input placeholder="Password" [(ngModel)]="password" spellcheck="false" />
             </div>
           </div>
-          @if (showLogin) {
+          @if (log) {
             <button (click)="login()">Login</button>
           } @else {
             <button (click)="register()">Register</button>
@@ -44,7 +36,7 @@
       }
     } @else {
       <div class="log">{{ authenticatedUser }}</div>
-      <button class="logoutButton" (click)="logout()">Logout</button>
+      <button class="logoutBtn" (click)="logout()">Logout</button>
     }
   </div>
   <div class="home-links">

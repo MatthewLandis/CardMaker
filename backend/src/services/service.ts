@@ -1,13 +1,13 @@
 import 'dotenv/config';
 import { db } from '../db.js';
-import { ICard } from '../models/CardModel.js';
+import { ICard } from '../models/cardModel.js';
 import jwt from 'jsonwebtoken';
 
 export async function saveCard(cardData: ICard, username: string) {
     // Djas: db.none here previously indicated that nothing needs to be returned from the query.
     // I'm changing it to db.result so that I can see the number of rows affected, and then throw an error if no rows were affected.
     var queryResult = await db.result(
-    `
+        `
 INSERT INTO cards (
     title,
     title_style,
@@ -128,6 +128,6 @@ export async function login(username: string, password: string) {
     if (result.rowCount != 1) { throw new Error("you got the wrong stuff :D") }
 
     const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
-    
+
     return token;
 };

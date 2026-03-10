@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://cardmaker-backend-production.up.railway.app/',
+  apiUrl: 'https://cardmaker-backend-production.up.railway.app',
 };

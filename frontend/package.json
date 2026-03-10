@@ -2,7 +2,7 @@
   "name": "card-maker-frontend",
   "scripts": {
     "ng": "ng",
-    "start": "npx serve -s dist/guessphrase-frontend/browser -l $PORT",
+    "start": "npx serve -s dist/CardMaker/browser -l $PORT",
     "start:dev": "ng serve",
     "build": "ng build --configuration production"
   },

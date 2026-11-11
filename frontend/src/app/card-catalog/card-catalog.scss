@@ -16,6 +16,12 @@ input {
   transform-origin: center;
 }
 
+.catalogMessage {
+  color: var(--text);
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .cardList {
   display: flex;
   padding: 1rem;

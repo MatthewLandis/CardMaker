@@ -1,30 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { HttpError } from './errorHandler.js';
 
-export const authorize = (req: Request, res: Response, next: NextFunction) => {
+export const authorize = (req: Request, _res: Response, next: NextFunction) => {
     try {
-        // Retreive the authheader from the req object
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-            throw new Error('An authentication error occured');
+        // Expects a header of the form "Authorization: Bearer <token>"
+        const [scheme, token] = (req.headers.authorization ?? '').split(' ');
+        if (scheme !== 'Bearer' || !token) {
+            throw new Error('Missing token');
         }
 
-        // Separates Bearer from the token and only selected the token
-        const token = authHeader.split(' ')[1];
-        if (!token) {
-            throw new Error('An authentication error occured');
-        }
-
-        // Decodes the jwt agains the secret defined in the env file
+        // Verifies the jwt against the secret defined in the env file
         const decoded = jwt.verify(token, process.env['JWT_TOKEN']!);
 
         // Adds the username to the request object if a username exists in the jwt token
-        if (typeof decoded === 'object' && 'username' in decoded) {
+        if (typeof decoded === 'object' && typeof decoded['username'] === 'string') {
             req.username = decoded['username'];
             return next();
         }
 
-    } catch (error) {
-        next(error);
+        throw new Error('Token has no username');
+    } catch {
+        next(new HttpError(401, 'Please log in again'));
     }
 };

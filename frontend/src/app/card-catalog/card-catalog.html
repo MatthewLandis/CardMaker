@@ -2,7 +2,7 @@
   <h1>Card Catalog</h1>
   <input
     type="range"
-    min="0"
+    min="0.5"
     max="2"
     step="0.01"
     [(ngModel)]="cardSize"
@@ -11,21 +11,25 @@
   />
 </section>
 
+@if (message) {
+  <p class="catalogMessage">{{ message }}</p>
+}
+
 <div class="cardList">
-  @for (card of cards; track $index) {
+  @for (card of cards; track card.id) {
     <div
       class="cardWrapper"
       [class.active]="selectedCard === card"
       (click)="selectCard(card, $event)"
     >
-      <img [src]="card.image_url" [style.width.px]="297 * cardSize" />
+      <img [src]="card.image_url" [alt]="card.title" [style.width.px]="297 * cardSize" />
 
       <div class="cardActions">
         @if (selectedCard === card) {
           <button class="editCardButton" (click)="editCard(card.id)" title="Edit Card">
             <i class="bx bx-edit-alt"></i>
           </button>
-          <button class="removeCardButton" (click)="removeCard(card.id)" title="Remove Card">
+          <button class="removeCardButton" (click)="removeCard(card)" title="Remove Card">
             <i class="bx bx-trash"></i>
           </button>
         }

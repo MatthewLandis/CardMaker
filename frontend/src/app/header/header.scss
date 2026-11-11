@@ -87,6 +87,12 @@ span {
     padding: 0.5rem;
     font-size: 1rem;
   }
+  .authError {
+    margin: 0;
+    max-width: 14rem;
+    color: #ff6b6b;
+    text-align: center;
+  }
 }
 
 .loginInfo {

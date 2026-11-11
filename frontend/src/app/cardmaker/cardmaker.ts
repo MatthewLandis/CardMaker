@@ -1,18 +1,19 @@
-import { Component, ViewChild, ElementRef, inject, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, inject, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import domtoimage from 'dom-to-image';
 import { CardService } from './cardmaker.service';
 import { Icard } from './cardmaker.model';
 import { ActivatedRoute } from '@angular/router';
+import { errorMessage, getLoggedInUser } from '../auth.interceptor';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-cardmaker',
   imports: [CommonModule, FormsModule],
   templateUrl: './cardmaker.html',
   styleUrl: './cardmaker.scss'
 })
-export class CardMaker implements OnInit {
+export class CardMaker implements OnInit, AfterViewInit {
   private service = inject(CardService);
   private route = inject(ActivatedRoute);
 
@@ -84,15 +85,14 @@ export class CardMaker implements OnInit {
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       if (!params.has('id')) return; // If id is not provided as a query parameter. Return and ignore below.
-      const cardId = params.get('id');
+      const cardId = params.get('id')!;
       this.service.getCardById(cardId).subscribe({ // Makes an asynchronous call to the backend server to retrieve the card with the provided card ID.
         next: (card: Icard) => {
           this.cardData = card; // Replaces the default Dark Magician card data with that of the returned card.
           this.adjustNameScale();
+          this.adjustAllText();
         },
-        error: (err) => {
-          console.error(err);
-        }
+        error: err => window.alert(`Could not load that card: ${errorMessage(err)}`),
       })
     });
   }
@@ -128,8 +128,25 @@ export class CardMaker implements OnInit {
   selectPrimaryType(type: string) {
     this.cardData.primary_type = type;
     this.primaryTypeDropdownVisible = false;
+    this.adjustTypeBoxLater();
+  }
+
+  // The type line only exists on monster cards, so it may not be on screen.
+  // Waits for the DOM to update, then measures it.
+  private adjustTypeBoxLater() {
     setTimeout(() => {
-      this.adjustTypeValue(this.typeBox.nativeElement);
+      if (this.typeBox) this.adjustTypeValue(this.typeBox.nativeElement);
+    });
+  }
+
+  // Re-fits the type line and ATK/DEF after the card changes (for example after loading a saved card).
+  private adjustAllText() {
+    setTimeout(() => {
+      if (this.typeBox) this.adjustTypeValue(this.typeBox.nativeElement);
+      const atkEl = document.querySelector<HTMLInputElement>('.atk');
+      if (atkEl) this.adjustAtkDefValue(atkEl);
+      const defEl = document.querySelector<HTMLInputElement>('.def');
+      if (defEl) this.adjustAtkDefValue(defEl);
     });
   }
 
@@ -141,11 +158,7 @@ export class CardMaker implements OnInit {
     }
 
     this.abilityDropdownVisible = false;
-
-    // Wait for DOM update, THEN measure
-    setTimeout(() => {
-      this.adjustTypeValue(this.typeBox.nativeElement);
-    });
+    this.adjustTypeBoxLater();
   }
 
   selectSpellType(type: string) {
@@ -163,24 +176,21 @@ export class CardMaker implements OnInit {
     this.cardData.core_type = template;
     this.qualityOfLife();
     this.templateDropdownVisible = false;
-    setTimeout(() => {
-      this.adjustTypeValue(this.typeBox.nativeElement);
-    });
+    this.adjustAllText();
   }
+
   togglePendulum() {
     this.cardData.pendulum_template = !this.cardData.pendulum_template;
-
-    // Wait for DOM to update, then measure
-    setTimeout(() => {
-      this.adjustTypeValue(this.typeBox.nativeElement);
-    });
+    this.adjustTypeBoxLater();
   }
   toggleAbilityDropdown() {
     this.abilityDropdownVisible = !this.abilityDropdownVisible;
   }
 
   qualityOfLife() {
-    this.lastTypes.includes(this.cardData.template) ? this.cardData.last_type = this.cardData.template : '';
+    if (this.lastTypes.includes(this.cardData.template)) {
+      this.cardData.last_type = this.cardData.template;
+    }
     if (this.coreTypes.includes(this.cardData.template)) {
       if (this.cardData.last_type === 'Normal') {
         this.cardData.last_type = 'Effect';
@@ -201,19 +211,9 @@ export class CardMaker implements OnInit {
   ngAfterViewInit() {
     const canvas = document.createElement('canvas');
     this.ctx = canvas.getContext('2d')!;
-    this.adjustTypeValue(this.typeBox.nativeElement);
 
-    document.fonts.ready.then(() => {
-
-      const atkEl = document.querySelector('.atk') as HTMLInputElement;
-      if (atkEl) this.adjustAtkDefValue(atkEl);
-
-      const defEl = document.querySelector('.def') as HTMLInputElement;
-      if (defEl) this.adjustAtkDefValue(defEl);
-
-      const typeEl = document.querySelector('.type') as HTMLElement;
-      if (typeEl) this.adjustTypeValue(typeEl);
-    });
+    // Measure text only once the card fonts have loaded, otherwise the widths are wrong
+    document.fonts.ready.then(() => this.adjustAllText());
   }
 
   adjustNameScale() {
@@ -263,27 +263,41 @@ export class CardMaker implements OnInit {
   }
 
   generatePNG() {
-    domtoimage.toJpeg(document.getElementById('card')!)
+    domtoimage.toPng(document.getElementById('card')!)
       .then((dataUrl) => {
-        var link = document.createElement('a');
-        link.download = this.cardData.title;
+        const link = document.createElement('a');
+        link.download = `${this.cardData.title || 'card'}.png`;
         link.href = dataUrl;
         link.click();
+      })
+      .catch(err => {
+        console.error(err);
+        window.alert('Could not create the image.');
       });
   }
 
   saveCard() {
+    if (!getLoggedInUser()) {
+      window.alert('Log in (top right) to save cards to your catalog.');
+      return;
+    }
+
+    // JPEG keeps the saved image much smaller than PNG
     domtoimage.toJpeg(document.getElementById('card')!)
       .then((dataUrl) => {
         this.cardData.image_url = dataUrl;
         this.service.saveCard(this.cardData).subscribe({
-          next: () => {
+          next: ({ id }) => {
+            // Remember the id so saving again updates this card instead of making a copy
+            this.cardData.id = id;
             window.alert(`${this.cardData.title} card saved successfully!`);
           },
-          error: err => {
-            console.error(err);
-          },
+          error: err => window.alert(`Could not save the card: ${errorMessage(err)}`),
         });
+      })
+      .catch(err => {
+        console.error(err);
+        window.alert('Could not create the card image.');
       });
   }
 }

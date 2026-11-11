@@ -3,6 +3,7 @@ import { CardCatalogService } from './card-catalog.service';
 import { Icard } from '../cardmaker/cardmaker.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { errorMessage, getLoggedInUser } from '../auth.interceptor';
 
 @Component({
   selector: 'app-card-catalog',
@@ -17,6 +18,7 @@ export class CardCatalog implements OnInit {
   cards: Icard[] = [];
   selectedCard: Icard | null = null;
   cardSize = 1;
+  message = '';
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -31,27 +33,29 @@ export class CardCatalog implements OnInit {
     this.selectedCard = card;
   }
 
-  editCard(cardId: number | undefined) {
-    this.router.navigate(['/'], {
-      queryParams: { id: cardId },
-      replaceUrl: true,
-    });
+  editCard(cardId: number) {
+    this.router.navigate(['/'], { queryParams: { id: cardId } });
   }
 
-  removeCard(cardId: number | undefined) {
-    this.service.deleteCard(cardId).subscribe({
+  removeCard(card: Icard) {
+    if (!window.confirm(`Delete "${card.title}"? This can't be undone.`)) return;
+
+    this.service.deleteCard(card.id).subscribe({
       next: () => {
-        this.refreshCards();
+        this.cards = this.cards.filter(c => c.id !== card.id);
         this.selectedCard = null;
       },
-      error: err => console.error(err),
+      error: err => window.alert(errorMessage(err)),
     });
   }
 
   refreshCards() {
     this.service.getCards().subscribe({
-      next: cards => this.cards = cards,
-      error: err => console.error(err),
+      next: cards => {
+        this.cards = cards;
+        this.message = cards.length ? '' : 'No saved cards yet. Make one in the Card Maker and click "Save Card".';
+      },
+      error: err => (this.message = errorMessage(err)),
     });
   }
 
@@ -63,11 +67,10 @@ export class CardCatalog implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getCards().subscribe({
-      next: (result: Icard[]) => {
-        this.cards = result;
-      },
-      error: err => console.error(err),
-    });
+    if (!getLoggedInUser()) {
+      this.message = 'Log in to see your saved cards.';
+      return;
+    }
+    this.refreshCards();
   }
 }

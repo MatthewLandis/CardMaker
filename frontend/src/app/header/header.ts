@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 import { CardService } from '../cardmaker/cardmaker.service';
+import { errorMessage, getLoggedInUser } from '../auth.interceptor';
 
 @Component({
   selector: 'app-header',
-  imports: [[RouterLink, RouterLinkActive], FormsModule],
+  imports: [RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -17,45 +18,41 @@ export class Header implements OnInit {
 
   username = '';
   password = '';
+  authError = '';
 
   authenticatedUser = '';
 
   ngOnInit() {
-    const token = localStorage.getItem('token'); // Gets the token from the browsers local storage.
-
-    // Grabs the payload portion of the jwt and sets the username inside the payload equal to authenticatedUser
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]))
-      this.authenticatedUser = payload.username;
-    }
+    // Reads the username from the saved token (empty if logged out or the token expired)
+    this.authenticatedUser = getLoggedInUser();
   }
 
-  register() {
-    // Calls the service function, passing in the username and password, and awaits a response.
-    this.service.register(this.username, this.password).subscribe({
+  toggleForm(form: 'log' | 'reg') {
+    this.log = form === 'log' ? !this.log : false;
+    this.reg = form === 'reg' ? !this.reg : false;
+    this.authError = '';
+  }
+
+  submit() {
+    if (!this.username.trim() || !this.password) {
+      this.authError = 'Enter a username and password';
+      return;
+    }
+
+    // Calls the service function, passing in the username and password, and waits for a response.
+    const request = this.log
+      ? this.service.login(this.username, this.password)
+      : this.service.register(this.username, this.password);
+
+    request.subscribe({
       next: (token: string) => {
-        // On a successful response, set the token in local storage
+        // On a successful response, save the token in local storage
         localStorage.setItem('token', token);
         window.location.reload();
       },
-      error: err => {
-        console.error(err);
-      },
+      error: err => (this.authError = errorMessage(err)),
     });
-  };
-
-
-  login() {
-    this.service.login(this.username, this.password).subscribe({
-      next: (token: string) => {
-        localStorage.setItem('token', token);
-        window.location.reload();
-      },
-      error: err => {
-        console.error(err);
-      },
-    });
-  };
+  }
 
   logout() {
     localStorage.removeItem('token');

@@ -1,63 +1,22 @@
 import 'dotenv/config';
+import { randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'node:crypto';
+import { promisify } from 'node:util';
 import { db } from '../db.js';
 import { ICard } from '../models/cardModel.js';
+import { HttpError } from '../middleware/errorHandler.js';
 import jwt from 'jsonwebtoken';
 
-export async function saveCard(cardData: ICard, username: string) {
-    // Djas: db.none here previously indicated that nothing needs to be returned from the query.
-    // I'm changing it to db.result so that I can see the number of rows affected, and then throw an error if no rows were affected.
-    var queryResult = await db.result(
-        `
-INSERT INTO cards (
-    title,
-    title_style,
-    template,
-    pendulum_template,
-    level,
-    rank,
-    n_level,
-    attribute,
-    primary_type,
-    core_type,
-    ability_type,
-    last_type,
-    effect_text,
-    pendulum_effect_text,
-    pendulum_scale,
-    link_rating,
-    atk,
-    def,
-    link_arrows,
-    image_url,
-    card_art_url,
-    username
-)
-VALUES (
-    $1,  -- title
-    $2,  -- title_style
-    $3,  -- template
-    $4,  -- pendulum_template
-    $5,  -- level
-    $6,  -- rank
-    $7,  -- n_level
-    $8,  -- attribute
-    $9,  -- primary_type
-    $10, -- core_type
-    $11, -- ability_type
-    $12, -- last_type
-    $13, -- effect_text
-    $14, -- pendulum_effect_text
-    $15, -- pendulum_scale
-    $16, -- link_rating
-    $17, -- atk
-    $18, -- def
-    $19, -- link_arrows (JSONB)
-    $20, -- image_url
-    $21,  -- card_art_url,
-    $22 -- username
-)
+const scrypt = promisify(scryptCallback) as (password: string, salt: string, keylen: number) => Promise<Buffer>;
 
-    `, [
+// The card columns in the same order as cardValues() below.
+const cardColumns = [
+    'title', 'title_style', 'template', 'pendulum_template', 'level', 'rank', 'n_level', 'attribute',
+    'primary_type', 'core_type', 'ability_type', 'last_type', 'effect_text', 'pendulum_effect_text',
+    'pendulum_scale', 'link_rating', 'atk', 'def', 'link_arrows', 'image_url', 'card_art_url',
+];
+
+function cardValues(cardData: ICard) {
+    return [
         cardData.title,
         cardData.title_style,
         cardData.template,
@@ -76,58 +35,113 @@ VALUES (
         cardData.link_rating,
         cardData.atk,
         cardData.def,
-        JSON.stringify(cardData.link_arrows),
+        JSON.stringify(cardData.link_arrows), // stored as JSONB
         cardData.image_url,
         cardData.card_art_url,
-        username
-    ]);
+    ];
+}
 
-    if (queryResult.rowCount !== 1) {
-        throw new Error('An error occured while inserting the card');
+function parseCardId(id: string): number {
+    const cardId = Number(id);
+    if (!Number.isInteger(cardId) || cardId <= 0) {
+        throw new HttpError(400, 'Invalid card id');
+    }
+    return cardId;
+}
+
+// Creates a new card, or updates the existing one when the card already has an id.
+// Returns the id of the saved card so the frontend can keep editing the same card.
+export async function saveCard(cardData: ICard, username: string): Promise<number> {
+    const values = cardValues(cardData);
+
+    if (cardData.id) {
+        const assignments = cardColumns.map((column, i) => `${column} = $${i + 1}`).join(', ');
+        const updated = await db.oneOrNone<{ id: number }>(
+            `UPDATE cards SET ${assignments} WHERE id = $${values.length + 1} AND username = $${values.length + 2} RETURNING id`,
+            [...values, cardData.id, username],
+        );
+        if (!updated) { throw new HttpError(404, 'Card not found'); }
+        return updated.id;
     }
 
-    return;
+    const placeholders = cardColumns.map((_, i) => `$${i + 1}`).join(', ');
+    const inserted = await db.one<{ id: number }>(
+        `INSERT INTO cards (${cardColumns.join(', ')}, username) VALUES (${placeholders}, $${values.length + 1}) RETURNING id`,
+        [...values, username],
+    );
+    return inserted.id;
 };
 
-export async function deleteCard(id: string) {
-    await db.none('DELETE FROM cards WHERE id = $1', [id]); // Runs the query in the database and does not store its result in any way.
+export async function deleteCard(id: string, username: string) {
+    // Only the owner of a card may delete it
+    const result = await db.result('DELETE FROM cards WHERE id = $1 AND username = $2', [parseCardId(id), username]);
+
+    if (result.rowCount !== 1) { throw new HttpError(404, 'Card not found'); }
 };
 
 export async function getCards(username: string) {
-    // Runs the query in the database and stores the result into the variable cards
-    // db.any<ICard> below indicates that the query should return any amount of ICard fitting objects. Therefore the variable cards is of type ICard[]
-    const cards = await db.any<ICard>(`SELECT * FROM cards WHERE username = $1`, [username]);
-
-    return cards;  // Returns the cards back to the controller
+    // db.any<ICard> returns any number of rows, so cards is of type ICard[]
+    return db.any<ICard>('SELECT * FROM cards WHERE username = $1 ORDER BY id', [username]);
 };
 
-export async function getCardById(id: string) {
-    // Runs the query in the database and stores the result into the variable card
-    // db.oneOrNone<ICard> below indicates that the query should return either one card or no card. Therefore, the variable card is of type ICard | null
-    const card = await db.oneOrNone<ICard>(`SELECT * FROM cards WHERE ID = $1`, [id]);
+export async function getCardById(id: string, username: string) {
+    // db.oneOrNone<ICard> returns either one card or null. Only the owner of a card may view it.
+    const card = await db.oneOrNone<ICard>('SELECT * FROM cards WHERE id = $1 AND username = $2', [parseCardId(id), username]);
 
-    if (!card) { throw new Error('Card not found'); } // If no card is returned from the query, throw an error
+    if (!card) { throw new HttpError(404, 'Card not found'); }
 
-    return card; // Returns the card back to the controller
+    return card;
 };
+
+// Passwords are stored as "scrypt$<salt>$<hash>" so the real password is never saved.
+async function hashPassword(password: string) {
+    const salt = randomBytes(16).toString('base64');
+    const hash = await scrypt(password, salt, 32);
+    return `scrypt$${salt}$${hash.toString('base64')}`;
+}
+
+async function verifyPassword(password: string, stored: string) {
+    const [scheme, salt, hash] = stored.split('$');
+    if (scheme !== 'scrypt' || !salt || !hash) { return false; }
+    const expected = Buffer.from(hash, 'base64');
+    const actual = await scrypt(password, salt, expected.length);
+    return timingSafeEqual(actual, expected);
+}
+
+function validateCredentials(username: unknown, password: unknown): asserts username is string {
+    if (typeof username !== 'string' || typeof password !== 'string' || !username.trim() || !password) {
+        throw new HttpError(400, 'Username and password are required');
+    }
+}
+
+function createToken(username: string) {
+    // Creates a jwt that includes the username in the payload
+    return jwt.sign({ username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
+}
 
 export async function register(username: string, password: string) {
-    // Runs the query in the database and stores the result into the variable result
-    // db.result below indicates that the query should return some data pertaining to the result of the query execution. This is primarily to see how many rows were affected by the INSERT
-    const result = await db.result(`INSERT INTO users (username, password) VALUES ($1, $2);`, [username, password]);
+    validateCredentials(username, password);
+    username = username.trim();
 
-    if (result.rowCount != 1) { throw new Error("Stupid freak! :D") } // If the did not insert 1 row, throw an error.
+    // A duplicate username makes Postgres throw a unique violation, which errorHandler turns into a 409
+    await db.none('INSERT INTO users (username, password) VALUES ($1, $2)', [username, await hashPassword(password)]);
 
-    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' }); // Creates a jwt that includes the username in the payload
-    return token; // Returns the token to the controller
+    return createToken(username);
 };
 
 export async function login(username: string, password: string) {
-    const result = await db.result(`SELECT * FROM users WHERE username = $1 AND password = $2;`, [username, password]);
+    validateCredentials(username, password);
+    username = username.trim();
 
-    if (result.rowCount != 1) { throw new Error("you got the wrong stuff :D") }
+    const user = await db.oneOrNone<{ password: string }>('SELECT password FROM users WHERE username = $1', [username]);
+    if (!user) { throw new HttpError(401, 'Wrong username or password'); }
 
-    const token: string = jwt.sign({ username: username }, process.env['JWT_TOKEN']!, { expiresIn: '30d' });
+    if (!(await verifyPassword(password, user.password))) {
+        // Accounts created before passwords were hashed still hold the plain password.
+        // If it matches, upgrade it to a hash so it is never stored in plain text again.
+        if (user.password !== password) { throw new HttpError(401, 'Wrong username or password'); }
+        await db.none('UPDATE users SET password = $1 WHERE username = $2', [await hashPassword(password), username]);
+    }
 
-    return token;
+    return createToken(username);
 };

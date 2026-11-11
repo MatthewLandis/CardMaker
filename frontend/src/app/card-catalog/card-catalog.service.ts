@@ -11,21 +11,10 @@ export class CardCatalogService {
     private http = inject(HttpClient);
 
     public getCards(): Observable<Icard[]> {
-        return this.http.get<Icard[]>(`${environment.apiUrl}/api/cards`,
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+        return this.http.get<Icard[]>(`${environment.apiUrl}/api/cards`);
     }
 
-    public deleteCard(cardId: number | undefined): Observable<void> {
-        return this.http.delete<void>(`${environment.apiUrl}/api/cards/${cardId}`, {
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+    public deleteCard(cardId: number): Observable<void> {
+        return this.http.delete<void>(`${environment.apiUrl}/api/cards/${cardId}`);
     }
 }

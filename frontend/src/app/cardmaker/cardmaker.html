@@ -1,12 +1,7 @@
 <div class="cardContainer">
   <section id="card">
     <!-- Card Art -->
-    @if (cardData.card_art_url) {
-      <img [src]="cardData.card_art_url" class="cardArt" />
-    }
-    @if (!cardData.card_art_url) {
-      <img src="assets/placeholderArt.jpg" class="cardArt" />
-    }
+    <img [src]="cardData.card_art_url || 'assets/placeholderArt.jpg'" class="cardArt" />
     <img src="assets/CardTemplates/{{ cardData.template }}.png" />
     @if (
       cardData.template !== 'Spell' &&
@@ -22,12 +17,7 @@
       ></button>
     }
     @if (cardData.pendulum_template) {
-      @if (cardData.card_art_url) {
-        <img [src]="cardData.card_art_url" class="cardArtPendulum" />
-      }
-      @if (!cardData.card_art_url) {
-        <img src="assets/placeholderArt.jpg" class="cardArtPendulum" />
-      }
+      <img [src]="cardData.card_art_url || 'assets/placeholderArt.jpg'" class="cardArtPendulum" />
       <img
         src="assets/CardTemplates/PendulumTemplates/PendulumShade/Pendulum{{
           cardData.template
@@ -239,7 +229,7 @@
 
     <button
       class="nameDropdownBtn"
-      (click)="this.nameDropdownVisible = !this.nameDropdownVisible"
+      (click)="nameDropdownVisible = !nameDropdownVisible"
       title="Name Style"
     ></button>
     @if (nameDropdownVisible) {
@@ -260,7 +250,7 @@
         <span class="bracket">[</span>
         <span
           class="primaryTypeSpan"
-          (click)="this.primaryTypeDropdownVisible = !this.primaryTypeDropdownVisible"
+          (click)="primaryTypeDropdownVisible = !primaryTypeDropdownVisible"
           title="Change Primary Monster Type"
           >{{ cardData.primary_type }}</span
         >
@@ -306,7 +296,6 @@
       <!-- Text -->
       <textarea
         class="effectText"
-        #effectRender
         [ngClass]="{
           text6Lines: effectMode === 6,
           text7Lines: effectMode === 7,
@@ -323,7 +312,7 @@
         [(ngModel)]="cardData.atk"
         (input)="adjustAtkDefValue(atkInput)"
       />
-      @if (cardData.template != 'Link') {
+      @if (cardData.template !== 'Link') {
         <input
           #defInput
           class="def"
@@ -340,11 +329,10 @@
         />
       }
     }
-    @if (cardData.template == 'Trap') {
-      <!-- Text -->
+    @if (cardData.template === 'Spell' || cardData.template === 'Trap') {
+      <!-- Spell/Trap Text -->
       <textarea
         class="effectTextSpell"
-        #effectRender
         [ngClass]="{
           text6Lines: effectMode === 6,
           text7Lines: effectMode === 7,
